@@ -1,366 +1,720 @@
 <template>
-<navBar /> 
-<Transition name="fade">
-    <main>
-        <div class="container-fluid">
-            <div class="row">
-               <div class="col-md-2" style="height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;padding:0;"> 
-                 <columnLeft />
-                </div> 
-                <div class="col-md-10" style="height:calc(100vh - 70px);border:1px solid #E2E2E2;position:relative"> 
+    <navBar />
+    <Transition name="fade">
+        <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-2" style="height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;padding:0;">
+                        <columnLeft />
+                    </div>
+                    <div class="col-md-10" style="height:calc(100vh - 70px);border:1px solid #E2E2E2;position:relative">
                         <!-- ======================================= -->
 
 
- 
 
 
 
 
 
-                            <div class="row">
-                                 <div class="col-md-3" style="position:relative;overflow:hidden;overflow-y:auto;height:calc(100vh - 70px);" >
-                                   <div class="col-12" style="font-weight:600;color:black;padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #e6e6e6">
-                                     Carpetas
-                                   </div> 
-                                  <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
-                                     <a href="#" style="font-size:13px;">Nueva carpeta</a>
-                                   </div>  -->
-                                   <div class="col-12 text-center" style="padding-top:8.5px;padding-bottom:8.5px;border-bottom:1px solid #E5E5E5">
-                                     <input type="text" class="form-control type-input-3" v-model="searchTarget.target" @keyup="search()" placeholder="Buscar..." />
-                                   </div> 
-                                   <div class="col-12"  style="padding-top:10px;padding-bottom:0">
-                                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
-                                      <span class="sr-only">Loading...</span>
+
+                        <div class="row" style="padding-right: 0px; padding-left: 0px;">
+                            <div class="col-md-3"
+                                style="  padding-right: 0px; padding-left: 0px; position:relative;overflow:hidden;overflow-y:auto;height:calc(100vh - 70px);">
+                                <ul class="nav nav-tabs nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link" @click.prevent="setActive('folders')"
+                                            :class="{active: isActive('folders')}">Carpetas</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" @click.prevent="setActive('tags')"
+                                            :class="{ active: isActive('tags') }">Etiquetas</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content py-3" id="myTabContent">
+                                    <div class="tab-pane fade" :class="{ 'active show': isActive('folders') }"
+                                        id="folders">
+
+
+
+                                        <div class="col-12 text-center" style="
+                    padding-top: 8.5px;
+                    padding-bottom: 8.5px;
+                    border-bottom: 1px solid #e5e5e5;
+                  ">
+                                            <input type="text" class="form-control type-input-3"
+                                                v-model="searchTarget.target" @keyup="search()"
+                                                placeholder="Buscar..." />
+                                        </div>
+                                        <div class="col-12" style="padding-top: 10px; padding-bottom: 0">
+                                            <div class="spinner-border spinner-border-sm" role="status"
+                                                v-if="loadingFolders">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <ul style="padding: 0; margin: 0; width: 100%; list-style: none"
+                                                v-if="items.length > 0">
+                                                <li style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                      " v-for="item in filteredResources" :key="index"
+                                                    @click.prevent="getDocumentsByTag(item.id, item.text)">
+                                                    <a href="#" style="color: black; font-weight: 600">{{
+                                                            item.text
+                                                    }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                                            <a href="#" style="font-size: 13px; font-weight: 600"
+                                                @click.prevent="openCreateFolderRootModal()">
+                                                <img src="@/assets/admin-add.png" style="width: 20px" />
+                                                Nueva carpeta raiz</a>
+
+                                            <hr />
+
+                                            <a href="#" style="font-size: 13px; font-weight: 600"
+                                                @click.prevent="loadAllDocuments()">
+                                                Todos los documentos</a>
+
+                                            <hr />
+
+                                            <Tree id="my-tree-id" ref="my-tree" :custom-options="myCustomOptions"
+                                                :custom-styles="myCustomStyles" :nodes="treeDisplayData"></Tree>
+
+                                            <span style="font-size: 12px; font-weight: 500"
+                                                v-if="treeDisplayData.length == 0">No se encontraron
+                                                carpetas.</span>
+                                        </div>
+
+                                        <div class="col-12 text-center" style="
+                    padding-top: 8.5px;
+                    padding-bottom: 8.5px;
+                    border-bottom: 1px solid #e5e5e5;
+                  ">
+                                            <ul style="
+                      padding: 0px;
+                      list-style: none;
+                      width: 100%;
+                      display: flex;
+                      justify-content: flex-start;
+                      align-items: center;
+                      flex-direction: column;
+                      align-content: flex-start;
+                    ">
+                                                <li style="
+                        width: 100%;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                        flex-direction: column;
+                        align-content: flex-start;
+                        margin-bottom: 5px;
+                      " v-for="(tagSelected, index) in tagsSelected">
+                                                    <a href="#" style="
+                          font-size: 12px;
+                          padding: 5px;
+                          background: rgb(234, 234, 234);
+                          border-radius: 30px;
+                          display: flex;
+                          place-content: flex-start;
+                          align-items: center;
+                          flex-direction: row;
+                          padding-left: 10px;
+                          padding-right: 10px;
+                        ">{{ tagSelected.text }}
+                                                        <a href="#" style="margin-left: 10px"
+                                                            @click="removeFilterTag(index, tagSelected.text)"><i
+                                                                class="fas fa-times"></i></a>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+
                                     </div>
-                                    <ul style="padding:0;margin:0;width:100%;list-style:none" v-if="items.length > 0"> 
-                                        <li style="padding:0;margin:0;width:100%;list-style:none" v-for="item in filteredResources" :key="index" @click.prevent="getDocumentsByTag(item.id,item.text)"  >
-                                            <a href="#" style="color:black;font-weight:600;">{{item.text}}</a>
-                                        </li> 
-                                    </ul>
-                                   </div>
+                                    <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
+
+                                        <div class="col-12 text-center" style="
+                    padding-top: 8.5px;
+                    padding-bottom: 8.5px;
+                    border-bottom: 1px solid #e5e5e5;
+                  ">
+                                            <input type="text" class="form-control type-input-3"
+                                                v-model="searchTargetTags.target" @keyup="search()"
+                                                placeholder="Buscar etiqueta..." />
+                                        </div>
+
+                                        <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                                            <div class="spinner-border spinner-border-sm" role="status"
+                                                v-if="loadingFolders">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <a href="#" style="font-size: 13px; font-weight: 600"
+                                                @click.prevent="openCreateFolderRootModal()">
+                                                <img src="@/assets/admin-add.png" style="width: 20px" />
+                                                Nueva etiqueta</a>
+
+                                            <hr />
+                                            <a href="#" style="font-size: 13px; font-weight: 600"
+                                                @click.prevent="loadAllDocuments()">
+                                                Todos los documentos</a>
+
+                                            <hr />
+                                            <div class="col-12 text-left" style="padding: 0"
+                                                v-if="tagsSelectedTags.length > 0">
+                                                <p style="font-size: 13px; font-weight: 600">Filtros :</p>
+                                                <ul style="
+                                                    padding: 0px;
+                                                    list-style: none;
+                                                    width: 100%;
+                                                    display: flex;
+                                                    justify-content: flex-start;
+                                                    align-items: center;
+                                                    flex-direction: column;
+                                                    align-content: flex-start;
+                                                ">
+
+                                                    <li style="
+                          width: 100%;
+                          display: flex;
+                          justify-content: flex-start;
+                          align-items: flex-start;
+                          flex-direction: column;
+                          align-content: flex-start;
+                          margin-bottom: 5px;
+                        " v-for="(tagSelected, index) in tagsSelectedTags">
+                                                        <a href="#" style="
+                            font-size: 12px;
+                            padding-top: 5px;
+                            padding-bottom: 5px;
+                            background: rgb(206, 206, 206);
+                            border-radius: 30px;
+                            display: flex;
+                            place-content: flex-start;
+                            align-items: center;
+                            flex-direction: row;
+                            font-weight: 600;
+                            padding-left: 10px;
+                            padding-right: 10px;
+                          ">{{ tagSelected.title }}
+                                                            <a href="#" style="margin-left: 10px"
+                                                                @click="removeFilterTags(index, tagSelected.title)"><i
+                                                                    class="fas fa-times"></i></a>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <!-- we shoul'd download prettier for this brok code?? its very broke, and ctrl alt f fails -->
+                                                <!-- since you are using vue 3, you can donwload volar extension -->
+                                                <!-- thanks you! i have it, maybe dont know how to use,  can you be formating all documents you work in?-->
+                                                <!-- I can't since it is live mode. You can by ctrl + shift + p and then search for "format document with", then choose volar -->
+                                                <!-- Sure :) -->
+                                                <hr />
+                                            </div>
+
+                                            <ul style="padding: 0; margin: 0; width: 100%; list-style: none"
+                                                v-if="itemsTags.length > 0">
+                                                <li style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                        line-height: 15px;
+                        margin-bottom: 15px;
+                      " v-for="item in filteredResourcesTags" :key="index" @click.prevent="
+                          getDocumentsByTags(item._id, item.data.title)
+                      ">
+                                                    <a href="#"
+                                                        style="color: black; font-weight: 600; font-size: 12px">{{
+                                                                item.data.title
+                                                        }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
 
 
-                                       <div class="col-12"  style="padding-top:10px;padding-bottom:10px">
-                                   
-                               
-       
-      
-
-      <a href="#" style="font-size:13pX;font-weight:600;" @click.prevent="openCreateFolderRootModal()"> <img src="@/assets/admin-add.png" style="width:20px;" /> Nueva carpeta raiz</a>
-
-      <hr />
-
-
-       <a href="#" style="font-size:13pX;font-weight:600;" @click.prevent="loadAllDocuments()">  Todos los documentos</a>
-
-      <hr />
-
-
-<Tree
-      id="my-tree-id"
-      ref="my-tree"
-      :custom-options="myCustomOptions"
-      :custom-styles="myCustomStyles"
-      :nodes="treeDisplayData"
-    ></Tree>
-
-
-    <span style="font-size:12px;font-weight:500;" v-if="treeDisplayData.length == 0">No se encontraron carpetas.</span>
- 
-
- 
-                                   </div>
-
-
-
-
-                                   <div class="col-12 text-center" style="padding-top:8.5px;padding-bottom:8.5px;border-bottom:1px solid #E5E5E5">
- 
-   
- 
-<ul style="padding: 0px;list-style: none;width: 100%;display: flex;justify-content: flex-start;align-items: center;flex-direction: column;align-content: flex-start;">
-    <li style="width: 100%;display: flex;justify-content: flex-start;align-items: flex-start;flex-direction: column;align-content: flex-start;margin-bottom:5px"  v-for="(tagSelected, index)   in tagsSelected"  >
-         <a href="#" style="font-size: 12px;padding: 5px;background: rgb(234, 234, 234);border-radius: 30px;    display: flex;place-content: flex-start;align-items: center;flex-direction: row;padding-left:10px;padding-right:10px">{{tagSelected.text}} 
-           <a href="#" style="margin-left:10px" @click="removeFilterTag(index,tagSelected.text)"><i class="fas fa-times"></i></a>
-          </a>
-    </li>
-</ul>
-
-
-                                   </div>
+                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="col-md-3" style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative"> 
-                                    <!-- <div class="col-12" style="background:#e0dfdf;padding:15px;">
+                            <div class="col-md-3"
+                                style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
+                                <!-- <div class="col-12" style="background:#e0dfdf;padding:15px;">
                                         <b style="color:#858484;font-size:16px">Lorem ipsum dolor sit amet</b>
                                         <p style="color:#858484;font-size:13px">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                                             tempor incididunt ut labore et dolore magna aliqua...</p>
                                     </div>
                                      -->
-                                  
-                                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocuments" style="position:absolute">
-                                      <span class="sr-only">Loading...</span>
-                                    </div>
-                                   
 
-                                  
-                                    <div class="col-12" style="padding:15px;border-bottom:1px solid  #e6e6e6;cursor:pointer;position:relative" v-for="(document,index) in fixerEditMode" :key="index" @click="getDocument(document._id)" v-bind:class="{ activeDocument: (document._id === activeDocumentId) }"   @contextmenu.prevent="openContextmenu($event, document,index)" >
-                                        
-
-                                        <div class="col-12" style="padding:0" v-if="document._ext.edit_title == false">
-                                            <span class="edit-mode">{{document.data.title}}  <img src="@/assets/boligrafo.png"  @click.prevent="document._ext.edit_title = true"/> </span>   
-                                        </div>
-
-                                        <form  @submit.prevent="saveEditMode(document._id,index)" class="col-12 " style="padding:0;display:flex;margin-bottom:10px" v-if="document._ext.edit_title" >
-                                            <input type="text" class="form-control col-12" v-model="document.data.title"  style="font-size:13px;border-radius:30px;height:30px;min-height:30px;max-height:30px;background:white;font-weight:700" />
-                                            <button type="submit" hidden="true" ></button> 
-                                        </form>
-
-
-                                        <p  class="edit-mode" style="color:#525252;font-size:12px" v-if="!document._ext.edit_description"  >{{document.data.description}}  <img src="@/assets/boligrafo.png"  @click.prevent="document._ext.edit_description = true"/>
-                                        </p>
-
-
-                                        <form @submit.prevent="saveEditMode(document._id,index)" class="col-12 " style="    padding: 0px;display: flex;flex-direction: row;flex-wrap: wrap;margin-bottom:10px" v-if="document._ext.edit_description" >
-                                            <input type="text" class="form-control" v-model="document.data.description"  style="font-size:12px;border-radius:8px;height:fit-content;min-height:fit-content;max-height:fit-content;background:white;margin-bottom:5px" /> 
-                                            <button type="submit" hidden="true" ></button> 
-                                        </form>
-
-
-
-
-
-                                        <div style="position:absolute:top:0:right:0;height:100%">
-                                            <img src="@/assets/cerrar-con-llave.svg" style="height:20px;width:20px;" v-if="document.data.share == 0" />
-                                            <img src="@/assets/candado-abierto(2).png" style="height:20px;width:20px;" v-if="document.data.share == 1 " /> 
-
-                                            <img src="@/assets/automatizado.svg" style="height:20px;width:20px;" v-if="document.data.complete == 1" />
-
-
-                                            <span v-if="document.data.complete == 0"> 
-                                               <img src="@/assets/a-automatizar.svg" style="height:20px;width:20px;cursor:pointer" v-if="document.data.form_complete" @click="getDocumentModal(document._id)" /> 
-                                            </span>
-                                        </div>
-                                    </div> 
-                                    
-
-                                     
+                                <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocuments"
+                                    style="position:absolute">
+                                    <span class="sr-only">Loading...</span>
                                 </div>
-                                <div class="col-md-6 scroll-size-medium" style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative"> 
-                                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument" style="position:absolute">
-                                      <span class="sr-only">Loading...</span>
+
+
+
+                                <div class="col-12"
+                                    style="padding:15px;border-bottom:1px solid  #e6e6e6;cursor:pointer;position:relative"
+                                    v-for="(document, index) in fixerEditMode" :key="index"
+                                    @click="getDocument(document._id)"
+                                    v-bind:class="{ activeDocument: (document._id === activeDocumentId) }"
+                                    @contextmenu.prevent="openContextmenu($event, document, index)">
+
+
+                                    <div class="col-12" style="padding:0" v-if="document._ext.edit_title == false">
+                                        <span class="edit-mode">{{ document.data.title }} <img
+                                                src="@/assets/boligrafo.png"
+                                                @click.prevent="document._ext.edit_title = true" /> </span>
                                     </div>
-                                    <div class="col-12" v-if="document" style="padding:10px">
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <b>{{document.data.title}}</b>
-                                            </div>
-                                            <div class="col-md-4 text-right">
-                                                <a href="#" style="margin:5px"  @click="openFullScreen()">
-                     <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
-                     </a>
 
-                                              <component v-if="document.data.complete == 1">
-<div class="dropdown"  style="margin:5px;display:inline"  >
-  <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-   <img src="@/assets/descargar.svg" style="width:14px;height:14px;margin-right:5px" />
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
-    <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a> 
-  </div>
-</div>
-</component>
-                                              
-                                                <buttonShare  v-bind:id="document.data.id_share_comuniy"  v-if="document.data.share == 1 "  />
-                                            </div>
+                                    <form @submit.prevent="saveEditMode(document._id, index)" class="col-12 "
+                                        style="padding:0;display:flex;margin-bottom:10px"
+                                        v-if="document._ext.edit_title">
+                                        <input type="text" class="form-control col-12" v-model="document.data.title"
+                                            style="font-size:13px;border-radius:30px;height:30px;min-height:30px;max-height:30px;background:white;font-weight:700" />
+                                        <button type="submit" hidden="true"></button>
+                                    </form>
+
+
+                                    <p class="edit-mode" style="color:#525252;font-size:12px"
+                                        v-if="!document._ext.edit_description">{{ document.data.description }} <img
+                                            src="@/assets/boligrafo.png"
+                                            @click.prevent="document._ext.edit_description = true" />
+                                    </p>
+
+
+                                    <form @submit.prevent="saveEditMode(document._id, index)" class="col-12 "
+                                        style="    padding: 0px;display: flex;flex-direction: row;flex-wrap: wrap;margin-bottom:10px"
+                                        v-if="document._ext.edit_description">
+                                        <input type="text" class="form-control" v-model="document.data.description"
+                                            style="font-size:12px;border-radius:8px;height:fit-content;min-height:fit-content;max-height:fit-content;background:white;margin-bottom:5px" />
+                                        <button type="submit" hidden="true"></button>
+                                    </form>
+
+
+
+
+
+                                    <div style="position:absolute:top:0:right:0;height:100%">
+                                        <img src="@/assets/cerrar-con-llave.svg" style="height:20px;width:20px;"
+                                            v-if="document.data.share == 0" />
+                                        <img src="@/assets/candado-abierto(2).png" style="height:20px;width:20px;"
+                                            v-if="document.data.share == 1" />
+
+                                        <img src="@/assets/automatizado.svg" style="height:20px;width:20px;"
+                                            v-if="document.data.complete == 1" />
+
+
+                                        <span v-if="document.data.complete == 0">
+                                            <img src="@/assets/a-automatizar.svg"
+                                                style="height:20px;width:20px;cursor:pointer"
+                                                v-if="document.data.form_complete"
+                                                @click="getDocumentModal(document._id)" />
+                                        </span>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-6 scroll-size-medium"
+                                style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
+                                <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
+                                    style="position:absolute">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="col-12" v-if="document" style="padding:10px">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <b>{{ document.data.title }}</b>
                                         </div>
-                                    </div> 
+                                        <div class="col-md-4 text-right">
+                                            <!-- this full screen is repeated block code, and this.. -->
+                                            <a href="#" style="margin:5px" @click="openFullScreen()">
+                                                <img src="@/assets/expandir.svg"
+                                                    style="width:14px;height:14px;margin-right:5px" />
+                                            </a>
+                                            <component v-bind:document="document" v-if="document.data.share == 1">
+                                                <div class="dropdown" style="margin: 5px; display: inline">
+                                                    <a type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <img src="@/assets/menu.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">
 
-                                      <div id="editor2"  style="width:100%;padding:20px;color:black" v-html="contentDocument"> 
-                                      </div>
+                                                            <img src="@/assets/edit.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Editar</a>
+<!-- WE ARE STARTING WITH DROPDOWN FUNCTIONS, THIS FILE IS IN LIBRARY,  -->
+                                                        <!-- THIS DROPDOWN MENU WITH ICON O O O  THIS ONE IS IN 4 PAGES, and we a DIV with all img, classes, links, if , in every site of the App, now finish tthe other one all onclick / onchange actions , then we are doing a Component,
+this is very immportant and if i dont do a migration to react, i want to have this all project vue working with components. this is important too. ok?-->
+                                                        <!-- So make the 3 dots menu it's component?
+That is correct catur. continue sr, follow -->
+                                                        <a class="dropdown-item" href="#">
+
+                                                            <img src="@/assets/mover-carpeta.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Mover</a>
+
+
+                                                        <a class="dropdown-item" href="#">
+
+                                                            <img src="@/assets/etiquetas.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Agregar etiquetas</a>
+
+                                                        <a class="dropdown-item" href="#">
+                                                            <img src="@/assets/candado-abierto(1).png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Hacer Publico</a>
+
+                                                        <a class="dropdown-item" href="#" v-if="document._id">
+                                                            <img src="@/assets/users.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Compartir de forma privada</a>
+
+                                                        <a class="dropdown-item" href="#">
+                                                            <img src="@/assets/tacho-de-basura.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Eliminar</a>
+                                                    </div>
+                                                </div>
+                                            </component>
+                                            <component v-if="document.data.complete == 0">
+                                                <div class="dropdown" style="margin:5px;display:inline">
+                                                    <button class="btn btn-light dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton" data-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <img src="@/assets/descargar.svg"
+                                                            style="width:14px;height:14px;margin-right:5px" />
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#"
+                                                            @click.prevent="exportWord()">Documento Word</a>
+                                                        <a class="dropdown-item" href="#"
+                                                            @click.prevent="exportPDF()">Documento PDF</a>
+                                                    </div>
+                                                </div>
+                                            </component>
+
+                                            <buttonShare v-bind:id="document.data.id_share_comuniy"
+                                                v-if="document.data.share == 1" />
+
+                                            <component v-bind:document="document" v-if="document.data.share == 0">
+                                                <div class="dropdown" style="margin: 5px; display: inline">
+                                                    <a type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <img src="@/assets/menu.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">
+
+                                                            <img src="@/assets/edit.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Editar</a>
+
+<!-- WE ARE STARTING WITH DROPDOWN FUNCTIONS, THIS FILE IS IN LIBRARY, X2 , ok? -->
+                                                        <a class="dropdown-item" href="#">
+
+                                                            <img src="@/assets/mover-carpeta.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Mover</a>
+
+
+                                                        <a class="dropdown-item" href="#">
+
+                                                            <img src="@/assets/etiquetas.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Agregar etiquetas</a>
+
+                                                        <a class="dropdown-item" href="#">
+                                                            <img src="@/assets/candado-abierto(1).png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Hacer Publico</a>
+
+                                                        <a class="dropdown-item" href="#" v-if="document._id">
+                                                            <img src="@/assets/users.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Compartir de forma privada</a>
+
+                                                        <a class="dropdown-item" href="#">
+                                                            <img src="@/assets/tacho-de-basura.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                            Eliminar</a>
+                                                    </div>
+                                                </div>
+                                            </component>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="editor2" style="width:100%;padding:20px;color:black" v-html="contentDocument">
                                 </div>
                             </div>
-                     
-                            <!-- ======================================= -->     
-                 </div>  
-            </div>
-        </div> 
-    </main> 
-</Transition>
+                        </div>
 
-
-
- 
-
-
-
-<div class="box" @contextmenu="onContextMenu($event)" style="position:fixed;z-index:1000;background:rgb(248 248 248);width:150px;height:auto;padding:10px;  ; border:1px solid rgb(226, 226, 226) !important;border-radius:6px
-     " :style="{ top: selected.clientY   ,left : selected.clientX  }">
-  <ul style="padding:0;margin:0;list-style:none"> 
-    <li style="padding:0;margin:0;list-style:none;padding-top:6px;padding-bottom:6px; border-bottom: 1px solid rgb(225 225 225 / 48%)">
-        <a href="#" style="font-size:11px;font-weight:600;color:black;" @click="openModalMoveDocument()">Mover</a>
-    </li>
-    <li style="padding:0;margin:0;list-style:none;padding-top:6px;padding-bottom:6px;  ">
-        <a href="#" style="font-size:11px;font-weight:600;color:black;" @click="deleteDocument()">Eliminar</a>
-    </li>
-</ul>
-</div>
-
-
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
-    <form class="modal-content" @submit.prevent="createFolderRoot()" style="border-radius:10px;border:none">
-      <div class="modal-header text-center">
-             <h5 class="modal-title">Nueva carpeta</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
-      </div>
-      <div class="modal-footer" style="border:none"> 
-        <button type="submit" class="btn btn-primary" style="font-size:15px">Crear carpeta</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
-    <form class="modal-content" @submit.prevent="createFolder()">
-      <div class="modal-header text-center">
-             <h5 class="modal-title">Nueva carpeta</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
-      </div>
-      <div class="modal-footer" style="border:none"> 
-        <button type="submit" class="btn btn-primary" style="font-size:15px">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop4" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
-    <form class="modal-content" @submit.prevent="modalDeleteFolder()" style="border-radius:10px;border:none">
-      <div class="modal-header text-center">
-         <h5 class="modal-title">Eliminar carpeta</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-danger">
-      Esta accion no se puede deshacer
-      </div>
-      <div class="modal-footer" style="border:none"> 
-        <button type="submit" class="btn btn-primary" style="font-size:15px">Eliminar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="moveDocumentTofolder" data-backdrop="static" data-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered ">
-    <form class="modal-content" @submit.prevent="selectPathMoveSave()">
-      <div class="modal-header text-center">
-        <h5 class="modal-title">Asignar carpeta</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-   <Tree
-      id="my-tree-id"
-      ref="my-tre-2"
-      :custom-options="myCustomOptions2"
-      :custom-styles="myCustomStyles2"
-      :nodes="treeDisplayData2"
-    ></Tree>
-
-
-<hr />
-<ul style="padding: 0px;list-style: none;width: 100%;display: flex;justify-content: flex-start;align-items: center;flex-direction: column;align-content: flex-start;" v-if="documentMoveTemp">
-    <li style="width: 100%;display: flex;justify-content: flex-start;align-items: flex-start;flex-direction: column;align-content: flex-start;margin-bottom:5px"  v-for="(item, index)   in  documentMoveTemp.data.categories"  >
-         <a href="#" style="font-size: 12px;padding: 5px;background: rgb(234, 234, 234);border-radius: 30px;    display: flex;place-content: flex-start;align-items: center;flex-direction: row;padding-left:10px;padding-right:10px">{{item.text}} 
-           <a href="#" style="margin-left:10px" @click="removeFolderInModal(index,item.id)"><i class="fas fa-times"></i></a>
-        </a>
-    </li>
-</ul>
-
-
- 
-      </div>
-      <div class="modal-footer" style="border:none"> 
-        <button type="submit" class="btn btn-primary" style="font-size:15px">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade FullScreenModal"  id="FullScreenModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content"> 
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="col-12" v-if="document" style="padding:10px">
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <b>{{document.data.title}}</b>
-                                            </div>
-                                           <div class="col-md-4 text-right"> 
-                                            <buttonShare  v-bind:id="document.data.id_share_comuniy"  v-if="document.data.share == 1 "  />
-                                              <!-- <a href="#" style="margin:5px" v-if="document.data.share == 1 "><img src="@/assets/cuota.svg" style="width:14px;height:14px;margin-right:5px" /></a> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                     <div  style="width:100%;padding:20px;color:black" v-html="contentDocument"> 
-                     </div>
+                        <!-- ======================================= -->
+                    </div>
                 </div>
-            </div> 
+            </div>
+        </main>
+    </Transition>
+
+
+
+
+
+
+
+    <div class="box" @contextmenu="onContextMenu($event)" style="position:fixed;z-index:1000;background:rgb(248 248 248);width:150px;height:auto;padding:10px;  ; border:1px solid rgb(226, 226, 226) !important;border-radius:6px
+     " :style="{ top: selected.clientY, left: selected.clientX }">
+        <ul style="padding:0;margin:0;list-style:none">
+            <li
+                style="padding:0;margin:0;list-style:none;padding-top:6px;padding-bottom:6px; border-bottom: 1px solid rgb(225 225 225 / 48%)">
+                <a href="#" style="font-size:11px;font-weight:600;color:black;"
+                    @click="openModalMoveDocument()">Mover</a>
+            </li>
+            <li style="padding:0;margin:0;list-style:none;padding-top:6px;padding-bottom:6px;  ">
+                <a href="#" style="font-size:11px;font-weight:600;color:black;" @click="deleteDocument()">Eliminar</a>
+            </li>
+        </ul>
+    </div>
+
+
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <form class="modal-content" @submit.prevent="createFolderRoot()" style="border-radius:10px;border:none">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title">Nueva carpeta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title"
+                        required="true" />
+                </div>
+                <div class="modal-footer" style="border:none">
+                    <button type="submit" class="btn btn-primary" style="font-size:15px">Crear carpeta</button>
+                </div>
+            </form>
         </div>
     </div>
-</div>
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="true" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <form class="modal-content" @submit.prevent="createFolder()">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title">Nueva carpeta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title"
+                        required="true" />
+                </div>
+                <div class="modal-footer" style="border:none">
+                    <button type="submit" class="btn btn-primary" style="font-size:15px">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop4" data-backdrop="static" data-keyboard="true" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <form class="modal-content" @submit.prevent="modalDeleteFolder()" style="border-radius:10px;border:none">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title">Eliminar carpeta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-danger">
+                    Esta accion no se puede deshacer
+                </div>
+                <div class="modal-footer" style="border:none">
+                    <button type="submit" class="btn btn-primary" style="font-size:15px">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="moveDocumentTofolder" data-backdrop="static" data-keyboard="true" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <form class="modal-content" @submit.prevent="selectPathMoveSave()">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title">Asignar carpeta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <Tree id="my-tree-id" ref="my-tre-2" :custom-options="myCustomOptions2"
+                        :custom-styles="myCustomStyles2" :nodes="treeDisplayData2"></Tree>
+
+
+                    <hr />
+                    <ul style="padding: 0px;list-style: none;width: 100%;display: flex;justify-content: flex-start;align-items: center;flex-direction: column;align-content: flex-start;"
+                        v-if="documentMoveTemp">
+                        <li style="width: 100%;display: flex;justify-content: flex-start;align-items: flex-start;flex-direction: column;align-content: flex-start;margin-bottom:5px"
+                            v-for="(item, index)   in  documentMoveTemp.data.categories">
+                            <a href="#"
+                                style="font-size: 12px;padding: 5px;background: rgb(234, 234, 234);border-radius: 30px;    display: flex;place-content: flex-start;align-items: center;flex-direction: row;padding-left:10px;padding-right:10px">{{
+                                        item.text
+                                }}
+                                <a href="#" style="margin-left:10px" @click="removeFolderInModal(index, item.id)"><i
+                                        class="fas fa-times"></i></a>
+                            </a>
+                        </li>
+                    </ul>
+
+
+
+                </div>
+                <div class="modal-footer" style="border:none">
+                    <button type="submit" class="btn btn-primary" style="font-size:15px">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade FullScreenModal" id="FullScreenModal" tabindex="-1" role="dialog"
+        aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content" style="height:90vh; width:90vw">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="col-12" v-if="document" style="padding:10px">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <b>{{ document.data.title }}</b>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <buttonShare v-bind:id="document.data.id_share_comuniy"
+                                        v-if="document.data.share == 1" />
+                                    <component v-bind:document="document" v-if="document.data.share == 0">
+                                        <div class="dropdown" style="margin: 5px; display: inline">
+                                            <a type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <img src="@/assets/menu.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">
+
+                                                    <img src="@/assets/edit.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    Editar</a>
+
+
+                                                <a class="dropdown-item" href="#">
+
+                                                    <img src="@/assets/mover-carpeta.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    Mover</a>
+
+
+                                                <a class="dropdown-item" href="#">
+
+                                                    <img src="@/assets/etiquetas.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    Agregar etiquetas</a>
+
+                                                <a class="dropdown-item" href="#"
+                                                    @click="saveShare(1, activeDocumentId)">
+                                                    <img src="@/assets/candado-abierto(1).png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    Hacer Publico</a>
+
+                                                <a class="dropdown-item" href="#"
+                                                    v-if="document.data.idUser == this.auth._id">
+                                                    <img src="@/assets/users.svg" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    Compartir de forma privada</a>
+
+                                                <a class="dropdown-item" href="#">
+                                                    <img src="@/assets/tacho-de-basura.png" style="width: 14px;
+                                height: 14px;
+                                margin-right: 5px;" />
+                                                    Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </component>
+                                    <!-- <a href="#" style="margin:5px" v-if="document.data.share == 1 "><img src="@/assets/cuota.svg" style="width:14px;height:14px;margin-right:5px" /></a> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:100%;padding:20px;color:black" v-html="contentDocument">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </template>
 
 <style>
-    @import   '@/assets/platform.css';
-     
+@import '@/assets/platform.css';
+
 .activeFolder {
-   color: #2b44ff !important;
+    color: #2b44ff !important;
     transition: all 250ms;
 }
 
@@ -377,26 +731,38 @@
     color: #9d9d9d;
 }
 
-.nav-list > li > a {
+.nav-list>li>a {
     color: #C4C4C4;
     font-size: 14px;
     padding-left: 13px !important;
     border-bottom: 1px solid #585858;
 }
 
-.nav-list > li > a:hover {
+.nav-list>li>a:hover {
     background-color: #444444;
 }
+
 .folder-menu {
-    padding:0;margin:0;width:100%;list-style:none
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    list-style: none
 }
-.folder-menu  li {
-padding:0;margin:0;width:100%;list-style:none
+
+.folder-menu li {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    list-style: none
 }
+
 .folder-menu li a {
-    color:black;font-weight:600;font-size:12px;
+    color: black;
+    font-weight: 600;
+    font-size: 12px;
 }
-.folder-menu li:hover > .icon-add{
+
+.folder-menu li:hover>.icon-add {
     opacity: 1;
 }
 
@@ -407,33 +773,44 @@ padding:0;margin:0;width:100%;list-style:none
 }
 
 .folder-menu-child {
-       padding:0;margin:0;width:100%;list-style:none;padding-left:10px;
-     }
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    list-style: none;
+    padding-left: 10px;
+}
 
-     .folder-menu-child li {
-      padding:0;margin:0;width:100%;list-style:none
-     }
+.folder-menu-child li {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    list-style: none
+}
 
-     .folder-menu-child li a{
-      color:black;font-weight:600;font-size:12px;
-     }
+.folder-menu-child li a {
+    color: black;
+    font-weight: 600;
+    font-size: 12px;
+}
 
-     .folder-menu-child li:hover > .icon-add{
+.folder-menu-child li:hover>.icon-add {
     opacity: 1;
 }
 
-.folder-menu-child li   .icon-add {
+.folder-menu-child li .icon-add {
     opacity: 0;
     float: right;
     cursor: pointer;
 }
 
-.folder_icon_active , .folder_icon {
+.folder_icon_active,
+.folder_icon {
     display: none !important;
 }
 
-input[type=checkbox], input[type=radio] {
-      display: none !important;
+input[type=checkbox],
+input[type=radio] {
+    display: none !important;
 }
 
 .expanded_icon {
@@ -447,7 +824,7 @@ input[type=checkbox], input[type=radio] {
     border-color: transparent transparent transparent #555;
 }
 
- 
+
 .button-move-tree {
     background-image: url(/src/assets/boton-agregar.png);
     background-repeat: no-repeat;
@@ -456,6 +833,7 @@ input[type=checkbox], input[type=radio] {
     display: block;
     margin-left: 5px;
 }
+
 .add_icon {
     background-image: url(/src/assets/boton-agregar.png);
     background-repeat: no-repeat;
@@ -464,14 +842,16 @@ input[type=checkbox], input[type=radio] {
     display: block;
     margin-left: 5px;
 }
+
 .add_icon::before {
     display: none !important;
     content: '';
 }
 
 .row_data:hover {
-    color:  #0C00FF !important;
+    color: #0C00FF !important;
 }
+
 .expanded_icon {
     transform: rotate(0deg);
     transition: all .2s ease;
@@ -483,10 +863,10 @@ input[type=checkbox], input[type=radio] {
     border-color: transparent transparent transparent #555;
 }
 
- 
- 
 
- .button-add-tree {
+
+
+.button-add-tree {
     background-image: url('/src/assets/add(1).png');
     background-repeat: no-repeat;
     width: 40px;
@@ -495,7 +875,7 @@ input[type=checkbox], input[type=radio] {
     margin-left: 5px;
 }
 
- .button-edit-tree {
+.button-edit-tree {
     background-image: url(/src/assets/trash.png);
     background-repeat: no-repeat;
     width: 40px;
@@ -513,6 +893,7 @@ input[type=checkbox], input[type=radio] {
     display: block;
     margin-left: 5px;
 }
+
 .add_icon {
     background-image: url(/src/assets/boton-agregar.png);
     background-repeat: no-repeat;
@@ -521,27 +902,31 @@ input[type=checkbox], input[type=radio] {
     display: block;
     margin-left: 5px;
 }
+
 .add_icon::before {
     display: none !important;
     content: '';
 }
 
 .edit-mode {
-  color:black;font-size:15px
+    color: black;
+    font-size: 15px
 }
+
 .edit-mode img {
-  visibility: collapse;
-  width:15px;height:15px
+    visibility: collapse;
+    width: 15px;
+    height: 15px
 }
 
 .edit-mode:hover img {
-  visibility: visible;
+    visibility: visible;
 }
 </style>
 
 <script setup="">
 import columnLeft from '@/components/platform/left.vue';
-import navBar from '@/components/platform/navbar.vue'; 
+import navBar from '@/components/platform/navbar.vue';
 import Tree from 'vuejs-tree'
 import buttonShare from '@/components/platform/share-button-document-private.vue';
 
@@ -552,14 +937,17 @@ import buttonShare from '@/components/platform/share-button-document-private.vue
 export default {
     data() {
         return {
+            activeItem: 'folders',
             auth: localStorage.getItem('auth'),
             endpoint: window.ENDPOINT + '/library/get/folders',
+            endpointTags: window.ENDPOINT + "/library/get/tags",
             endpointDocuments: window.ENDPOINT + '/library/get/folders/documents',
+            endpointTaggedDocuments: window.ENDPOINT + "/library/get/tags/documents",
             endpointDocument: window.ENDPOINT + '/library/get/document',
             endpointGetAll: window.ENDPOINT + '/library/get/documents',
             endpointTextPreview: window.ENDPOINT + '/library/fields/preview',
             endpointSaveFolders: window.ENDPOINT + '/library/save/folders',
-            endpointMoveSave: window.ENDPOINT + '/library/save/folders/organize', 
+            endpointMoveSave: window.ENDPOINT + '/library/save/folders/organize',
             endpointDeleteDocument: window.ENDPOINT + '/library/delete/documents',
             endpointSave: window.ENDPOINT + '/library/folders/edit',
             editor_enabled: false,
@@ -621,6 +1009,21 @@ export default {
                 node: null
             },
             documentMoveTemp: false,
+            itemsTags: [],
+            documentsSearchTags: [],
+            documents: [],
+            loadingFolders: true,
+            loadingDocumentTags: false,
+            tagsSelectedTags: [],
+            contentDocumentTags: null,
+            activeDocumentIdTags: null,
+            document: null,
+            searchTargetTags: {
+                target: null,
+            },
+            temp: {
+                editFont: "Arial",
+            },
         }
     },
     created() {
@@ -639,14 +1042,45 @@ export default {
     },
     mounted() {
         this.loadAllDocuments();
+        this.loadTags();
         this.loadFolders();
         this.loadFoldersTree2();
         if (this.$route.query.id) {
             this.activeDocumentId = this.$route.query.id;
-              this.getDocument(this.$route.query.id);
+            this.getDocument(this.$route.query.id);
         }
     },
     computed: {
+        searchTagsInResultsTags() {
+            return this.documentsSearchTags.filter((item) => {
+                if (this.tagsSelectedTags.length > 0) {
+                    for (var i = item.data.tags.length - 1; i >= 0; i--) {
+                        var row = item.data.tags[i];
+                        for (var i = this.tagsSelectedTags.length - 1; i >= 0; i--) {
+                            var rowTarget = this.tagsSelectedTags[i];
+                            if (row._id == rowTarget.id) {
+                                return item;
+                            }
+                        }
+                    }
+                } else {
+                    return item;
+                }
+            });
+        },
+        filteredResourcesTags() {
+            console.log("filterresources");
+            if (this.searchTargetTags.target) {
+                this.searchDocuments();
+                return this.itemsTags.filter((item) => {
+                    return item.data.title
+                        .toLowerCase()
+                        .startsWith(this.searchTargetTags.target.toLowerCase());
+                });
+            } else {
+                return this.itemsTags;
+            }
+        },
         fixerEditMode() {
             for (var i = this.documents.length - 1; i >= 0; i--) {
                 this.documents[i]._ext = {
@@ -725,14 +1159,14 @@ export default {
                     expanded: {
                         state: true,
                         // fn: this.getDocumentsFromFolder,
-                        fn : (data,data2) => {
+                        fn: (data, data2) => {
                             alert(data)
                         }
                     },
                     collapsed: {
                         state: true,
                         // fn: this.getDocumentsFromFolder,
-                        fn : (data,data2) => {
+                        fn: (data, data2) => {
                             alert(data)
                         }
                     },
@@ -806,7 +1240,7 @@ export default {
                     }
                 },
 
-                 
+
                 row: {
                     style: {
                         width: "500px",
@@ -849,7 +1283,7 @@ export default {
                     expanded: {
                         state: true,
                         // fn: this.getDocumentsFromFolder,
-                        fn : (data,data2) => { 
+                        fn: (data, data2) => {
                             this.getChilds(data);
                         }
                     },
@@ -864,7 +1298,7 @@ export default {
                     checked: {
                         state: false,
                         fn: this.myCheckedFunction,
-                    }, 
+                    },
                 },
                 events: {
                     expanded: {
@@ -882,7 +1316,7 @@ export default {
                     },
                 },
                 addNode: { //add subcarpeta
-                    state: true, 
+                    state: true,
                     fn: this.addNodeFunction,
                     appearOnHover: true,
                 },
@@ -893,7 +1327,7 @@ export default {
                 },
                 deleteNode: { //enter folder
                     state: true, //mostrar opc
-                    fn: (data) => { 
+                    fn: (data) => {
                         this.getDocumentsFromFolder(data.id)
                     },
                     appearOnHover: true,
@@ -958,13 +1392,13 @@ export default {
             return {
                 treeEvents: {
                     expanded: {
-                        state: true, 
-                        fn : (data,data2) => { 
+                        state: true,
+                        fn: (data, data2) => {
                             this.getChildsTree2(data);
                         }
                     },
                     collapsed: {
-                        state: true, 
+                        state: true,
                     },
                     selected: {
                         state: false,
@@ -973,7 +1407,7 @@ export default {
                     checked: {
                         state: false,
                         fn: this.myCheckedFunction,
-                    }, 
+                    },
                 },
                 events: {
                     expanded: {
@@ -1011,14 +1445,79 @@ export default {
                     state: true,
                     fn: this.selectPathMove,
                     appearOnHover: false,
-                } 
+                }
             };
         },
     },
     methods: {
+        searchDocuments() {
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    auth: this.auth,
+                    target: this.searchTargetTags.target,
+                }),
+            };
+            fetch(window.ENDPOINT + "/library/search", requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.length > 0) {
+                        if (data.length > 0) {
+                            for (var i = data.length - 1; i >= 0; i--) {
+                                data[i]._ext = { edit_title: false, edit_description: false };
+                            }
+                        }
+                        this.documents = data;
+                    }
+                    this.$Progress.finish();
+                });
+        },
+
+        saveShare(value, activeDocumentId) {
+            console.log(this.data);
+            console.log(activeDocumentId)
+            if (value == 1) {
+                this.saveLoadingShare = true;
+                this.saveLoadingNtShareDisabled = true;
+                this.saveLoadingShareDisabled = true;
+                setTimeout(() => {
+                    this.$router.push({
+                        name: "autowriting-organize",
+                        params: { id: activeDocumentId },
+                    });
+                }, 1500);
+            } else {
+                this.saveLoadingNtShare = true;
+                this.saveLoadingShareDisabled = true;
+                this.saveLoadingNtShareDisabled = true;
+                this.popshared = false;
+
+                this.$router.push({
+                    name: "my-writings-folders",
+                    query: {
+                        id: activeDocumentId,
+                    },
+                });
+                this.$toast.success("Escrito creado", { position: "bottom-right" });
+
+                // setTimeout(() => {
+                //      this.$router.push({ name: 'my-writings-view-automatic-document', params: { id: this.data.id }})
+                //  },1500)
+            }
+        },
+        isActive(menuItem) {
+            return this.activeItem === menuItem
+        },
+        setActive(menuItem) {
+            this.activeItem = menuItem
+        },
         openFullScreen() {
             $('.FullScreenModal').modal('show')
         },
+
 
         openModalMoveDocument() {
             const requestOptions = {
@@ -1048,12 +1547,12 @@ export default {
                 body: JSON.stringify({
                     auth: this.auth,
                     id: id,
-                   data: {
-                        title : this.documents[index].data.title,
-                        description : this.documents[index].data.description
+                    data: {
+                        title: this.documents[index].data.title,
+                        description: this.documents[index].data.description
                     }
                 })
-            }; 
+            };
             fetch(window.ENDPOINT + '/library/edit', requestOptions).then(response => response.json()).then((data) => {
                 this.documents[index]._ext.edit_title = false;
                 this.documents[index]._ext.edit_description = false;
@@ -1138,6 +1637,36 @@ export default {
                 console.log(data)
             });
         },
+        loadTags() {
+            this.$Progress.start();
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    auth: this.auth,
+                }),
+            };
+            fetch(this.endpointTags, requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.empty) {
+                        this.tags = [];
+                        this.loadingFolders = false;
+                        this.$Progress.finish();
+                        return;
+                    }
+                    if (data.error == true) {
+                    } else {
+                        alphabetizeByProperty("data.title", data);
+                        this.itemsTags = data;
+                        // this.items = data;
+                        this.loadingFolders = false;
+                        this.$Progress.finish();
+                    }
+                });
+        },
         createDocument() {
             this.$Progress.start();
             const requestOptions = {
@@ -1167,7 +1696,7 @@ export default {
                     };
                     fetch(this.endpointDocuments, requestOptions).then(response => response.json()).then((data) => {
                         console.log(data)
-                        if (data.error == true) {} else {
+                        if (data.error == true) { } else {
                             this.documents = data;
                             this.loadingDocuments = false;
                         }
@@ -1209,25 +1738,7 @@ export default {
         //        }
         //    }
         // },
-        loadTags() {
-            this.$Progress.start();
-            const requestOptions = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    auth: this.auth
-                })
-            };
-            fetch(this.endpoint, requestOptions).then(response => response.json()).then((data) => {
-                if (data.error == true) {} else {
-                    this.items = data;
-                    this.loadingFolders = false;
-                    this.$Progress.finish();
-                }
-            })
-        },
+
         loadAllDocuments() {
             this.$Progress.start();
             const requestOptions = {
@@ -1240,19 +1751,19 @@ export default {
                 })
             };
             fetch(this.endpointGetAll, requestOptions).then(response => response.json()).then((data) => {
-               if(data.length == 0) {
+                if (data.length == 0) {
                     this.loadingDocuments = false;
                     this.documents = [];
                     this.$Progress.finish();
                     return;
-                 }  
+                }
 
                 this.documents = data;
                 this.$Progress.finish();
             })
         },
         search() {
-            if(this.searchTarget.target == '') {
+            if (this.searchTarget.target == '') {
                 this.loadAllDocuments()
                 return;
             }
@@ -1268,13 +1779,13 @@ export default {
                 })
             };
             fetch(window.ENDPOINT + '/library/search', requestOptions).then(response => response.json()).then((data) => {
-                if(data.length == 0) {
+                if (data.length == 0) {
                     this.loadingDocuments = false;
                     this.documents = [];
-                    this.$Progress.finish(); 
+                    this.$Progress.finish();
                     return;
-                 }  
-                
+                }
+
                 this.loadingDocuments = false;
                 this.documents = data;
                 this.$Progress.finish();
@@ -1283,7 +1794,7 @@ export default {
         removeFilterTag(index, name) {
             this.$Progress.start();
             delete this.tagsSelected[index];
-            this.tagsSelected = this.tagsSelected.filter(function(a) {
+            this.tagsSelected = this.tagsSelected.filter(function (a) {
                 return typeof a !== 'undefined';
             })
             if (this.tagsSelected.length == 0) {
@@ -1301,22 +1812,56 @@ export default {
                 })
             };
             fetch(this.endpointDocuments, requestOptions).then(response => response.json()).then((data) => {
-                if(data.empty) {
+                if (data.empty) {
                     this.loadingDocuments = false;
                     this.documents = [];
                     this.$Progress.finish();
                     return;
-                 }  
+                }
 
-                if (data.error == true) {} else {
+                if (data.error == true) { } else {
                     this.documents = data;
                     this.$Progress.finish();
                 }
             })
         },
 
+        removeFilterTags(index, name) {
+            this.$Progress.start();
+            delete this.tagsSelectedTags[index];
+            this.tagsSelectedTags = this.tagsSelectedTags.filter(function (a) {
+                return typeof a !== 'undefined';
+            })
+            if (this.tagsSelectedTags.length == 0) {
+                this.loadAllDocuments();
+                return;
+            }
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    auth: this.auth,
+                    tags: this.tagsSelectedTags,
+                })
+            };
+            fetch(this.endpointTaggedDocuments, requestOptions).then(response => response.json()).then((data) => {
+                if (data.empty) {
+                    this.loadingDocuments = false;
+                    this.documents = [];
+                    this.$Progress.finish();
+                    return;
+                }
 
-         getDocumentModal(id) {
+                if (data.error == true) { } else {
+                    this.documents = data;
+                    this.$Progress.finish();
+                }
+            })
+        },
+
+        getDocumentModal(id) {
             this.$Progress.start();
             this.activeDocumentId = id;
             this.loadingDocument = true;
@@ -1332,26 +1877,26 @@ export default {
                     // name:tag
                 })
             };
-            fetch(this.endpointDocument, requestOptions).then(response => response.json()).then((data) => { 
-                if(data.code) {
+            fetch(this.endpointDocument, requestOptions).then(response => response.json()).then((data) => {
+                if (data.code) {
                     this.document = false;
-                    this.loadingDocument = false; 
+                    this.loadingDocument = false;
                     this.$Progress.finish();
                     return;
                 }
 
-                if(data.empty) {
+                if (data.empty) {
                     this.document = false;
-                    this.loadingDocument = false; 
+                    this.loadingDocument = false;
                     this.$Progress.finish();
                     return;
                 }
-                
-                if (data.error == true) {} else { 
 
-                    if(data.data.complete == 0) {
+                if (data.error == true) { } else {
+
+                    if (data.data.complete == 0) {
                         this.editor_enabled = false;
-                        if(data.data.form_complete) { 
+                        if (data.data.form_complete) {
                             this.documentModal = data;
                             this.contentDocument = null;
                             this.loadingDocument = false;
@@ -1362,8 +1907,8 @@ export default {
                         }
                     } else {
                         this.editor_enabled = true;
-                    } 
-                   this.$Progress.finish();
+                    }
+                    this.$Progress.finish();
                 }
             })
         },
@@ -1384,46 +1929,46 @@ export default {
                 })
             };
             fetch(this.endpointDocument, requestOptions).then(response => response.json()).then((data) => {
-if(data.code) {
+                if (data.code) {
                     this.document = false;
-                    this.loadingDocument = false; 
-                    this.$Progress.finish();
-                    return;
-                }
-
-                if(data.empty) {
-                    this.document = false;
-                    this.loadingDocument = false; 
-                    this.$Progress.finish();
-                    return;
-                }
-
-
-                if (data.error == true) {} else { 
-
-                    if(data.data.complete == 0) {
-                     this.editor_enabled = false; 
-                    this.document = data;
-                    this.contentDocument = null;
                     this.loadingDocument = false;
                     this.$Progress.finish();
+                    return;
+                }
+
+                if (data.empty) {
+                    this.document = false;
+                    this.loadingDocument = false;
+                    this.$Progress.finish();
+                    return;
+                }
+
+
+                if (data.error == true) { } else {
+
+                    if (data.data.complete == 0) {
+                        this.editor_enabled = false;
+                        this.document = data;
+                        this.contentDocument = null;
+                        this.loadingDocument = false;
+                        this.$Progress.finish();
 
                     } else {
-                    this.editor_enabled = true;
-                    this.document = data;
-                    this.contentDocument = data.data.content;
+                        this.editor_enabled = true;
+                        this.document = data;
+                        this.contentDocument = data.data.content;
 
-                    this.contentDocument = data.data.content.replace("http://", "https://");
+                        this.contentDocument = data.data.content.replace("http://", "https://");
 
-                    this.loadingDocument = false;
-                    this.$Progress.finish();
+                        this.loadingDocument = false;
+                        this.$Progress.finish();
                     }
 
-                     
+
                 }
             })
         },
- 
+
         getDocumentsByTag(idtag, tag) {
             this.$Progress.start();
             this.tagsSelected.push({
@@ -1442,21 +1987,61 @@ if(data.code) {
                 })
             };
             fetch(this.endpointDocuments, requestOptions).then(response => response.json()).then((data) => {
-             
-                 if(data.empty) {
+
+                if (data.empty) {
                     this.loadingDocuments = false;
                     this.documents = [];
                     this.$Progress.finish();
                     return;
-                 }  
+                }
 
 
-                if (data.error == true) {} else {
+                if (data.error == true) { } else {
                     this.documents = data;
                     this.loadingDocuments = false;
                     this.$Progress.finish();
                 }
             })
+        },
+
+        getDocumentsByTags(idtag, tag) {
+            this.$Progress.start();
+            this.tagsSelectedTags.push({
+                title: tag,
+                id: idtag,
+            });
+            this.loadingDocuments = true;
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    auth: this.auth,
+                    tags: this.tagsSelectedTags,
+                }),
+            };
+            fetch(this.endpointTaggedDocuments, requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.empty) {
+                        this.documents = [];
+                        this.loadingDocuments = false;
+                        this.$Progress.finish();
+                        return;
+                    }
+                    if (data.error == true) {
+                    } else {
+                        if (data.length > 0) {
+                            for (var i = data.length - 1; i >= 0; i--) {
+                                data[i]._ext = { edit_title: false, edit_description: false };
+                            }
+                        }
+                        this.documents = data;
+                        this.loadingDocuments = false;
+                        this.$Progress.finish();
+                    }
+                });
         },
         loadFolders() {
             const requestOptions = {
@@ -1472,12 +2057,12 @@ if(data.code) {
                 console.log(data)
                 setTimeout(() => {
 
-                      if(data.empty) {
-                    this.treeDisplayData = [];
-                      
-                    this.loadingFolders = false;
-                    return;
-                 }  
+                    if (data.empty) {
+                        this.treeDisplayData = [];
+
+                        this.loadingFolders = false;
+                        return;
+                    }
 
 
                     if (data.error == true) {
@@ -1504,12 +2089,12 @@ if(data.code) {
                 console.log(data)
                 setTimeout(() => {
 
-                      if(data.empty) {
-                    this.treeDisplayData2 = [];
-                      
-                    this.loadingFolders = false;
-                    return;
-                 }  
+                    if (data.empty) {
+                        this.treeDisplayData2 = [];
+
+                        this.loadingFolders = false;
+                        return;
+                    }
 
 
                     if (data.error == true) {
@@ -1538,16 +2123,16 @@ if(data.code) {
             };
             fetch(this.endpointDocuments, requestOptions).then(response => response.json()).then((data) => {
                 console.log(data)
-                
+
 
                 setTimeout(() => {
 
-                      if(data.empty) {
-                    this.loadingDocuments = false;
-                    this.documents = [];
-                    this.$Progress.finish();
-                    return;
-                 }  
+                    if (data.empty) {
+                        this.loadingDocuments = false;
+                        this.documents = [];
+                        this.$Progress.finish();
+                        return;
+                    }
 
                     if (data.error == true) {
                     } else {
@@ -1559,7 +2144,7 @@ if(data.code) {
                 }, 200)
             })
         },
-        mySelectedFunction: function(nodeId, state) {
+        mySelectedFunction: function (nodeId, state) {
             console.log(`is ${nodeId} selected ? ${state}`);
             console.log(this.$refs["my-tree"].getSelectedNode());
             // this.$refs['my-tree-2'].getSelectedNode().$el.classList.add('some-class')
@@ -1592,7 +2177,7 @@ if(data.code) {
         },
         pathMoveSelectedRemove(index, nodeid) {
             delete this.pathMoveSelected[index];
-            this.pathMoveSelected = this.pathMoveSelected.filter(function(a) {
+            this.pathMoveSelected = this.pathMoveSelected.filter(function (a) {
                 return typeof a !== 'undefined';
             })
         },
@@ -1601,22 +2186,22 @@ if(data.code) {
 
         removeFolderInModal(index, nodeid = null) {
             delete this.documentMoveTemp.data.categories[index];
-            this.documentMoveTemp.data.categories = this.documentMoveTemp.data.categories.filter(function(a) {
+            this.documentMoveTemp.data.categories = this.documentMoveTemp.data.categories.filter(function (a) {
                 return typeof a !== 'undefined';
             })
         },
 
 
-        selectPathMove(node) { 
+        selectPathMove(node) {
             this.documentMoveTemp.data.categories.push({
                 id: node.id,
                 text: node.text
             })
         },
 
-         
 
-         
+
+
         deleteDocument() {
             this.$Progress.start();
             console.log(this.selectedIdDocument)
@@ -1631,17 +2216,17 @@ if(data.code) {
                 })
             };
             fetch(this.endpointDeleteDocument, requestOptions).then(response => response.json()).then((data) => {
-                this.$Progress.finish(); 
+                this.$Progress.finish();
                 this.$toast.success("Documento eliminado", {
                     position: "bottom-right"
                 })
                 delete this.documents[this.selectedIndexDocument];
-                this.documents = this.documents.filter(function(a) {
+                this.documents = this.documents.filter(function (a) {
                     return typeof a !== 'undefined';
                 })
             })
         },
-        addNodeFunction: function(node) {
+        addNodeFunction: function (node) {
             $('#staticBackdrop2').modal('show');
             this.modalCreateNode = node;
         },
@@ -1656,7 +2241,7 @@ if(data.code) {
                     "expanded": false
                 },
                 parent: this.modalCreateNode.id
-            }; 
+            };
             const requestOptions = {
                 method: "POST",
                 headers: {
@@ -1664,7 +2249,7 @@ if(data.code) {
                 },
                 body: JSON.stringify({
                     auth: this.auth,
-                    data:  newNode
+                    data: newNode
                 })
             };
             fetch(window.ENDPOINT + '/library/save/folders', requestOptions).then(response => response.json()).then((data) => {
@@ -1688,7 +2273,7 @@ if(data.code) {
                     "expanded": false
                 },
                 nodes: [],
-                parent : null
+                parent: null
             };
             this.treeDisplayData.push(newNode);
             var test = this.treeDisplayData;
@@ -1721,7 +2306,7 @@ if(data.code) {
             this.selected.clientY = (evt.pageY || evt.clientY) + "px";
             this.selectedIdDocument = row._id;
             this.selectedIndexDocument = index;
-            this.pathMoveSelected = row.data.categories; 
+            this.pathMoveSelected = row.data.categories;
         },
         modalDeleteFolder() {
             const nodePath = this.$refs["my-tree"].findNodePath(this.temp.node.id);
@@ -1747,7 +2332,7 @@ if(data.code) {
             $('#staticBackdrop4').modal('hide')
             this.deleteForlderRequest(this.temp.node.id)
             // this.saveFolders(true);
-        }, 
+        },
         deleteFolder(node, index) {
             console.log('deleteforlder', node, index)
             this.temp = {
@@ -1758,23 +2343,23 @@ if(data.code) {
             return;
         },
         deleteForlderRequest(id) {
-      this.$Progress.start();
-      var requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+            this.$Progress.start();
+            var requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    auth: this.auth,
+                    id: id
+                }),
+            };
+            fetch(window.ENDPOINT + "/library/delete/folders", requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    this.$Progress.finish();
+                });
         },
-        body: JSON.stringify({
-          auth: this.auth,
-          id: id
-        }),
-      };
-      fetch(window.ENDPOINT + "/library/delete/folders", requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-          this.$Progress.finish(); 
-        });
-    },
         saveFolders(deletefolder = false) {
             this.$Progress.start();
             var requestOptions = {
@@ -1815,17 +2400,17 @@ if(data.code) {
                 },
                 body: JSON.stringify({
                     auth: this.auth,
-                    parent : parent
+                    parent: parent
                 })
             };
             fetch(window.ENDPOINT + '/library/get/folders/child', requestOptions).then(response => response.json()).then((data) => {
-                if(data.empty) { 
-                     return;
+                if (data.empty) {
+                    return;
                 }
-                  this.$refs['my-tree'].findNode(parent).nodes = this.prepareArray(data);
-                  this.nodeSelect = this.prepareArray(data);
-                   
-                  this.$Progress.finish();
+                this.$refs['my-tree'].findNode(parent).nodes = this.prepareArray(data);
+                this.nodeSelect = this.prepareArray(data);
+
+                this.$Progress.finish();
             })
         },
 
@@ -1839,50 +2424,50 @@ if(data.code) {
                 },
                 body: JSON.stringify({
                     auth: this.auth,
-                    parent : parent
+                    parent: parent
                 })
             };
             fetch(window.ENDPOINT + '/library/get/folders/child', requestOptions).then(response => response.json()).then((data) => {
-                if(data.empty) { 
-                     return;
-                } 
-                  this.$refs['my-tre-2'].findNode(parent).nodes = this.prepareArray(data);
-                  this.nodeSelect = this.prepareArray(data); 
-                  this.$Progress.finish();
+                if (data.empty) {
+                    return;
+                }
+                this.$refs['my-tre-2'].findNode(parent).nodes = this.prepareArray(data);
+                this.nodeSelect = this.prepareArray(data);
+                this.$Progress.finish();
             })
         },
 
-         
 
 
-         prepareArray(data) {
+
+        prepareArray(data) {
             var fix = [];
             for (var i = data.length - 1; i >= 0; i--) {
                 fix.push({
-                    id : data[i]._id,
-                    text : data[i].data.text,
-                    nodes : [
-                     {
-                        id:"934",
-                        text : "Cargando carpetas..",
-                        nodes : [],
-                        "state": {
-                           "checked": false,
-                           "selected": false,
-                           "expanded": false
+                    id: data[i]._id,
+                    text: data[i].data.text,
+                    nodes: [
+                        {
+                            id: "934",
+                            text: "Cargando carpetas..",
+                            nodes: [],
+                            "state": {
+                                "checked": false,
+                                "selected": false,
+                                "expanded": false
+                            }
                         }
-                     }
-                     ],
+                    ],
                     "state": {
-                      "checked": false,
-                      "selected": false,
-                      "expanded": false
+                        "checked": false,
+                        "selected": false,
+                        "expanded": false
                     },
                 })
-            } 
-            return fix; 
+            }
+            return fix;
         }
     }
 }
- 
+
 </script>

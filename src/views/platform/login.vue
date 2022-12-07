@@ -36,6 +36,10 @@
           </div>
 
           <div class="form-group" style="margin-top:20px;margin-bottom:20px;">
+           <p>Al ingresar aceptás los <a href='/src/assets/TÉRMINOS-Y-CONDICIONES-GENERALES-WEBU.pdf'>términos y condiciones</a> y <a href="/src/assets/Politica-de-Privacidad-Webu.pdf" >política de privacidad</a> de la página</p>
+          </div>
+
+          <div class="form-group" style="margin-top:20px;margin-bottom:20px;">
             <button type="submit" class="btn btn-primary col-12"
               style="width:120px;position:relative;width:100%;height:45px">Iniciar sesion</button>
           </div>
@@ -299,7 +303,6 @@ import { decodeCredential } from "vue3-google-login"
 
 import VFacebookLogin from 'vue-facebook-login-component-next'
 
- 
 
 export default {
   components: {
@@ -382,7 +385,7 @@ export default {
       };
       fetch(this.endpoint, requestOptions).then(response => response.json()).then((data) => {
 
-
+       
         if (data.error) {
 
           this.$toast.show(
@@ -395,8 +398,9 @@ export default {
 
         } else {
 
-          console.log('test', data)
+          
           localStorage.setItem('auth', data.auth);
+          localStorage.setItem('authId', data.auth._id);
           localStorage.setItem('user', JSON.stringify(data));
           if (this.$route.query.rel) {
             window.location.href = this.$route.query.rel
@@ -440,6 +444,7 @@ export default {
         this.$Progress.finish();
         console.log('test', data)
         localStorage.setItem('auth', data.auth);
+        localStorage.setItem('authId', data.auth._id);
         localStorage.setItem('user', JSON.stringify(data));
         if (this.$route.query.rel) {
           window.location.href = this.$route.query.rel
@@ -482,6 +487,7 @@ export default {
         this.$Progress.finish();
         console.log('test', data)
         localStorage.setItem('auth', data.auth);
+        localStorage.setItem('authId', data.auth._id);
         localStorage.setItem('user', JSON.stringify(data));
         if (this.$route.query.rel) {
           window.location.href = this.$route.query.rel

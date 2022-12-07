@@ -26,7 +26,7 @@
 
 
                 <div class="col-12 text-left" style="padding-top:0;padding-bottom:20px;" >
-    <a href="@" @click.prevent="$router.go(-1)" > <img src="@/assets/flecha-izquierda.svg" style="height:20px;width:20px;" /> </a>
+    <a href="@" v-tooltip="'Regresar'"  @click.prevent="$router.go(-1)" > <img src="@/assets/flecha-izquierda.svg" style="height:20px;width:20px;" /> </a>
 </div>
 
 
@@ -138,7 +138,8 @@
     width: 50px;
     padding-left: 20px;
     padding-top:20px;">
-      <a href="#"  class="icons-link"  @click.prevent="openReportModal(comment._id)">
+      <a href="#"  v-tooltip="'Reportar Comentario'" 
+ class="icons-link"  @click.prevent="openReportModal(comment._id)">
                 <img src="@/assets/exclamation.svg"/>
               </a></div>
 </div>

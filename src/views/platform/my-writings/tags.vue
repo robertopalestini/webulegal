@@ -1012,6 +1012,7 @@ export default {
   mounted() {
     this.loadAllDocuments();
     this.loadTags();
+
   },
   computed: {
     searchTagsInResults() {
@@ -1552,7 +1553,7 @@ export default {
             return;
           }
 
-          console.log(data);
+          console.log('soy yo' + data);
           if (data.error == true) {
           } else {
             if (data.length > 0) {

@@ -10,7 +10,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-2 text-center">
-          <img src="@/assets/logo-transparent.png" class="img-fluid" style="max-width:120px" />
+         <a href="/"><img src="@/assets/logo-transparent.png" class="img-fluid" style="max-width:120px" /></a> 
         </div>
         <div class="col-md-9 text-right" style="    display: flex;
     align-content: center;
@@ -38,6 +38,11 @@
             </li>
 
             <li style="padding:0;display:flex;">
+              <RouterLink to="/platform/recompensas" style="padding-left:20px;padding-right:20px;font-size:15px">
+                Recompensas</RouterLink>
+            </li>
+
+            <li style="padding:0;display:flex;">
               <button type="button" class="btn btn-primary"
                 style="width:120px;position:relative;z-index:1000;padding:5px;font-size:12px;margin-left:20px"
                 v-if="suscription.pending" @click.prevent="openModal()">Suscribite</button>
@@ -49,12 +54,13 @@
 
 
         <div class="col-md-1 text-right">
-          <a href="#">
+          <a href="#" v-tooltip="'Perfil'" >
+            
             <img
               :src="'https://ui-avatars.com/api/?background=000000&color=fff&name=' + user.profile.firstname + user.profile.lastname"
-              style="height:30px;border-radius:100%;margin-right:10px" @click="open_dropdown_user()" />
-
-
+              style="height:30px;border-radius:100%;margin-right:10px"   @click="open_dropdown_user()" />
+              
+            
 
             <transition name="slide">
               <div style="
@@ -169,7 +175,33 @@
 
 </template>
 
+<style>
+.textHover span {
+    font-family: 'Raleway', sans-serif;
+    font-size:14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    bottom: 0;
+    left: 0px;
+    line-height: 38px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 0;
 
+    
+    /* CSS3 Transition: */
+	-webkit-transition: 0.50s;
+	/* Future proofing (these do not work yet): */
+	-moz-transition: 0.50s;
+	transition: 0.50s;  
+}
+.textHover:hover span{ width:auto; padding:0 30px;overflow:visible; }
+.textHover:hover{text-decoration:none;}
+
+</style>
 
 
 <script>
@@ -180,6 +212,7 @@ export default {
     return {
       dropdown_user: false,
       user: false,
+      userId: null,
       suscription: {
         pending: false
       },
@@ -242,7 +275,9 @@ export default {
       };
       fetch(window.ENDPOINT + '/users/auth', requestOptions).then(response => response.json()).then((data) => {
         this.user = data.data;
+        this.userId = data.id
       })
+      localStorage.setItem('userIdValue', this.userId)
     },
     logout() {
       localStorage.removeItem('auth');

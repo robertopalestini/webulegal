@@ -163,16 +163,16 @@ import ToolBarDocument from '@/components/platform/toolbar-writings-comunity.vue
         }
     },
     created() {
-    	if(localStorage.getItem('auth') == undefined || localStorage.getItem('auth') == null ||  localStorage.getItem('auth') == '' ||   localStorage.getItem('auth') == ' '){
-         this.$router.push({
-                            name: 'home',
-                            query: {
-                                rel: window.location.href
-                            }
-         })
-    	return;
-    }
-        this.getDocument(this.$route.params.id) 
+    // 	if(localStorage.getItem('auth') == undefined || localStorage.getItem('auth') == null ||  localStorage.getItem('auth') == '' ||   localStorage.getItem('auth') == ' '){
+    //      this.$router.push({
+    //                         name: 'home',
+    //                         query: {
+    //                             rel: window.location.href
+    //                         }
+    //      })
+    // 	return;
+    // }
+    //     this.getDocument(this.$route.params.id) 
     },
     mounted() {},
     computed: {},

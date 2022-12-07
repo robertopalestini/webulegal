@@ -1,4 +1,4 @@
- <style>
+<style>
 @import "@/assets/platform.css";
 .ul-categories {
   margin: 0;
@@ -395,6 +395,7 @@ input[type="radio"] {
                 >
                   <ul
                     style="width: 100%; padding: 0; margin: 0; list-style: none"
+                    v-if="tags.length"
                   >
                     <li
                       style="
@@ -421,6 +422,9 @@ input[type="radio"] {
                       </a>
                     </li>
                   </ul>
+                  <div v-else>
+                    <p>Tag not found</p>
+                  </div>
                 </div>
 
                 <div class="col-12" style="padding-top: 50px">
@@ -829,6 +833,8 @@ export default {
     },
     save() {
       if (this.tagSelected.length < 3) {
+        // temporary
+      // if (this.searchInputTags.target.split(',').length < 3) {
         this.$toast.error("Por favor , selecciona como minimo 3 etiquetas", {
           position: "bottom-right",
         });
@@ -863,9 +869,6 @@ export default {
           if (data.insertedId) {
             this.$router.push({
               name: "my-writings-folders",
-              query: {
-                id: this.id_document,
-              },
             });
 
             this.$toast.success(

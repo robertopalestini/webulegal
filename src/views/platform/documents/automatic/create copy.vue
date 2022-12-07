@@ -19,8 +19,7 @@
 
                     <div class="row" style="height: 100%" v-if="help_view">
                         <div class="col-12 text-left" style="margin-top: 20px">
-                            <a href="@" v-tooltip="'Regresar'" @click.prevent="$router.go(-1)" style="margin-top: -40px"
-                                class="text-left">
+                            <a href="@" @click.prevent="$router.go(-1)" style="margin-top: -40px" class="text-left">
                                 <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
                             </a>
                         </div>
@@ -140,31 +139,37 @@ startText();
                     </div>
 
                     <div class="row" v-if="editor_view">
-                        <div class="col-12" style="position: relative ;padding-left:0; padding-right:0; ">
+
+
+                        <div class="col-12" style="position: relative ;padding-left:0;
+              padding-right:0; ">
                             <div style="
-                                position: absolute; 
-                                top: 0;
-                                left: 0;
-                                right: 0;
-                                bottom: 0;
-                                background: rgb(0, 0, 0, 0.1);
-                                z-index: 600; 
-                                " v-if="showEditorLoading">
+                    position: absolute; 
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgb(0, 0, 0, 0.1);
+                    z-index: 600; 
+                  " v-if="showEditorLoading">
                                 <div class="spinner-border text-light spinner-border-sm" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
+
+
+            
                             <div id="cke_ruler_wrap"></div>
                             <div class="document-editor"></div>
-                            <ckeditor id="editor" :editor="editorCK" v-html="this.contentText"
-                                v-model="this.contentText" @ready="onReadyCK" style="
-                                height: calc(100vh - 110px);
-                                overflow: hidden;
-                                overflow-y: scroll;
-                                text-align: center;  
-                                padding-left:0;
-                                padding-right:0; 
-                                ">
+                            <ckeditor :editor="editorCK" v-model="editorCKData" @ready="onReadyCK" style="
+              height: calc(100vh - 110px);
+              overflow: hidden;
+              overflow-y: scroll;
+             
+              text-align: center;
+              padding-left:0;
+              padding-right:0; 
+            ">
 
                             </ckeditor>
                             <!-- <div id="editor" v-html="this.contentText" @selectionChange="" style="
@@ -183,46 +188,53 @@ startText();
                 </div>
 
                 <div class="col-md-2" style="
-                    height: calc(100vh - 70px);
-                    overflow: hidden;
-                    overflow-y: scroll;
-                    
-                    text-align: center;
-                    padding-left:10px;
-                    padding-right:10px; 
-                    " v-if="fields.length >= 0">
+              height: calc(100vh - 70px);
+              overflow: hidden;
+              overflow-y: scroll;
+             
+              text-align: center;
+              padding-left:10px;
+              padding-right:10px; 
+            " v-if="fields.length >= 0">
+
+
+
+
+
+
                     <ul style="
-                            padding: 0;
-                            list-style: none;
-                            border: 1px solid #cfcfcf;
-                            border-top-left-radius: 10px;
-                            border-top-right-radius: 10px;
-                        " v-if="editor_view">
-                        <a href="#" @click.prevent="openAddField()">
-                            <li style=" 
-                                border-top-left-radius: 10px;
-                                border-top-right-radius: 10px;
-                                background: #3b4ad2;
-                                padding: 5px; 
-                                text-align: center;
-                                font-weight: 700;
-                                color: white;
-                                border-bottom: 1px solid #c9c9c9;
-                                vertical-align:middle;
-                            ">
-                                Agregar Campos<span class="material-icons" style="vertical-align: middle; ">add</span>
-                            </li>
-                        </a>
+                padding: 0;
+                list-style: none;
+                border: 1px solid #cfcfcf;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+              " v-if="editor_view">
+                        <li style="
+                  border-top-left-radius: 10px;
+                  border-top-right-radius: 10px;
+                  background: #e0dede;
+                  padding: 5px; 
+                  text-align: center;
+                  font-weight: 700;
+                  border-bottom: 1px solid #c9c9c9;
+                ">
+                            Agregar Campos
+                            <a href="#" @click.prevent="openAddField()"><img src="@/assets/add(1).png"
+                                    style="max-width: 15px; max-height: 15px" /></a>
+                        </li>
                         <li style="padding: 5px; border-bottom: 1px solid #c9c9c9;word-wrap: break-word;"
-                            v-for="(field, index) in fields" @mouseover="mouseoverfield" @mouseleave="mouseleavefield">
+                            v-for="(field, index) in fields" @mouseover="mouseoverfield(index)"
+                            @mouseleave="mouseleavefield(index)">
                             {{ field.field }}
-                            <a href="#" v-tooltip="'Eliminar Campo'" @click="removefield(index)"><img
+                            <a href="#" @click="removefield(index)"><img
                                     src="@/assets/cerrar-simbolo-de-boton-circular.png"
                                     style="max-width: 15px; max-height: 15px" /></a>
                         </li>
                         <li style="padding: 5px; border-bottom: 1px solid #c9c9c9;word-wrap: break-word;"
-                            v-if="fields.length === 0" @mouseover="mouseoverfield" @mouseleave="mouseleavefield">
-                            Selecciona, Nombra, Automatiza
+                            v-if="fields.length === 0" @mouseover="mouseoverfield(index)"
+                            @mouseleave="mouseleavefield(index)">
+                            Aun no agregaste ningun campo
+
                         </li>
 
                     </ul>
@@ -235,7 +247,7 @@ startText();
 
                         <button type="submit" @click="save()" class="btn btn-primary"
                             style="width: 120px; position: relative" v-if="this.fields !== null">
-                            Crear
+                            Crear escrito
                         </button>
 
                         <button type="submit" class="btn btn-primary" style="width: 120px; position: relative"
@@ -280,13 +292,13 @@ startText();
                                         <span v-if="!saveLoadingShare">Si</span>
                                         <div class="spinner-border spinner-border-sm" role="status"
                                             v-if="saveLoadingShare" style="
-                                                height: 10px;
-                                                margin: 0px;
-                                                padding: 0px;
-                                                width: 10px !important; 
-                                                color: white;
-                                                margin-top: -10px !important;
-                                            ">
+                          height: 10px;
+                          margin: 0px;
+                          padding: 0px;
+                          width: 10px !important; 
+                          color: white;
+                          margin-top: -10px !important;
+                        ">
                                             <span class="sr-only">Loading...</span>
                                         </div>
                                     </button>
@@ -337,16 +349,17 @@ startText();
                     </button>
                 </div>
                 <div class="modal-body text-danger" style="padding:0;">
-                    <form @submit.prevent="replaceSelectedText" style="padding:20px">
+                    <form @submit="replaceSelectedText" style="padding:20px">
                         <input type="text" class="form-control" style="
-                            font-weight: 600;
-                            height: 32px !important;
-                            max-height: 32px !important;
-                            min-height: 32px !important;
-                            font-size: 16px;
-                            background: #efefef;
-                            border-radius: 30px !important;
-                            " v-model="replace_text.target" id="popup-selected-text-input" />
+              font-weight: 600;
+              height: 32px !important;
+              max-height: 32px !important;
+              min-height: 32px !important;
+              font-size: 16px;
+              background: #efefef;
+              border-radius: 30px !important;
+            " v-model="replace_text.target" id="popup-selected-text-input" />
+
                         <div class="col-12 text-center" style="padding-top: 10px">
                             <button type="submit" class="btn btn-primary" style="width: 100px">
                                 Crear
@@ -372,7 +385,7 @@ startText();
                             <a href="#" @click="addExistentField($event, index)" @mouseover="mouseoverfield(index)"
                                 v-if="field.existent == false" @mouseleave="mouseleavefield(index)"
                                 style="padding: 7px; border-bottom: 1px solid #c9c9c9;width:100%;display:block;position:relative">{{
-        field.field
+                                        field.field
                                 }}
                             </a>
                         </li>
@@ -388,14 +401,14 @@ startText();
 @import "@/assets/platform.css";
 
 .ck-editor__editable {
-    width: 15cm;
-    padding: 1cm 2cm 2cm;
-    border: 1px hsl(0, 0%, 82.7%) solid;
-    border-radius: var(--ck-border-radius);
-    background: white;
-    box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
-    margin: 20px auto;
-    overflow: visible;
+  width: 15cm;
+  padding: 1cm 2cm 2cm;
+  border: 1px hsl(0, 0%, 82.7%) solid;
+  border-radius: var(--ck-border-radius);
+  background: white;
+  box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
+  margin: 20px auto;
+  overflow: visible;
 }
 
 
@@ -406,7 +419,6 @@ startText();
 }
 
 .text-map {
-    cursor: pointer;
     border-bottom: 1px solid transparent;
 }
 
@@ -416,8 +428,8 @@ startText();
 
 .text-map-hover {
     border-bottom: 1px solid #3c00ff;
-    background: #efefef;
-    color: #2b44ff
+    background: #3000ff;
+    color: white;
 }
 
 .categorieActive {
@@ -450,7 +462,8 @@ startText();
 
 .ck.ck-editor__editable_inline {
     border: 1px solid var(--ck-color-base-border);
-}
+  }
+
 </style>
    
   
@@ -622,9 +635,9 @@ export default {
             sel: null,
             base: null,
             range: null,
-            editDocument: null,
+
             editorCK: DecoupledBuildEditor,
-            // editorCKData: '<p>Content of the editor.</p>',
+            editorCKData: '<p>Content of the editor.</p>',
             // editorCKConfig: {
             //     // Run the editor with the German UI.
             //     language: 'es'
@@ -633,15 +646,16 @@ export default {
     },
     created() {
         this.contentText = "";
-        // if (this.editDocument != null) {
-        //     console.log(this.editDocument)
-        //     this.contentText = this.editDocument.data.content;
-        //     this.fields = this.editDocument.data.fields
-        // } else {
-        console.log('aaaa' + this.editDocument)
-        this.contentText = 'Nuevo escrito'
-        this.fields = []
-        // }
+
+        const editDocument = JSON.parse(localStorage.getItem('editDocument'))
+
+        if (editDocument != null) {
+            console.log(editDocument)
+            this.replaceforExistent = false
+            this.contentText = editDocument.content;
+            this.fields = editDocument.fields
+
+        }
         const maxRows = 10;
         const maxCols = 5;
         const tableOptions = [];
@@ -697,7 +711,7 @@ export default {
                 editor.ui.getEditableElement()
             );
 
-
+            
         },
 
 
@@ -788,7 +802,7 @@ export default {
                 body: JSON.stringify({
                     auth: this.auth,
                     data: {
-                        content: document.getElementById("editor").innerHTML,
+                        content: document.querySelector(".ql-editor").innerHTML,
                         fields: temp,
                         title: "Documento sin titulo", //this.titleDocument,
                         description: "Documento sin descripcion", //this.descriptionDocument,
@@ -811,29 +825,24 @@ export default {
         removefield(index) {
             var element = this.fields[index];
             console.log(element)
-            element.outerHTML = element.base;
-            this.fields.splice(index, 1);
+            element.outerHTML = element.getAttribute("base");
             element.classList.remove("text-map-hover");
+            this.fields.splice(index, 1);
 
         },
-        mouseoverfield(e) {
-            if (this.fields.length) {
-                e.target.classList.add("text-map-hover");
+        mouseoverfield(index) {
 
-                for (let index = 0; index < array.length; index++) {
-                    const elements = this.fields[index];
-                    const element = elements.field
-                    element[index].data - id
-                    console.log(document.querySelector(`'data-id'=${element.data - id}`))
-                    console.log(e.target)
-                }
+            var element = this.fields[index].element;
+            element.className = "text-map-hover";
+            console.log(element);
 
-            }
         },
-        mouseleavefield(e) {
-            if (this.fields.length) {
-                e.target.classList.remove("text-map-hover");
-            }
+        mouseleavefield(index) {
+
+            var element = this.fields[index].element;
+            element.classList.remove("text-map-hover");
+            console.log(element);
+
         },
         addExistentField(event, index) {
             this.replaceforExistent = true;
@@ -879,9 +888,8 @@ export default {
         },
 
         replaceSelectedText(e) {
-            e.preventDefault();
-            console.log(range)
             console.log(this.fields)
+            e.preventDefault();
             if (this.replaceforExistent) {
                 var element = this.fields[this.replaceforExistentIndex].element;
                 this.replace_text.target = element.getAttribute("replace");
@@ -891,11 +899,10 @@ export default {
 
 
             var a = document.createElement("a");
-            a.innerHTML = "[" + this.replace_text.target + "]";
-            // a.className = "text-map";
+            a.innerText = "[" + this.replace_text.target + "]";
+            a.className = "text-map";
 
-            // a.className = "testeo";
-            a.classList.add('text-map', 'testeo')
+            a.className = "testeo";
             var id = Math.ceil(Math.random() * 1000000);
             a.setAttribute("data-id", id);
             a.setAttribute("replace", this.replace_text.target);
@@ -1004,8 +1011,16 @@ export default {
                             contentOnBlur = striptags(contentOnBlur, ['span', 'table', 'tbody', 'tr', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'b', 'em', 'strong', 'br', 'u', 'strike', 'p']);
                             document.execCommand('insertHtml', false, contentOnBlur.replace(/[\s;]background-color:[^;]+(?=;)|^background-color:[^;]+;/g, '').replace(/[\s;]color:[^;]+(?=;)|^color:[^;]+;/g, ''));
                         })
+
+
                 }, 300);
             });
+
+
+
+
+
+
         },
     },
 };

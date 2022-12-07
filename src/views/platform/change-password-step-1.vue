@@ -115,7 +115,7 @@
           lastname: null,
         },
         loading_submit:false,
-        endpoint: window.ENDPOINT + '/users/lost/password',
+        endpoint: window.ENDPOINT + '/users/lost/password/token',
       }
     },
       created() {
@@ -148,7 +148,7 @@
                    "Content-Type": "application/json"
                }, 
                body: JSON.stringify({
-                  email:this.data.email 
+                  email:'robertoadrianpalestini@yahoo.com.ar'
                })
            };
            fetch(this.endpoint, requestOptions).then(response => response.json()).then((data) => {

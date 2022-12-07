@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+
     {
       path: '/',
       name: 'home',
@@ -12,20 +13,20 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/platform/login.vue') 
+      component: () => import('../views/platform/login.vue')
     },
 
     {
       path: '/login/password',
       name: 'login-change-password-step-1',
-      component: () => import('../views/platform/change-password-step-1.vue') 
+      component: () => import('../views/platform/change-password-step-1.vue')
     },
     {
       path: '/login/lost/password/step/2',
       name: 'login-change-password-step-2',
-      component: () => import('../views/platform/change-password-step-2.vue') 
+      component: () => import('../views/platform/change-password-step-2.vue')
     },
-     
+
     {
       path: '/register',
       name: 'register',
@@ -36,8 +37,8 @@ const router = createRouter({
       path: '/change/points',
       name: 'change-points',
       component: () => import('../views/platform/change-points.vue'),
-      meta : {
-        auth : true
+      meta: {
+        auth: true
       }
     },
 
@@ -48,16 +49,24 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/dashboard.vue'),
-      meta : {
-        auth : true
+      meta: {
+        auth: true
       }
+    },
+    {
+      path: '/platform/shared-with-me',
+      name: 'compartidos-conmigo',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/platform/my-writings/shared-with-me.vue')
     },
 
 
 
 
 
-   {
+    {
       path: '/platform/formar-parte',
       name: 'formar-parte',
       // route level code-splitting
@@ -65,9 +74,9 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/pages/formar-parte.vue')
     },
- 
 
-   {
+
+    {
       path: '/platform/como-funciona',
       name: 'como-funciona',
       // route level code-splitting
@@ -75,8 +84,8 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/pages/como-funciona.vue')
     },
- 
-  {
+
+    {
       path: '/platform/dejanos-tu-opinion',
       name: 'dejanos-tu-opinion',
       // route level code-splitting
@@ -84,13 +93,21 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/pages/dejanos-tu-opinion.vue')
     },
- 
- 
+    {
+      path: '/platform/recompensas',
+      name: 'recompensas',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/platform/pages/recompensas.vue')
+    },
 
 
 
 
-     {
+
+
+    {
       path: '/platform/document/automatic/:id',
       name: 'view-automatic-document',
       // route level code-splitting
@@ -98,20 +115,20 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/single-automatic.vue'),
       meta: {
-      auth : true,
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        auth: true,
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
-    },
     },
 
     {
@@ -122,20 +139,20 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/single-document.vue'),
       meta: {
-        auth : true,
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        auth: true,
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
-    },
     },
 
 
@@ -143,30 +160,30 @@ const router = createRouter({
 
 
     {
-      path: '/platform/librarie/folders',
-      name: 'librarie-folders',
+      path: '/platform/librarie',
+      name: 'librarie',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/librarie/folders.vue'),
       meta: {
-        auth : true,
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        auth: true,
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
     },
-    },
 
-   {
+    {
       path: '/platform/librarie/tags',
       name: 'librarie-tags',
       // route level code-splitting
@@ -174,24 +191,24 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/librarie/tags.vue'),
       meta: {
-        auth : true,
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        auth: true,
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
     },
-    },
 
 
-   {
+    {
       path: '/platform/documents/new',
       name: 'document-new',
       // route level code-splitting
@@ -199,24 +216,24 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/normal/create.vue'),
       meta: {
-        auth : true,
+        auth: true,
 
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
     },
-    },
 
-     {
+    {
       path: '/platform/documents/organize/:id',
       name: 'document-organize',
       // route level code-splitting
@@ -224,27 +241,27 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/normal/organize.vue'),
       meta: {
-        auth : true,
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        auth: true,
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
     },
-    },
-
- 
 
 
- 
- 
+
+
+
+
 
     {
       path: '/platform/documents/automatic/new',
@@ -254,20 +271,20 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/automatic/create.vue'),
       meta: {
-        auth : true,
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        auth: true,
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
-    },
     },
 
 
@@ -279,29 +296,29 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/automatic/organize.vue'),
       meta: {
-        auth : true,
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        auth: true,
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
     },
-    },
 
 
 
 
 
 
-  
- 
+
+
 
 
 
@@ -313,8 +330,22 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/automatic/create.vue'),
-      meta : {
-        auth : true,
+      props: true,
+      meta: {
+        auth: true,
+      }
+    },
+
+    {
+      path: '/platform/autowriting/edit/:id',
+      name: 'autowriting-edit',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/platform/documents/automatic/create.vue'),
+      props: true,
+      meta: {
+        auth: true,
       }
     },
     {
@@ -324,8 +355,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/search/results.vue'),
-      meta : {
-        auth : true,
+      meta: {
+        auth: true,
       }
     },
     {
@@ -335,8 +366,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/search/results-writings.vue'),
-      meta : {
-        auth : true,
+      meta: {
+        auth: true,
       }
     },
     // {
@@ -350,15 +381,26 @@ const router = createRouter({
 
 
 
-     {
-      path: '/platform/my-writings/folders',
+    {
+      path: '/platform/my-writings',
       name: 'my-writings-folders',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/my-writings/folders.vue'),
-      meta : {
-        auth : true,
+      meta: {
+        auth: true,
+      }
+    },
+    {
+      path: '/platform/my-writings/migration',
+      name: 'my-writings-migration',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/platform/my-writings/migrated.vue'),
+      meta: {
+        auth: true,
       }
     },
     {
@@ -368,12 +410,12 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/my-writings/tags.vue'),
-      meta : {
-        auth : true,
+      meta: {
+        auth: true,
       }
-    }, 
+    },
 
- 
+
     {
       path: '/platform/my-writings/document/automatic/:id',
       name: 'my-writings-view-automatic-document',
@@ -381,8 +423,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/my-writings/single-automatic.vue'),
-      meta : {
-        auth : true,
+      meta: {
+        auth: true,
       }
     },
 
@@ -406,7 +448,7 @@ const router = createRouter({
 
 
 
-     
+
 
     {
       path: '/platform/admin/payments/suscriptions',
@@ -471,7 +513,7 @@ const router = createRouter({
       component: () => import('../views/platform/admin/folders/documents/rootv2.vue')
     },
 
-     {
+    {
       path: '/platform/admin/folders/writings',
       name: 'admin-folders-writings',
       // route level code-splitting
@@ -488,7 +530,7 @@ const router = createRouter({
       component: () => import('../views/platform/admin/folders/writings/rootv2.vue')
     },
 
-     
+
     {
       path: '/platform/admin/tags',
       name: 'admin-tags',
@@ -522,7 +564,7 @@ const router = createRouter({
 
 
 
-{
+    {
       path: '/platform/admin/suggest/feedback',
       name: 'admin-suggest-feedback',
       // route level code-splitting
@@ -534,7 +576,7 @@ const router = createRouter({
 
 
 
- 
+
 
     {
       path: '/platform/admin/suggest/tags',
@@ -563,7 +605,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/admin/suggest/points.vue')
-    }, 
+    },
 
     {
       path: '/platform/account',
@@ -572,15 +614,15 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/account.vue')
-    }, 
+    },
 
 
 
 
 
-   
 
-     {
+
+    {
       path: '/share/w/:id',
       name: 'view-automatic-document-share',
       // route level code-splitting
@@ -588,21 +630,21 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/share-single-automatic.vue'),
       meta: {
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
     },
-    },
-     {
+    {
       path: '/share/d/:id',
       name: 'view-document-share',
       // route level code-splitting
@@ -610,20 +652,20 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/share-single-document.vue'),
       meta: {
-      progress: {
-        func: [
-          { call: "color", modifier: "temp", argument: "#ffb000" },
-          { call: "fail", modifier: "temp", argument: "#6e0000" },
-          { call: "location", modifier: "temp", argument: "top" },
-          {
-            call: "transition",
-            modifier: "temp",
-            argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-          },
-        ],
+        progress: {
+          func: [
+            { call: "color", modifier: "temp", argument: "#ffb000" },
+            { call: "fail", modifier: "temp", argument: "#6e0000" },
+            { call: "location", modifier: "temp", argument: "top" },
+            {
+              call: "transition",
+              modifier: "temp",
+              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+            },
+          ],
+        },
       },
     },
-    },
 
 
 
@@ -632,11 +674,11 @@ const router = createRouter({
 
 
 
-     
+
   ]
 })
 
 
- 
+
 
 export default router

@@ -66,6 +66,20 @@
 
  
 <style> 
+
+
+.modal-dialog {
+  width: 500px;
+
+  margin-bottom: 10vh;
+        }
+
+        .modal-dialog-centered {
+ align-items:center
+}
+ 
+
+
     .icons-link {
 margin-right:15px;
 opacity:0.5;

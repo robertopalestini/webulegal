@@ -1,13 +1,8 @@
 <template>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 
   <component>
-    <nav
-      class="navbar navbar-expand-lg navbar-light bg-light menu-cel-landingpage"
-      style="
+    <nav class="navbar navbar-expand-lg navbar-light bg-light menu-cel-landingpage" style="
         position: fixed;
         top: 0;
         left: 0;
@@ -15,20 +10,11 @@
         width: 100%;
         background: white;
         z-index: 997;
-      "
-    >
+      ">
       <a class="navbar-brand" href="/">
-        <img src="@/assets/landing/logo.png" alt="" style="max-width: 150px"
-      /></a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+        <img src="@/assets/landing/logo.png" alt="" style="max-width: 150px" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -43,14 +29,16 @@
           <li class="nav-item">
             <a class="nav-link" href="#do" @click.prevent="moveToBlue('do')">Dejanos tu opinion</a>
           </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="/platform/recompensas">Recompensas</a>
+          </li> -->
         </ul>
       </div>
     </nav>
   </component>
 
   <component>
-    <div
-      style="
+    <div style="
         position: fixed;
         top: 0;
         left: 0;
@@ -58,27 +46,18 @@
         width: 100%;
         background: white;
         z-index: 999;
-      "
-      class="menu-desktop-landingpage"
-    >
+      " class="menu-desktop-landingpage">
       <div class="container">
         <div class="row">
-          <div
-            class="col-3 col-sm-3 col-md-5 flex-center-vertical"
-            style="
+          <div class="col-3 col-sm-3 col-md-5 flex-center-vertical" style="
               display: flex;
               align-content: flex-start;
               justify-content: center;
               align-items: flex-start;
               flex-direction: column;
-            "
-          >
+            ">
             <a href="/">
-              <img
-                src="@/assets/landing/logo.png"
-                alt=""
-                style="max-width: 150px"
-            /></a>
+              <img src="@/assets/landing/logo.png" alt="" style="max-width: 150px" /></a>
           </div>
           <div class="col col-sm-8 col-md-7 ">
             <ul id="otroModo" class="menu_items">
@@ -87,6 +66,7 @@
               </li>
               <li><a class="link2" href="#cf" @click.prevent="moveToBlue('cf')">¿Cómo Funciona?</a></li>
               <li><a class="link3" href="#do" @click.prevent="moveToBlue('do')">Dejanos tu opinion</a></li>
+              <!-- <li><a class="" href="/platform/recompensas">Recompensas</a></li> -->
             </ul>
           </div>
         </div>
@@ -106,25 +86,13 @@
             automatizados. Hacé eficiente tu trabajo legal
           </p>
           <div class="col-md-12" style="padding: 0; padding-top: 0px;display:flex">
-            <a
-              href="#"
-              @click.prevent="goToRegister()"
-              class="btn btn-regis"
-              style="margin-right: 15px"
-              >Registrarse</a
-            >
-            <a
-              href="#"
-              @click.prevent="goToLogin()"
-              class="btn btn-regis"
-              style="
+            <a href="#" @click.prevent="goToRegister()" class="btn btn-regis" style="margin-right: 15px">Registrarse</a>
+            <a href="#" @click.prevent="goToLogin()" class="btn btn-regis" style="
                 cursor: pointer;
                 color: #2b44ff;
                 background: transparent;
                 border: 1px solid #2b44ff;
-              "
-              >Iniciar Sesión</a
-            >
+              ">Iniciar Sesión</a>
           </div>
         </div>
         <div class="col-md-6">
@@ -133,12 +101,12 @@
       </div>
     </div>
   </component>
-
+  <!-- <gApi> </gApi> -->
   <component>
-    <div class="container margin-bottom"  ref="fp">
+    <div class="container margin-bottom" ref="fp">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="text-center titles"  >
+          <h1 class="text-center titles">
             ¿Por qué formar parte de Webu?
           </h1>
           <p class="text-center mt-3">
@@ -187,7 +155,7 @@
     <div class="container margin-bottom" ref="cf">
       <div class="row">
         <div class="col-md-12 text-center mb-5">
-          <h1 class="titles"  >¿Como Funciona?</h1>
+          <h1 class="titles">¿Como Funciona?</h1>
         </div>
       </div>
 
@@ -206,11 +174,9 @@
           <p class="text-wrap mt-3">
             Decidí si querés compartirlo a la comunidad o mantenerlo privado.
           </p>
-          <a
-            target="_blank"
-            href="https://drive.google.com/file/d/1iZDKJeqtXLeXPdYwFYTdj3ZYz_a7Qm9J/view?usp=sharing"
-            ><u> Saber más </u></a
-          >
+          <a target="_blank"
+            href="https://drive.google.com/file/d/1iZDKJeqtXLeXPdYwFYTdj3ZYz_a7Qm9J/view?usp=sharing"><u> Saber más
+            </u></a>
         </div>
       </div>
 
@@ -249,7 +215,7 @@
     <div class="container margin-bottom" ref="do">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="text-center mb-5 titles"  >Ayudanos a mejorar</h1>
+          <h1 class="text-center mb-5 titles">Ayudanos a mejorar</h1>
         </div>
         <div class="col-md-12">
           <p class="text-wrap mt-3">
@@ -268,36 +234,12 @@
         <div class="col-md-12">
           <form action="" method="post" @submit.prevent="saveFeedback()">
             <div class="row">
-              <input
-                class="mb-3"
-                type="email"
-                name=""
-                id=""
-                placeholder="Email"
-                v-model="feedback.email"
-                required
-                :disabled="sendStatus"
-              />
-              <input
-                class="mb-3"
-                type="text"
-                name=""
-                id=""
-                placeholder="Nombre"
-                v-model="feedback.name"
-                required
-                :disabled="sendStatus"
-              />
-              <input
-                class="mb-3"
-                type="text"
-                name=""
-                id=""
-                placeholder="Comentario"
-                v-model="feedback.message"
-                required
-                :disabled="sendStatus"
-              />
+              <input class="mb-3" type="email" name="" id="" placeholder="Email" v-model="feedback.email" required
+                :disabled="sendStatus" />
+              <input class="mb-3" type="text" name="" id="" placeholder="Nombre" v-model="feedback.name" required
+                :disabled="sendStatus" />
+              <input class="mb-3" type="text" name="" id="" placeholder="Comentario" v-model="feedback.message" required
+                :disabled="sendStatus" />
               <button class="btn-send" type="submit" :disabled="sendStatus">
                 Enviar feedback
               </button>
@@ -311,30 +253,12 @@
   <component>
     <footer class="row">
       <div class="col-md-12 text-center iconos-footer">
-        <a
-          href="https://www.instagram.com/webu_ar/"
-          style="background: transparent !important"
-          ><i
-            class="fab fa-instagram"
-            style="background: transparent !important"
-          ></i
-        ></a>
-        <a
-          href="https://www.linkedin.com/company/wearewebu/"
-          style="background: transparent !important"
-          ><i
-            class="fab fa-linkedin-in"
-            style="background: transparent !important"
-          ></i
-        ></a>
-        <a
-          href="https://www.facebook.com/Webu-102265205747930"
-          style="background: transparent !important"
-          ><i
-            class="fab fa-facebook-f"
-            style="background: transparent !important"
-          ></i
-        ></a>
+        <a href="https://www.instagram.com/webu_ar/" style="background: transparent !important"><i
+            class="fab fa-instagram" style="background: transparent !important"></i></a>
+        <a href="https://www.linkedin.com/company/wearewebu/" style="background: transparent !important"><i
+            class="fab fa-linkedin-in" style="background: transparent !important"></i></a>
+        <a href="https://www.facebook.com/Webu-102265205747930" style="background: transparent !important"><i
+            class="fab fa-facebook-f" style="background: transparent !important"></i></a>
       </div>
       <div class="col-md-12">
         <p class="text-center mt-3">Copyright Webu 2022</p>
@@ -343,7 +267,7 @@
   </component>
 
   <component>
-    <button id="btnScrollToTop" @click="toTop()">
+    <button id="btnScrollToTop" v-tooltip="'Scroll Top'" @click="toTop()">
       <i class="fa-solid fa-arrow-up"></i>
     </button>
   </component>
@@ -384,67 +308,80 @@ body {
 .margin-top {
   margin-top: 100px;
 }
+
 .margin-bottom {
   margin-bottom: 400px;
 }
+
 .margin-bottom-min {
   margin-bottom: 100px;
 }
+
 html body {
   overflow-x: hidden;
 }
+
 @media screen and (max-width: 858px) {
   .menu-desktop-landingpage {
     display: none !important;
   }
 }
+
 @media screen and (max-width: 1280px) {
   .link {
-    font-size:14px;
+    font-size: 14px;
   }
-.link2 {
-     font-size:13px;
-}
-.link3 {
-     font-size:13px;
-}
- 
-.menu_items li a {
+
+  .link2 {
+    font-size: 13px;
+  }
+
+  .link3 {
+    font-size: 13px;
+  }
+
+  .menu_items li a {
     padding: 0px;
     display: block;
-}
+  }
 
-.btn-regis {
-    width: 170px;  
+  .btn-regis {
+    width: 170px;
     height: 45px;
-}
+  }
 
 
 }
- 
- .menu_items li a {
-    padding: 0px;
-    display: block;
+
+.menu_items li a {
+  padding: 0px;
+  display: block;
 }
+
 .btn-regis {
-    margin-right: 15px;
-    display: flex;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
+  margin-right: 15px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
-  .menu_items {
-    display: flex;
-    list-style: none;
-   margin-right:  0px !important;
+
+.menu_items {
+  display: flex;
+  list-style: none;
+  margin-right: 0px !important;
 }
 </style>
 
 <script>
 import * as EmailValidator from "email-validator";
+// import gApi from '../components/gapi/index.vue'
 
 export default {
+  // components: {
+  //   gApi
+  // },
   data() {
     return {
       feedback: {
@@ -525,11 +462,11 @@ export default {
     });
   },
   methods: {
-      moveToBlue(target) {  
+    moveToBlue(target) {
       let position = this.$refs[target].getBoundingClientRect();
-     // scrolls to 20px above element
-       window.scrollTo(position.left, position.top + window.scrollY - 150); //202
-},
+      // scrolls to 20px above element
+      window.scrollTo(position.left, position.top + window.scrollY - 150); //202
+    },
 
     toTop() {
       window.scrollTo(0, 0);
