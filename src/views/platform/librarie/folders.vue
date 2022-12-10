@@ -294,7 +294,12 @@
                                     </form>
 
 
-
+                                    <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
+                                        @open-modal-move-document="openModalMoveDocument()"
+                                        @open-modal-add-tags="openModalAddTags()"
+                                        @save-share="saveShare(1, activeDocumentId)"
+                                        @delete-document="deleteDocument(activeDocumentId)"
+                                        @open-compartir-privada="openCompartirPrivada()" />
 
 
                                     <div style="position:absolute:top:0:right:0;height:100%">
@@ -336,61 +341,8 @@
                                                 <img src="@/assets/expandir.svg"
                                                     style="width:14px;height:14px;margin-right:5px" />
                                             </a>
-                                            <component v-bind:document="document" v-if="document.data.share == 1">
-                                                <div class="dropdown" style="margin: 5px; display: inline">
-                                                    <a type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <img src="@/assets/menu.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">
-
-                                                            <img src="@/assets/edit.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Editar</a>
-<!-- WE ARE STARTING WITH DROPDOWN FUNCTIONS, THIS FILE IS IN LIBRARY,  -->
-                                                        <!-- THIS DROPDOWN MENU WITH ICON O O O  THIS ONE IS IN 4 PAGES, and we a DIV with all img, classes, links, if , in every site of the App, now finish tthe other one all onclick / onchange actions , then we are doing a Component,
-this is very immportant and if i dont do a migration to react, i want to have this all project vue working with components. this is important too. ok?-->
-                                                        <!-- So make the 3 dots menu it's component?
-That is correct catur. continue sr, follow -->
-                                                        <a class="dropdown-item" href="#">
-
-                                                            <img src="@/assets/mover-carpeta.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Mover</a>
 
 
-                                                        <a class="dropdown-item" href="#">
-
-                                                            <img src="@/assets/etiquetas.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Agregar etiquetas</a>
-
-                                                        <a class="dropdown-item" href="#">
-                                                            <img src="@/assets/candado-abierto(1).png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Hacer Publico</a>
-
-                                                        <a class="dropdown-item" href="#" v-if="document._id">
-                                                            <img src="@/assets/users.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Compartir de forma privada</a>
-
-                                                        <a class="dropdown-item" href="#">
-                                                            <img src="@/assets/tacho-de-basura.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Eliminar</a>
-                                                    </div>
-                                                </div>
-                                            </component>
                                             <component v-if="document.data.complete == 0">
                                                 <div class="dropdown" style="margin:5px;display:inline">
                                                     <button class="btn btn-light dropdown-toggle" type="button"
@@ -411,58 +363,6 @@ That is correct catur. continue sr, follow -->
                                             <buttonShare v-bind:id="document.data.id_share_comuniy"
                                                 v-if="document.data.share == 1" />
 
-                                            <component v-bind:document="document" v-if="document.data.share == 0">
-                                                <div class="dropdown" style="margin: 5px; display: inline">
-                                                    <a type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <img src="@/assets/menu.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">
-
-                                                            <img src="@/assets/edit.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Editar</a>
-
-<!-- WE ARE STARTING WITH DROPDOWN FUNCTIONS, THIS FILE IS IN LIBRARY, X2 , ok? -->
-                                                        <a class="dropdown-item" href="#">
-
-                                                            <img src="@/assets/mover-carpeta.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Mover</a>
-
-
-                                                        <a class="dropdown-item" href="#">
-
-                                                            <img src="@/assets/etiquetas.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Agregar etiquetas</a>
-
-                                                        <a class="dropdown-item" href="#">
-                                                            <img src="@/assets/candado-abierto(1).png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Hacer Publico</a>
-
-                                                        <a class="dropdown-item" href="#" v-if="document._id">
-                                                            <img src="@/assets/users.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Compartir de forma privada</a>
-
-                                                        <a class="dropdown-item" href="#">
-                                                            <img src="@/assets/tacho-de-basura.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                            Eliminar</a>
-                                                    </div>
-                                                </div>
-                                            </component>
                                         </div>
                                     </div>
                                 </div>
@@ -642,60 +542,12 @@ That is correct catur. continue sr, follow -->
                                 <div class="col-md-4 text-right">
                                     <buttonShare v-bind:id="document.data.id_share_comuniy"
                                         v-if="document.data.share == 1" />
-                                    <component v-bind:document="document" v-if="document.data.share == 0">
-                                        <div class="dropdown" style="margin: 5px; display: inline">
-                                            <a type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <img src="@/assets/menu.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">
-
-                                                    <img src="@/assets/edit.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    Editar</a>
-
-
-                                                <a class="dropdown-item" href="#">
-
-                                                    <img src="@/assets/mover-carpeta.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    Mover</a>
-
-
-                                                <a class="dropdown-item" href="#">
-
-                                                    <img src="@/assets/etiquetas.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    Agregar etiquetas</a>
-
-                                                <a class="dropdown-item" href="#"
-                                                    @click="saveShare(1, activeDocumentId)">
-                                                    <img src="@/assets/candado-abierto(1).png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    Hacer Publico</a>
-
-                                                <a class="dropdown-item" href="#"
-                                                    v-if="document.data.idUser == this.auth._id">
-                                                    <img src="@/assets/users.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    Compartir de forma privada</a>
-
-                                                <a class="dropdown-item" href="#">
-                                                    <img src="@/assets/tacho-de-basura.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                                                    Eliminar</a>
-                                            </div>
-                                        </div>
-                                    </component>
+                                    <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
+                                        @open-modal-move-document="openModalMoveDocument()"
+                                        @open-modal-add-tags="openModalAddTags()"
+                                        @save-share="saveShare(1, activeDocumentId)"
+                                        @delete-document="deleteDocument(activeDocumentId)"
+                                        @open-compartir-privada="openCompartirPrivada()" />
                                     <!-- <a href="#" style="margin:5px" v-if="document.data.share == 1 "><img src="@/assets/cuota.svg" style="width:14px;height:14px;margin-right:5px" /></a> -->
                                 </div>
                             </div>
@@ -924,12 +776,12 @@ input[type=radio] {
 }
 </style>
 
-<script setup="">
+<script setup>
 import columnLeft from '@/components/platform/left.vue';
 import navBar from '@/components/platform/navbar.vue';
 import Tree from 'vuejs-tree'
 import buttonShare from '@/components/platform/share-button-document-private.vue';
-
+import DocumentDropdown from '@/components/platform/DocumentDropdown.vue'
 </script>
  
 

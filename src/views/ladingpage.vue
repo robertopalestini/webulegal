@@ -447,7 +447,7 @@ export default {
           const btn_menu2 = document.querySelector(".btn_menu2");
           btn_menu2.classList.toggle("btn_menu_none");
         });
-      }
+      }    
       const link3 = document.querySelector(".link3");
       if (link3) {
         link3.addEventListener("click", () => {

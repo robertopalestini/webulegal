@@ -165,14 +165,14 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/platform/librarie/folders.vue'),
+      component: () => import('../views/platform/librarie/migrated.vue'),
       meta: {
         auth: true,
         progress: {
           func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
+            // { call: "color", modifier: "temp", argument: "#ffb000" },
+            // { call: "fail", modifier: "temp", argument: "#6e0000" },
+            // { call: "location", modifier: "temp", argument: "top" },
             {
               call: "transition",
               modifier: "temp",
@@ -393,7 +393,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/platform/my-writings/migration',
+      path: '/platform/my-writings/migrated',
       name: 'my-writings-migration',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route

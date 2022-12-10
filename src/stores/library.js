@@ -1,23 +1,19 @@
 import { defineStore } from 'pinia'
+import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
+
 
 const BASE_API_URL = 'http://localhost:4000/api'
 // const BASE_API_URL = 'https://webulegal.com/api';
 
-export const useWritingStore = defineStore({
-  id: 'writings',
+export const useLibraryStore = defineStore({
+  id: 'library',
   state: () => ({
-    documents: [],
-    document: null,
-    activeDocumentId: null
+    libraryDocuments: [],
+    libraryFolders: [],
+    libraryTags: []
   }),
   getters: {
-    fixerEditMode: (state) => state.documents.map(document => ({
-      ...document,
-      _ext: {
-        edit_title: false,
-        edit_description: false,
-      }
-    }))
+
   },
   actions: {
     compartirPrivado(email, documentId) {
@@ -50,10 +46,10 @@ export const useWritingStore = defineStore({
             auth,
           }),
         };
-        fetch(BASE_API_URL + "/writings/get/documents", requestOptions)
+        fetch(BASE_API_URL + "/library/get/documents", requestOptions)
           .then((response) => response.json())
           .then((data) => {
-            this.documents = data
+            this.libraryDocuments = data
             resolve(true)
           });
       })
@@ -69,14 +65,15 @@ export const useWritingStore = defineStore({
             auth,
           }),
         };
-        fetch(BASE_API_URL + "/writings/get/folders", requestOptions)
+        fetch(BASE_API_URL + "/library/get/folders", requestOptions)
           .then((response) => response.json())
           .then((data) => {
+            this.libraryFolders = data
             resolve(data)
           });
       })
     },
-    searchDocuments(auth, target) {
+    loadTags(auth) {
       return new Promise((resolve, reject) => {
         const requestOptions = {
           method: "POST",
@@ -85,47 +82,26 @@ export const useWritingStore = defineStore({
           },
           body: JSON.stringify({
             auth: auth,
-            target: target,
           }),
         };
-        fetch(BASE_API_URL + "/writings/search", requestOptions)
+        fetch(BASE_API_URL + "/library/get/tags", requestOptions)
           .then((response) => response.json())
           .then((data) => {
-            this.documents = data;
-            resolve(true)
-          });
-      })
-    },
-    loadDocument(auth, id) {
-      return new Promise((resolve, reject) => {
-        this.activeDocumentId = id
-        const requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            auth: auth,
-            id: id,
-          }),
-        };
-        fetch(BASE_API_URL + "/writings/get/document", requestOptions)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.code) {
-              this.document = null;
-              resolve(true);
-            }
             if (data.empty) {
-              this.document = null;
-              resolve(true);
+              this.loadingTags = false;
+              this.itemsTags = [];
+              this.libraryTags = data
+              return;
             }
-            if (!data.error) {
-              this.document = data;
-              resolve(true);
+            if (data.error == true) {
+            } else {
+              alphabetizeByProperty("data.title", data);
+              this.libraryTags = data;
+              this.loadingTags = false;
+              resolve(data)
             }
           });
       })
-    },
+    }
   }
 })

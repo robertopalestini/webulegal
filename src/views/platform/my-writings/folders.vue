@@ -258,7 +258,7 @@ if you need break please take notes, i trust
                   class="text-right">
                   <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" class="text-right" />
                 </a>
-
+                <!-- i want this arrow to collapse the col with folders and tags. -->
               </div>
 
               <div class="col-md-3" style="
@@ -282,12 +282,9 @@ if you need break please take notes, i trust
                   <span class="sr-only">Loading...</span>
                 </div>
 
-                <div v-if="(!loadingDocument)" class="col-12" style="
-                    padding: 15px;
-                    border-bottom: 1px solid #e6e6e6;
-                    cursor: pointer;
-                    position: relative;" v-for="(document, index) in fixerEditMode" :key="index"
-                  @click="getDocument(document._id)"
+                <div v-else class="col-12"
+                  style="padding: 15px; border-bottom: 1px solid #e6e6e6; cursor: pointer; position: relative;"
+                  v-for="(document, index) in fixerEditMode" :key="index" @click="getDocument(document._id)"
                   v-bind:class="{ activeDocument: document._id === activeDocumentIdTags, }"
                   @contextmenu.prevent="openContextmenu($event, document, index)">
                   <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
@@ -338,6 +335,9 @@ if you need break please take notes, i trust
                     <button type="submit" hidden="true"></button>
                   </form>
 
+
+
+
                   <div style="position:absolute:top:0:right:0;height:100%">
                     <a href="#" v-tooltip="'Documento privado'">
                       <img src="@/assets/cerrar-con-llave.svg" style="height: 20px; width: 20px"
@@ -382,9 +382,12 @@ if you need break please take notes, i trust
                     </div>
                     <div class="col-md-4 text-right">
 
+                      <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
+                        @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
+                        @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
+                        @open-compartir-privada="openCompartirPrivada()" />
 
                       <span v-if="document.data.complete == 0">
-                        1 in Indonesia
                         <a href="#" style="margin:5px" class="textHover" v-tooltip="'Expandir'"
                           v-if="document.data.form_complete" @click="getDocumentModal(document._id)">
                           <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
@@ -867,8 +870,7 @@ if you need break please take notes, i trust
                         <img src="@/assets/descargar.svg" style="
                                 width: 14px;
                                 height: 14px;
-                                margin-right: 5px; 
-                              " />
+                                margin-right: 5px;" />
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
@@ -1804,7 +1806,7 @@ input[type="checkbox"] {
 </style>
 
 <script setup>
-import { onMounted } from 'vue'
+// import { onMounted } from 'vue'
 import columnLeft from "@/components/platform/left.vue";
 import RichTextEditor from "@/components/platform/RichTextEditor.vue";
 import navBar from "@/components/platform/navbar.vue";
@@ -1818,7 +1820,7 @@ import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
 import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import noUiSlider from "nouislider"
-import { useWritingStore } from '@/stores/writings.js'
+// import { useWritingStore } from '@/stores/writings.js'
 
 const rectWidth = 160;
 const rectHeight = 200;
@@ -1830,15 +1832,15 @@ Quill.register(quillTable.Table);
 Quill.register(quillTable.Contain);
 Quill.register('modules/table', quillTable.TableModule);
 
-const writingStore = useWritingStore()
+// const writingStore = useWritingStore()
 
 // const documents = ref(writingStore.documents)
 
-const loadAllDocuments = async () => {
-  app.config.globalProperties.$Progress.start();
-  await writingStore.loadAllDocuments()
-  app.config.globalProperties.$Progress.finish();
-}
+// const loadAllDocuments = async () => {
+//   app.config.globalProperties.$Progress.start();
+//   await writingStore.loadAllDocuments()
+//   app.config.globalProperties.$Progress.finish();
+// }
 
 // What about the private share, and when it send mail , set shared-with userid ? its working?
 // whatahoookk
@@ -1846,7 +1848,7 @@ const loadAllDocuments = async () => {
 // there is a lot to change though. Take a look into stores/writings.js
 // currently im hating this base we got, but this will be areson to recontractor me/us again when PO watch old-new versions
 // im going to push branch in github so there he will be diffs
-// now im going to continue to clean all cards as i can in trello, 
+// now im going to continue to clean all cards as i can in trello,
 // Sure, I think share in private is complete yesterday (?)
 // I am not sure though. I will try to share with you. What is your user email?
 // mine is robertoadrianpalestini@yahoo.com.arm
@@ -1859,9 +1861,9 @@ const loadAllDocuments = async () => {
 // sure
 // y
 // for now, if we safe this file, the page will be broken. I will try to migare it from option api (below) to composition api (current with setup beside script)
-onMounted(async () => {
-  await loadAllDocuments()
-})
+// onMounted(async () => {
+//   await loadAllDocuments()
+// })
 </script>
  
 
@@ -1895,6 +1897,7 @@ export default {
       items: [],
       itemsTags: [],
       tags: [],
+      documents: [],
       documentsSearch: [],
       documentsSearchTags: [],
       documentsTags: [],
@@ -2035,7 +2038,7 @@ export default {
           // },
         }
       });
-    }, 300);
+    }, 1000);
     this.quill = new Quill('#editor-modal', {
       theme: 'snow',
       placeholder: 'Edit text',
@@ -2064,7 +2067,7 @@ export default {
     });
   },
   mounted() {
-    // this.loadAllDocuments();
+    this.loadAllDocuments();
     console.log('mounted load')
     this.loadTags();
     this.loadFolders();
@@ -2130,13 +2133,15 @@ export default {
       });
     },
     fixerEditMode() {
-      // for (var i = this.documents.length - 1; i >= 0; i--) {
-      //   this.documents[i]._ext = {
-      //     edit_title: false,
-      //     edit_description: false,
-      //   };
-      // }
-      // return this.documents;
+      if (this.documents.length) {
+        for (var i = this.documents.length - 1; i >= 0; i--) {
+          this.documents[i]._ext = {
+            edit_title: false,
+            edit_description: false,
+          };
+        }
+      }
+      return this.documents;
     },
     filteredResourcesTags() {
       if (this.searchTarget.target) {
@@ -2519,6 +2524,26 @@ export default {
     },
   },
   methods: {
+    loadAllDocuments() {
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+        }),
+      };
+      this.loadingDocument = true
+      this.$Progress.start();
+      fetch(window.ENDPOINT + "/writings/get/documents", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.documents = data
+          this.loadingDocument = false
+          this.$Progress.finish();
+        });
+    },
     goEditPrivate(escrito) {
 
       localStorage.setItem('editDocument', JSON.stringify(escrito));

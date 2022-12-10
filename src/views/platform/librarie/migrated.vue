@@ -1,52 +1,86 @@
 <script setup>
 import { ref, computed, onMounted, getCurrentInstance } from 'vue'
-import { useWritingStore } from '@/stores/writings'
+import { useLibraryStore } from '@/stores/library.js'
 import NavBar from '@/components/platform/navbar.vue'
 import ColumnLeft from "@/components/platform/left.vue";
-import WritingFolder from "@/components/my-writings/WritingFolder.vue";
-import WritingTags from "@/components/my-writings/WritingTags.vue";
-import WritingList from "@/components/my-writings/WritingList.vue";
-import WritingEditor from '../../../components/my-writings/WritingEditor.vue';
+import LibraryFolder from "@/components/my-library/LibraryFolder.vue";
+import LibraryTags from "@/components/my-library/LibraryTags.vue";
+import LibraryDocuments from "@/components/my-library/LibraryDocuments.vue";
 
-const writingStore = useWritingStore()
+const libraryStore = useLibraryStore()
 const internalInstance = getCurrentInstance()
 
 const auth = computed(() => localStorage.getItem("auth"))
 
-const documents = ref(writingStore.documents)
-const document = computed(() => writingStore.document)
-const activeDocumentId = ref(writingStore.activeDocumentId)
+const documents = ref(libraryStore.libraryDocuments)
 const loadingDocuments = ref(false)
+const loadingFolders = ref(false)
 const loadingTags = ref(false)
+const treeDisplayDataFolders = ref(libraryStore.treeDisplayDataFolders)
+const tagsSelectedTags = ref()
+
+
+
+
+
+const tags = ref(libraryStore.libraryTags)
+
 const isActive = ref('folders')
 const target = ref('')
+const document = ref(documents[0])
 
 const myTree = ref(null)
 
 const setActive = (feat) => {
   isActive.value = feat
-  console.log(writingStore)
 }
 
 const loadAllDocuments = async () => {
   loadingDocuments.value = true
   internalInstance.appContext.config.globalProperties.$Progress.start();
-  await writingStore.loadAllDocuments(auth.value)
-  loadingDocuments.value = false
+  await libraryStore.loadAllDocuments(auth.value)
+  // loadingDocuments.value = false
   internalInstance.appContext.config.globalProperties.$Progress.finish();
 }
-const search = () => {
-  if (!target.value) {
-    loadAllDocuments();
-    return;
-  }
 
-  internalInstance.appContext.config.globalProperties.$Progress.start();
-  loadingDocuments.value = true;
-  writingStore.searchDocuments(auth.value, target.value)
-    .then(() => {
-      loadingDocuments.value = false;
-      internalInstance.appContext.config.globalProperties.$Progress.finish();
+
+const loadFolders = () => {
+  libraryStore.loadFolders(auth.value)
+    .then(data => {
+      setTimeout(() => {
+        if (data.empty) {
+          treeDisplayDataFolders.value = [];
+
+          loadingFolders.value = false;
+          return;
+        }
+
+        if (data.error !== true) {
+          treeDisplayDataFolders.value = data;
+          // alert(this.treeDisplayData.length)
+          loadingFolders.value = false;
+        }
+      }, 200);
+    })
+}
+
+const loadTags = () => {
+  libraryStore.loadTags(auth.value)
+    .then(data => {
+      setTimeout(() => {
+        if (data.empty) {
+          tags.value = [];
+
+          loadingTags.value = false;
+          return;
+        }
+
+        if (data.error !== true) {
+          tags.value = data;
+          // alert(this.treeDisplayData.length)
+          loadingTags.value = false;
+        }
+      }, 200);
     })
 }
 
@@ -137,29 +171,42 @@ const createDocument = () => {
     });
 }
 
-// What about the private share, and when it send mail , set shared-with userid ? its working?
-// whatahoookk
-// idid, using pinia, gettin all documents, then save in state document[], so there we have the array of documents we get in the first request
-// there is a lot to change though. Take a look into stores/writings.js
-// currently im hating this base we got, but this will be areson to recontractor me/us again when PO watch old-new versions
-// im going to push branch in github so there he will be diffs
-// now im going to continue to clean all cards as i can in trello, 
-// Sure, I think share in private is complete yesterday (?)
-// I am not sure though. I will try to share with you. What is your user email?
-// mine is robertoadrianpalestini@yahoo.com.arm
-// , open for a meet?
-// after this
-// ok i think its okey if u are focus
-// Already shared, please check your email
-// got email, and i have the link in <a> lets open
-// okey, atm the link with https://webulegal.com/platform/document/638e9d5903e1c2280e8c697a hass baseurl from webu, im handling the url just 1 time, i preffer to dont touch this
-// sure
-// your user can read the file with this id? http://localhost:3000/platform/document/638e9d5903e1c2280e8c697a
-// ah yes, that's one is the issue, I am still troubleshooting it
-// for now, if we safe this file, the page will be broken. I will try to migare it from option api (below) to composition api (current with setup beside script)
+function fixerEditMode(docs) {
+  for (var i = docs.length - 1; i >= 0; i--) {
+    this.docs[i]._ext = {
+      edit_title: false,
+      edit_description: false
+    }
+  }
+  return docs;
+}
+
+function filteredResourcesTags() {
+  console.log("filterresources");
+  if (this.searchTargetTags.target) {
+    this.searchDocuments();
+    return this.itemsTags.filter((item) => {
+      return item.data.title
+        .toLowerCase()
+        .startsWith(this.searchTargetTags.target.toLowerCase());
+    });
+  } else {
+    return this.itemsTags;
+  }
+}
+
 onMounted(async () => {
-  await loadAllDocuments(auth.value)
+  await loadAllDocuments(auth.value).then(() => {
+    console.log('load then')
+
+  })
+  await loadFolders(auth.value)
+  await loadTags(auth.value)
+
 })
+
+
+
 </script>
 
 <template>
@@ -174,6 +221,9 @@ onMounted(async () => {
           </div>
           <div class="col-md-10" style="height: calc(100vh - 70px); border: 1px solid #e2e2e2; position: relative;">
             <div class="row" style="padding-right: 0px; padding-left: 0px;">
+
+
+              <!-- Columna Tags y Folders -->
               <div class="col-md-3"
                 style="position: relative; overflow: hidden; overflow-y: auto; margin: 0; padding-right: 0px; padding-left: 0px; height: calc(100vh - 70px);">
                 <ul class="nav nav-tabs nav-justified">
@@ -193,7 +243,7 @@ onMounted(async () => {
                       <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
                         placeholder="Buscar..." />
                     </div>
-                    <WritingFolder :items="documents" @load-all-documents="loadAllDocuments" />
+                    <LibraryFolder :items="treeDisplayDataFolders" :loading-folders="loadingFolders" />
                   </div>
                   <div class="tab-pane fade" :class="{ 'active show': isActive === 'tags' }" id="tags">
                     <div class="col-12 text-center"
@@ -201,15 +251,67 @@ onMounted(async () => {
                       <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
                         placeholder="Buscar..." />
                     </div>
-                    <WritingTags :items="documents" :loading-tags="loadingTags" />
+                    <LibraryTags :items="tags" :loading-tags="loadingTags" :tagsSelectedTags="tagsSelectedTags" />
                   </div>
                 </div>
               </div>
 
 
-              <WritingList :loading-documents="loadingDocuments" />
+              <!-- Columna with documents or writings -->
+              <div class="col-md-3"
+                style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
 
-              <WritingEditor :document="document" :active-document-id="activeDocumentId" />
+                <LibraryDocuments @:emits="fixerEditMode(documents)" :documents="documents" />
+
+
+
+
+
+              </div>
+
+              <!-- Text editor -->
+              <div class="col-md-6 scroll-size-medium"
+                style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
+                <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
+                  style="position:absolute">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <div class="col-12" v-if="document" style="padding:10px">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <b>{{ document.data.title }}</b>
+                    </div>
+                    <div class="col-md-4 text-right">
+                      <!-- this full screen is repeated block code, and this.. -->
+                      <a href="#" style="margin:5px" @click="openFullScreen()">
+                        <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
+                      </a>
+
+
+                      <component v-if="document.data.complete == 0">
+                        <div class="dropdown" style="margin:5px;display:inline">
+                          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-expanded="false">
+                            <img src="@/assets/descargar.svg" style="width:14px;height:14px;margin-right:5px" />
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
+                            <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
+                          </div>
+                        </div>
+                      </component>
+
+                      <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
+
+                    </div>
+                  </div>
+                </div>
+
+                <div id="editor2" style="width:100%;padding:20px;color:black" v-html="contentDocument">
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>

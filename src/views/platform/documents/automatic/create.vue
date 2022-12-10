@@ -633,15 +633,15 @@ export default {
     },
     created() {
         this.contentText = "";
-        // if (this.editDocument != null) {
-        //     console.log(this.editDocument)
-        //     this.contentText = this.editDocument.data.content;
-        //     this.fields = this.editDocument.data.fields
-        // } else {
-        console.log('aaaa' + this.editDocument)
-        this.contentText = 'Nuevo escrito'
-        this.fields = []
-        // }
+        if (this.editDocument) {
+            console.log(this.editDocument)
+            this.contentText = this.editDocument.data.content;
+            this.fields = this.editDocument.data.fields
+        } else {
+            console.log('aaaa' + this.editDocument)
+            // this.contentText = 'Nuevo escrito'
+            this.fields = []
+        }
         const maxRows = 10;
         const maxCols = 5;
         const tableOptions = [];

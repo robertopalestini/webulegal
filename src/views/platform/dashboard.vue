@@ -137,14 +137,14 @@
 
             <div class="col-md-8" style="background:rgb(236 234 234 / 46%);border-radius:8px;margin-top:30px"
               v-if="searchMode == 'writing'">
-              <div class="row" style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #D1D1D1;">
+              <div class="row" style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #D1D1D1; padding">
                 <div class="col-md-12 text-left"
                   style="font-weight:600;font-size:14px;color:#696969;text-transform:uppercase">
                   Lo más destacado en Escritos
                 </div>
               </div>
               <div style="overflow-y: scroll;overflow-x:hidden;max-height: 40vh;">
-                <div class="row" style="padding-top:15px;padding-bottom:15px;border-bottom:1px solid #D1D1D1;"
+                <div class="row" style="padding-top:15px;padding-bottom:15px;border-bottom:1px solid ;"
                   v-for="document in bestWritings" v-if="bestWritings.length > 0 || bestWritings.empty">
                   <div class="col-md-8 text-left">
                     <a href="#" @click="goToDocument(document._id, document.data.type, $event)"
