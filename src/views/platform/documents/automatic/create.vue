@@ -17,7 +17,7 @@
 
                 <div class="col-md-8 text-center create-doc-writing" style="padding-top: 0">
 
-                    <div class="row" style="height: 100%" v-if="help_view">
+                    <div class="row" style="height: calc(100vh - 120px)" v-if="help_view">
                         <div class="col-12 text-left" style="margin-top: 20px">
                             <a href="@" v-tooltip="'Regresar'" @click.prevent="$router.go(-1)" style="margin-top: -40px"
                                 class="text-left">
@@ -32,9 +32,9 @@
                   justify-content: center;
                   align-items: center;
                 ">
-                            <div class="row justify-content-center">
+                            <div class="row justify-content-center" style="margin-top:-350px">
                                 <div class="col-12" style="padding-top: 30px; padding-bottom: 30px">
-                                    <h4 style="font-weight: bold">
+                                    <h4 style="font-weight: bold; margin-bottom: 60px">
                                         Instrucciones para automatizar escritos
                                     </h4>
                                 </div>
@@ -122,7 +122,7 @@
                                         </div>
                                         <p style="color: black; font-weight: 600; font-size: 14px">
                                             Asignale el campo que corresponda con el dato a completar.
-                                            Por ej. "Nombre", "DNI" , etc.
+                                            Por ej. "Nombre", "DNI", etc.
                                         </p>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@
 help_view = false;
 startText();
                                     ">
-                                        Siguiente <i class="fas fa-long-arrow-alt-right"></i>
+                                        Siguiente
                                     </button>
                                 </div>
                             </div>
@@ -140,11 +140,17 @@ startText();
                     </div>
 
                     <div class="row" v-if="editor_view">
-                        <div class="col-12" style="position: relative ;padding-left:0; padding-right:0; ">
+                        <div class="col-2 text-left" style="margin-top: 20px">
+                            <a href="@" v-tooltip="'Regresar'" @click.prevent="$router.go(-1)" style="margin-top: -30px"
+                                class="text-left">
+                                <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
+                            </a>
+                        </div>
+                        <div class="col-10" style="position: relative ;padding-left:20px; padding-right:0;">
                             <div style="
                                 position: absolute; 
                                 top: 0;
-                                left: 0;
+                                left: 10px;
                                 right: 0;
                                 bottom: 0;
                                 background: rgb(0, 0, 0, 0.1);
@@ -156,17 +162,33 @@ startText();
                             </div>
                             <div id="cke_ruler_wrap"></div>
                             <div class="document-editor"></div>
-                            <ckeditor id="editor" :editor="editorCK" v-html="this.contentText"
-                                v-model="this.contentText" @ready="onReadyCK" style="
-                                height: calc(100vh - 110px);
-                                overflow: hidden;
-                                overflow-y: scroll;
-                                text-align: center;  
-                                padding-left:0;
+
+                            <div>
+                                <div class="editor-wrapper" style="margin-left:-190px">
+
+                                    <ckeditor placeholders="Pega" id="editor" :editor="editorCK" v-html="contentText"
+                                        v-model="contentText" @ready="onReadyCK" @overflow="onAddPage" style="
+                                     
+                                height: calc(700px);
+                                text-align: left;  
+                                padding-left:10px;
                                 padding-right:0; 
+                                
                                 ">
 
-                            </ckeditor>
+                                    </ckeditor>
+
+
+                                    <!-- <div class="editor-page" v-for="i in pages" :key="i">
+                                        <div class="editor-page-break" v-if="i < pages.length">
+                                            <hr>
+                                            <p>Página {{ i + 1 }}</p>
+                                        </div>
+
+                                        <textarea :value="contentText" :rows="linesDoc" :cols="columnsDoc" />
+                                    </div> -->
+                                </div>
+                            </div>
                             <!-- <div id="editor" v-html="this.contentText" @selectionChange="" style="
               height: calc(100vh - 110px);
               overflow: hidden;
@@ -190,7 +212,32 @@ startText();
                     text-align: center;
                     padding-left:10px;
                     padding-right:10px; 
-                    " v-if="fields.length >= 0">
+                    " v-if="editor_view">
+
+                    <button type="submit" class="btn btn-primary" style="width:200px;position:relative;z-index:1000"
+                        @click="openAddField()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"
+                            fill="#FFFFFF">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg> Nuevo campo
+
+
+
+                    </button>
+
+                </div>
+                <div class="col-md-2" style="
+                    height: calc(100vh - 70px);
+                    overflow: hidden;
+                    overflow-y: scroll;
+                
+                    text-align: center;
+                    padding-left:10px;
+                    padding-right:10px; 
+
+                    " v-if="fields.length > 0">
+
                     <ul style="
                             padding: 0;
                             list-style: none;
@@ -198,21 +245,21 @@ startText();
                             border-top-left-radius: 10px;
                             border-top-right-radius: 10px;
                         " v-if="editor_view">
-                        <a href="#" @click.prevent="openAddField()">
-                            <li style=" 
+
+                        <li style=" 
                                 border-top-left-radius: 10px;
                                 border-top-right-radius: 10px;
-                                background: #3b4ad2;
+                                background: #e0dede;
                                 padding: 5px; 
                                 text-align: center;
                                 font-weight: 700;
-                                color: white;
+                               
                                 border-bottom: 1px solid #c9c9c9;
                                 vertical-align:middle;
                             ">
-                                Agregar Campos<span class="material-icons" style="vertical-align: middle; ">add</span>
-                            </li>
-                        </a>
+                            Campos<span class="material-icons" style="vertical-align: middle; ">add</span>
+                        </li>
+
                         <li style="padding: 5px; border-bottom: 1px solid #c9c9c9;word-wrap: break-word;"
                             v-for="(field, index) in fields" @mouseover="mouseoverfield" @mouseleave="mouseleavefield">
                             {{ field.field }}
@@ -388,7 +435,7 @@ startText();
 @import "@/assets/platform.css";
 
 .ck-editor__editable {
-    width: 15cm;
+    width: calc(90vh);
     padding: 1cm 2cm 2cm;
     border: 1px hsl(0, 0%, 82.7%) solid;
     border-radius: var(--ck-border-radius);
@@ -450,6 +497,7 @@ startText();
 
 .ck.ck-editor__editable_inline {
     border: 1px solid var(--ck-color-base-border);
+    overflow: auto
 }
 </style>
    
@@ -511,6 +559,8 @@ export default {
         return {
             data: {},
             auth: localStorage.getItem("auth"),
+            pages: null,
+            original: null,
             endpointUpload: window.ENDPOINT + "/upload",
             endpoint: window.ENDPOINT + "/writings/create",
             endpointTags: "http://api.webu.lt/search/tags/default",
@@ -624,6 +674,8 @@ export default {
             range: null,
             editDocument: null,
             editorCK: DecoupledBuildEditor,
+            linesDoc: 20,
+            columnsDoc: null
             // editorCKData: '<p>Content of the editor.</p>',
             // editorCKConfig: {
             //     // Run the editor with the German UI.
@@ -632,16 +684,18 @@ export default {
         };
     },
     created() {
-        this.contentText = "";
-        if (this.editDocument) {
-            console.log(this.editDocument)
-            this.contentText = this.editDocument.data.content;
-            this.fields = this.editDocument.data.fields
-        } else {
-            console.log('aaaa' + this.editDocument)
-            // this.contentText = 'Nuevo escrito'
-            this.fields = []
-        }
+
+        // if (this.editDocument) {
+        //     console.log(this.editDocument)
+
+
+        // } else {
+        //     console.log('aaaa' + this.editDocument)
+        //     // this.contentText = 'Nuevo escrito'
+        //     this.fields = []
+        // }
+
+
         const maxRows = 10;
         const maxCols = 5;
         const tableOptions = [];
@@ -681,12 +735,35 @@ export default {
 
 
     },
-    mounted() {
+    setup() {
 
 
 
     },
     methods: {
+
+        onAddPage(editor) {
+
+
+
+            this.pages = 0
+            this.original = document.querySelectorAll('#editor')
+
+
+            for (let index = 0; index <= this.original.keys.length; index++) {
+                this.pages = this.pages++
+
+
+                var place = document.querySelector('.editor-wrapper');
+                var clone = this.original[index].cloneNode(true);
+                clone.id = "editor";
+                place.appendChild(clone);
+                console.log(clone)
+
+
+
+            }
+        },
 
         onReadyCK(editor) {
 
@@ -696,7 +773,6 @@ export default {
                 editor.ui.view.toolbar.element,
                 editor.ui.getEditableElement()
             );
-
 
         },
 
@@ -817,24 +893,20 @@ export default {
 
         },
         mouseoverfield(e) {
-            if (this.fields.length) {
-                e.target.classList.add("text-map-hover");
+            // if (this.fields.length) {
+            //     e.target.classList.add("text-map-hover");
 
-                for (let index = 0; index < array.length; index++) {
-                    const elements = this.fields[index];
-                    const element = elements.field
-                    element[index].data - id
-                    console.log(document.querySelector(`'data-id'=${element.data - id}`))
-                    console.log(e.target)
-                }
+            //     for (let index = 0; index < array.length; index++) {
+            //         const elements = this.fields[index];
+            //         const element = elements.field
+            //         element[index].data - id
+            //         console.log(document.querySelector(`'data-id'=${element.data - id}`))
+            //         console.log(e.target)
+            //     }
 
-            }
+            // }
         },
-        mouseleavefield(e) {
-            if (this.fields.length) {
-                e.target.classList.remove("text-map-hover");
-            }
-        },
+
         addExistentField(event, index) {
             this.replaceforExistent = true;
             this.replaceforExistentIndex = index;
@@ -861,13 +933,14 @@ export default {
             if (selection.length !== 0) {
                 //open popup in cursor
                 var event;
-                this.replaceSelectedText(event);
+                this.openAddField()
+                // this.replaceSelectedText(event);
                 // const onMouseMove = (e) => {
-                //   var popup = document.querySelector("#popup-selected-text");
-                //   popup.style.left = e.pageX + 20 + "px";
-                //   popup.style.top = e.pageY + 20 + "px";
-                //   popup.style.visibility = "visible";
-                //   document.removeEventListener("mousemove", onMouseMove);
+                //     var popup = document.querySelector("#popup-selected-text");
+                //     popup.style.left = e.pageX + 20 + "px";
+                //     popup.style.top = e.pageY + 20 + "px";
+                //     popup.style.visibility = "visible";
+                //     document.removeEventListener("mousemove", onMouseMove);
                 // };
 
                 // var event = document.addEventListener("mousemove", onMouseMove);
@@ -877,21 +950,25 @@ export default {
 
             $('#staticBackdrop4').modal('show');
         },
+        closeAddField() {
+            $('#staticBackdrop4').modal('hide');
+        },
 
         replaceSelectedText(e) {
-            e.preventDefault();
+            // e.preventDefault();
             console.log(range)
             console.log(this.fields)
+            e.preventDefault();
             if (this.replaceforExistent) {
                 var element = this.fields[this.replaceforExistentIndex].element;
                 this.replace_text.target = element.getAttribute("replace");
                 // this.replaceforExistent = false;
             }
-            range.deleteContents();
+
 
 
             var a = document.createElement("a");
-            a.innerHTML = "[" + this.replace_text.target + "]";
+            a.innerText = "[" + this.replace_text.target + "]";
             // a.className = "text-map";
 
             // a.className = "testeo";
@@ -926,10 +1003,9 @@ export default {
                     replace: this.replace_text.target,
                     base: eliminarDiacriticosEs(base)
 
+
                 };
                 this.replaceforExistent = false;
-
-
                 this.fields[this.replaceforExistentIndex].existent_fields.push(newField)
             } else {
                 newField = {
@@ -940,6 +1016,7 @@ export default {
                     replace: this.replace_text.target,
                     base: eliminarDiacriticosEs(base)
 
+
                 }
             }
 
@@ -947,11 +1024,12 @@ export default {
 
             // selectionrr.insertNode(a);
             range.insertNode(a);
-            this.replace_text.target = null;
+            range.deleteContents();
+            this.replace_text.target = null
+            this.closeAddField()
 
             // var popup = document.querySelector("#popup-selected-text");
             // popup.style.visibility = "hidden";
-            // $('#staticBackdrop4').modal('hide');
         },
 
         next() {
@@ -960,6 +1038,14 @@ export default {
             this.help_view = false;
 
             this.categories_view = false;
+
+            setTimeout(() => {
+                document
+                    .querySelector("#editor")
+                    .addEventListener('overflow', this.onAddPage());
+            }, 300);
+
+
 
             setTimeout(() => {
                 ["mouseup", "keyup", "selectionchange"].forEach((e) => {
@@ -973,26 +1059,24 @@ export default {
 
         startText() {
 
+            this.onAddPage()
+            this.contentText = this.editDocument.data.content;
+            this.fields = this.editDocument.data.fields
+            //     this.quill = new Quill('#editor', {
+            //         theme: 'snow',
+            //         placeholder: 'Edit text',
+            //         modules: {
+            //             // table: true,
+            //             toolbar: this.toolbarOptions,
+            //             // imageDropAndPaste: {
+            //             //     handler: this.imageHandler
+            //             // },
+            //         }
+            //     });
 
             setTimeout(() => {
-                //     this.quill = new Quill('#editor', {
-                //         theme: 'snow',
-                //         placeholder: 'Edit text',
-                //         modules: {
-                //             // table: true,
-                //             toolbar: this.toolbarOptions,
-                //             // imageDropAndPaste: {
-                //             //     handler: this.imageHandler
-                //             // },
-                //         }
-                //     });
+                ["mouseup", "keyup", "selectionchange"].forEach((e) => {
 
-                setTimeout(() => {
-                    ["mouseup", "keyup", "selectionchange"].forEach((e) => {
-                        document
-                            .querySelector("#editor")
-                            .addEventListener(e, this.openModalChangeText);
-                    });
 
 
                     document
@@ -1004,11 +1088,13 @@ export default {
                             contentOnBlur = striptags(contentOnBlur, ['span', 'table', 'tbody', 'tr', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'b', 'em', 'strong', 'br', 'u', 'strike', 'p']);
                             document.execCommand('insertHtml', false, contentOnBlur.replace(/[\s;]background-color:[^;]+(?=;)|^background-color:[^;]+;/g, '').replace(/[\s;]color:[^;]+(?=;)|^color:[^;]+;/g, ''));
                         })
-                }, 300);
-            });
+
+
+                });
+            }, 300);
         },
-    },
-};
+    }
+} 
 </script>
   
 <script setup>

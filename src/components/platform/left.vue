@@ -32,8 +32,7 @@
 }
 </style>
 <template>
-    <TransitionGroup tag="div" name="fade" class="col-md-12 text-center"
-        style="padding-bottom:30px;position:relative;padding-top:30px">
+    <div class="col-md-12 text-center" style="padding-bottom:30px;position:relative;padding-top:30px">
         <button type="submit" class="btn btn-primary" style="width:120px;position:relative;z-index:1000"
             @click.prevent="new_doc_pop = true">
             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#FFFFFF">
@@ -86,7 +85,7 @@
         </div>
 
 
-    </TransitionGroup>
+    </div>
 
     <ul
         style="margin: 0;padding: 0;display: flex;justify-content: center;align-items: flex-start;align-content: flex-start;flex-direction: column;">
@@ -229,7 +228,7 @@
 
 
     </ul>
-  
+
 </template> 
  
 <script>

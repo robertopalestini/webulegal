@@ -211,113 +211,113 @@ onMounted(async () => {
 
 <template>
   <NavBar />
-  <Transition name="fade">
-    <main>
 
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-2" style="height: calc(100vh - 70px); overflow: hidden; overflow-y: auto; padding: 0;">
-            <ColumnLeft />
-          </div>
-          <div class="col-md-10" style="height: calc(100vh - 70px); border: 1px solid #e2e2e2; position: relative;">
-            <div class="row" style="padding-right: 0px; padding-left: 0px;">
+  <main>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2" style="height: calc(100vh - 70px); overflow: hidden; overflow-y: auto; padding: 0;">
+          <ColumnLeft />
+        </div>
+        <div class="col-md-10" style="height: calc(100vh - 70px); border: 1px solid #e2e2e2; position: relative;">
+          <div class="row" style="padding-right: 0px; padding-left: 0px;">
 
 
-              <!-- Columna Tags y Folders -->
-              <div class="col-md-3"
-                style="position: relative; overflow: hidden; overflow-y: auto; margin: 0; padding-right: 0px; padding-left: 0px; height: calc(100vh - 70px);">
-                <ul class="nav nav-tabs nav-justified">
-                  <li class="nav-item">
-                    <a class="nav-link" @click.prevent="setActive('folders')"
-                      :class="{active: isActive === 'folders' }">Carpetas</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" @click.prevent="setActive('tags')"
-                      :class="{ active: isActive === 'tags' }">Etiquetas</a>
-                  </li>
-                </ul>
-                <div class="tab-content py-3" id="myTabContent">
-                  <div class="tab-pane fade" :class="{ 'active show': isActive === 'folders' }" id="folders">
-                    <div class="col-12 text-center"
-                      style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
-                      <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
-                        placeholder="Buscar..." />
-                    </div>
-                    <LibraryFolder :items="treeDisplayDataFolders" :loading-folders="loadingFolders" />
+            <!-- Columna Tags y Folders -->
+            <div class="col-md-3"
+              style="position: relative; overflow: hidden; overflow-y: auto; margin: 0; padding-right: 0px; padding-left: 0px; height: calc(100vh - 70px);">
+              <ul class="nav nav-tabs nav-justified">
+                <li class="nav-item">
+                  <a class="nav-link" @click.prevent="setActive('folders')"
+                    :class="{active: isActive === 'folders' }">Carpetas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" @click.prevent="setActive('tags')"
+                    :class="{ active: isActive === 'tags' }">Etiquetas</a>
+                </li>
+              </ul>
+              <div class="tab-content py-3" id="myTabContent">
+                <div class="tab-pane fade" :class="{ 'active show': isActive === 'folders' }" id="folders">
+                  <div class="col-12 text-center"
+                    style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
+                    <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
+                      placeholder="Buscar..." />
                   </div>
-                  <div class="tab-pane fade" :class="{ 'active show': isActive === 'tags' }" id="tags">
-                    <div class="col-12 text-center"
-                      style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
-                      <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
-                        placeholder="Buscar..." />
-                    </div>
-                    <LibraryTags :items="tags" :loading-tags="loadingTags" :tagsSelectedTags="tagsSelectedTags" />
+                  <LibraryFolder :items="treeDisplayDataFolders" :loading-folders="loadingFolders" />
+                </div>
+                <div class="tab-pane fade" :class="{ 'active show': isActive === 'tags' }" id="tags">
+                  <div class="col-12 text-center"
+                    style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
+                    <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
+                      placeholder="Buscar..." />
                   </div>
+                  <LibraryTags :items="tags" :loading-tags="loadingTags" :tagsSelectedTags="tagsSelectedTags" />
                 </div>
               </div>
+            </div>
 
 
-              <!-- Columna with documents or writings -->
-              <div class="col-md-3"
-                style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
+            <!-- Columna with documents or writings -->
+            <div class="col-md-3"
+              style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
 
-                <LibraryDocuments @:emits="fixerEditMode(documents)" :documents="documents" />
-
-
+              <LibraryDocuments @:emits="fixerEditMode(documents)" :documents="documents" />
 
 
 
-              </div>
-
-              <!-- Text editor -->
-              <div class="col-md-6 scroll-size-medium"
-                style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
-                <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
-                  style="position:absolute">
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <div class="col-12" v-if="document" style="padding:10px">
-                  <div class="row">
-                    <div class="col-md-8">
-                      <b>{{ document.data.title }}</b>
-                    </div>
-                    <div class="col-md-4 text-right">
-                      <!-- this full screen is repeated block code, and this.. -->
-                      <a href="#" style="margin:5px" @click="openFullScreen()">
-                        <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
-                      </a>
-
-
-                      <component v-if="document.data.complete == 0">
-                        <div class="dropdown" style="margin:5px;display:inline">
-                          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-expanded="false">
-                            <img src="@/assets/descargar.svg" style="width:14px;height:14px;margin-right:5px" />
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
-                            <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
-                          </div>
-                        </div>
-                      </component>
-
-                      <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
-
-                    </div>
-                  </div>
-                </div>
-
-                <div id="editor2" style="width:100%;padding:20px;color:black" v-html="contentDocument">
-                </div>
-              </div>
 
 
             </div>
+
+            <!-- Text editor -->
+            <div class="col-md-6 scroll-size-medium"
+              style="border-left:1px solid  #e6e6e6;border-right:1px solid  #e6e6e6;padding:0;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;position:relative">
+              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
+                style="position:absolute">
+                <span class="sr-only">Loading...</span>
+              </div>
+              <div class="col-12" v-if="document" style="padding:10px">
+                <div class="row">
+                  <div class="col-md-8">
+                    <b>{{ document.data.title }}</b>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <!-- this full screen is repeated block code, and this.. -->
+                    <a href="#" style="margin:5px" @click="openFullScreen()">
+                      <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
+                    </a>
+
+
+                    <component v-if="document.data.complete == 0">
+                      <div class="dropdown" style="margin:5px;display:inline">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-expanded="false">
+                          <img src="@/assets/descargar.svg" style="width:14px;height:14px;margin-right:5px" />
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
+                          <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
+                        </div>
+                      </div>
+                    </component>
+
+                    <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
+
+                  </div>
+                </div>
+              </div>
+
+              <div id="editor2" style="width:100%;padding:20px;color:black" v-html="contentDocument">
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
-    </main>
-  </Transition>
+    </div>
+  </main>
+
 </template>
 
 

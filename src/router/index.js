@@ -116,18 +116,18 @@ const router = createRouter({
       component: () => import('../views/platform/documents/single-automatic.vue'),
       meta: {
         auth: true,
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 
@@ -140,18 +140,18 @@ const router = createRouter({
       component: () => import('../views/platform/documents/single-document.vue'),
       meta: {
         auth: true,
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 
@@ -165,21 +165,21 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/platform/librarie/migrated.vue'),
+      component: () => import('../views/platform/librarie/folders.vue'),
       meta: {
         auth: true,
-        progress: {
-          func: [
-            // { call: "color", modifier: "temp", argument: "#ffb000" },
-            // { call: "fail", modifier: "temp", argument: "#6e0000" },
-            // { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 
@@ -192,18 +192,18 @@ const router = createRouter({
       component: () => import('../views/platform/librarie/tags.vue'),
       meta: {
         auth: true,
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 
@@ -218,19 +218,32 @@ const router = createRouter({
       meta: {
         auth: true,
 
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
+    },
+
+    {
+      path: '/platform/documents/edit/:id',
+      name: 'document-edit',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/platform/documents/normal/create.vue'),
+      props: true,
+      meta: {
+        auth: true,
+      }
     },
 
     {
@@ -242,18 +255,18 @@ const router = createRouter({
       component: () => import('../views/platform/documents/normal/organize.vue'),
       meta: {
         auth: true,
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 
@@ -272,18 +285,18 @@ const router = createRouter({
       component: () => import('../views/platform/documents/automatic/create.vue'),
       meta: {
         auth: true,
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 
@@ -297,18 +310,18 @@ const router = createRouter({
       component: () => import('../views/platform/documents/automatic/organize.vue'),
       meta: {
         auth: true,
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 
@@ -393,7 +406,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/platform/my-writings/migrated',
+      path: '/platform/my-writings/migration',
       name: 'my-writings-migration',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -630,18 +643,18 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/share-single-automatic.vue'),
       meta: {
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
     {
@@ -652,18 +665,18 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/platform/documents/share-single-document.vue'),
       meta: {
-        progress: {
-          func: [
-            { call: "color", modifier: "temp", argument: "#ffb000" },
-            { call: "fail", modifier: "temp", argument: "#6e0000" },
-            { call: "location", modifier: "temp", argument: "top" },
-            {
-              call: "transition",
-              modifier: "temp",
-              argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
-            },
-          ],
-        },
+        // progress: {
+        //   func: [
+        //     { call: "color", modifier: "temp", argument: "#ffb000" },
+        //     { call: "fail", modifier: "temp", argument: "#6e0000" },
+        //     { call: "location", modifier: "temp", argument: "top" },
+        //     {
+        //       call: "transition",
+        //       modifier: "temp",
+        //       argument: { speed: "1.5s", opacity: "0.6s", termination: 400 },
+        //     },
+        //   ],
+        // },
       },
     },
 

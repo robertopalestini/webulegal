@@ -164,58 +164,56 @@ onMounted(async () => {
 
 <template>
   <NavBar />
-  <Transition name="fade">
-    <main>
+  <main>
 
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-2" style="height: calc(100vh - 70px); overflow: hidden; overflow-y: auto; padding: 0;">
-            <ColumnLeft />
-          </div>
-          <div class="col-md-10" style="height: calc(100vh - 70px); border: 1px solid #e2e2e2; position: relative;">
-            <div class="row" style="padding-right: 0px; padding-left: 0px;">
-              <div class="col-md-3"
-                style="position: relative; overflow: hidden; overflow-y: auto; margin: 0; padding-right: 0px; padding-left: 0px; height: calc(100vh - 70px);">
-                <ul class="nav nav-tabs nav-justified">
-                  <li class="nav-item">
-                    <a class="nav-link" @click.prevent="setActive('folders')"
-                      :class="{active: isActive === 'folders' }">Carpetas</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" @click.prevent="setActive('tags')"
-                      :class="{ active: isActive === 'tags' }">Etiquetas</a>
-                  </li>
-                </ul>
-                <div class="tab-content py-3" id="myTabContent">
-                  <div class="tab-pane fade" :class="{ 'active show': isActive === 'folders' }" id="folders">
-                    <div class="col-12 text-center"
-                      style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
-                      <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
-                        placeholder="Buscar..." />
-                    </div>
-                    <WritingFolder :items="documents" @load-all-documents="loadAllDocuments" />
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2" style="height: calc(100vh - 70px); overflow: hidden; overflow-y: auto; padding: 0;">
+          <ColumnLeft />
+        </div>
+        <div class="col-md-10" style="height: calc(100vh - 70px); border: 1px solid #e2e2e2; position: relative;">
+          <div class="row" style="padding-right: 0px; padding-left: 0px;">
+            <div class="col-md-3"
+              style="position: relative; overflow: hidden; overflow-y: auto; margin: 0; padding-right: 0px; padding-left: 0px; height: calc(100vh - 70px);">
+              <ul class="nav nav-tabs nav-justified">
+                <li class="nav-item">
+                  <a class="nav-link" @click.prevent="setActive('folders')"
+                    :class="{active: isActive === 'folders' }">Carpetas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" @click.prevent="setActive('tags')"
+                    :class="{ active: isActive === 'tags' }">Etiquetas</a>
+                </li>
+              </ul>
+              <div class="tab-content py-3" id="myTabContent">
+                <div class="tab-pane fade" :class="{ 'active show': isActive === 'folders' }" id="folders">
+                  <div class="col-12 text-center"
+                    style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
+                    <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
+                      placeholder="Buscar..." />
                   </div>
-                  <div class="tab-pane fade" :class="{ 'active show': isActive === 'tags' }" id="tags">
-                    <div class="col-12 text-center"
-                      style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
-                      <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
-                        placeholder="Buscar..." />
-                    </div>
-                    <WritingTags :items="documents" :loading-tags="loadingTags" />
+                  <WritingFolder :items="documents" @load-all-documents="loadAllDocuments" />
+                </div>
+                <div class="tab-pane fade" :class="{ 'active show': isActive === 'tags' }" id="tags">
+                  <div class="col-12 text-center"
+                    style="padding-top: 8.5px; padding-bottom: 8.5px; border-bottom: 1px solid #e5e5e5;">
+                    <input type="text" class="form-control type-input-3" v-model="target" @keyup="search()"
+                      placeholder="Buscar..." />
                   </div>
+                  <WritingTags :items="documents" :loading-tags="loadingTags" />
                 </div>
               </div>
-
-
-              <WritingList :loading-documents="loadingDocuments" />
-
-              <WritingEditor :document="document" :active-document-id="activeDocumentId" />
             </div>
+
+
+            <WritingList :loading-documents="loadingDocuments" />
+
+            <WritingEditor :document="document" :active-document-id="activeDocumentId" />
           </div>
         </div>
       </div>
-    </main>
-  </Transition>
+    </div>
+  </main>
 </template>
 
 

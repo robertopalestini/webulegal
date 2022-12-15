@@ -27,8 +27,7 @@
               <img src="@/assets/logo-transparent.png" style="max-width:200px" />
               <br /><br />
 
-
-              <center>
+              <div class="d-flex justify-content-center">
                 <ul
                   style="list-style:none;display:flex;width:fit-content;background:rgb(236 234 234 / 46%);border-radius:30px;height:auto;padding: 1px;">
                   <li>
@@ -42,7 +41,7 @@
                       v-bind:class="{ activeMode: (searchMode === 'writing') }">Escritos</a>
                   </li>
                 </ul>
-              </center>
+              </div>
 
 
               <form style="position:relative" @submit.prevent="gotoSearch()">
@@ -97,7 +96,8 @@
             <div class="col-md-8"
               style="background:rgb(236 234 234 / 46%);border-radius:8px;margin-top:30px;padding-right:0px"
               v-if="searchMode === 'document'">
-              <div class="row" style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #D1D1D1;">
+              <div class="row"
+                style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #D1D1D1;margin-right: 0">
                 <div class="col-md-12 text-left"
                   style="font-weight:600;font-size:14px;color:#696969;text-transform:uppercase">
                   Lo más destacado en Biblioteca
@@ -110,7 +110,7 @@
                     <a href="#" @click="goToDocument(document._id, document.data.type, $event)"
                       style="font-weight:600;font-size:15px;color:#696969">{{ document.data.title }}</a>
                   </div>
-                  <div class="col-md-4 text-right" v-html="displayStars(document.data.cout_validate)">
+                  <div class="col-md-4 text-right pr-4" v-html="displayStars(document.data.cout_validate)">
 
                   </div>
 
@@ -135,22 +135,24 @@
 
 
 
-            <div class="col-md-8" style="background:rgb(236 234 234 / 46%);border-radius:8px;margin-top:30px"
+            <div class="col-md-8"
+              style="background:rgb(236 234 234 / 46%);border-radius:8px;margin-top:30px;padding-right:0px"
               v-if="searchMode == 'writing'">
-              <div class="row" style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #D1D1D1; padding">
+              <div class="row"
+                style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #D1D1D1;margin-right: 0 ">
                 <div class="col-md-12 text-left"
-                  style="font-weight:600;font-size:14px;color:#696969;text-transform:uppercase">
+                  style="font-weight:600; ;font-size:14px;color:#696969;text-transform:uppercase">
                   Lo más destacado en Escritos
                 </div>
               </div>
               <div style="overflow-y: scroll;overflow-x:hidden;max-height: 40vh;">
-                <div class="row" style="padding-top:15px;padding-bottom:15px;border-bottom:1px solid ;"
+                <div class="row" style="padding-top:15px;padding-bottom:15px;border-bottom:1px solid #D1D1D1;"
                   v-for="document in bestWritings" v-if="bestWritings.length > 0 || bestWritings.empty">
                   <div class="col-md-8 text-left">
                     <a href="#" @click="goToDocument(document._id, document.data.type, $event)"
                       style="font-weight:600;font-size:15px;color:#696969">{{ document.data.title }}</a>
                   </div>
-                  <div class="col-md-4 text-right" v-html="displayStars(document.data.cout_validate)">
+                  <div class="col-md-4 text-right pr-4" v-html="displayStars(document.data.cout_validate)">
 
                   </div>
                 </div>

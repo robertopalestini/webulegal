@@ -7,41 +7,54 @@
         <div class="col-md-2" style="height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;padding:0;">
           <columnLeft />
         </div>
-        <div class="col-md-10 text-center create-doc-normal" style="padding-top: 0">
+        <div class="col-md-10  create-doc-normal" style="padding-top: 0">
 
 
           <div class="row" v-if="editor_view">
 
-            <div class="col-12 text-left" style="padding-top:20px;">
-              <a href="@" @click.prevent="$router.go(-1)"> <img src="@/assets/flecha-izquierda.svg"
-                  style="height:20px;width:20px;" /> 
-                  <span style="padding-left:20px;">Nuevo Documento</span>
-                </a>
-            </div>
-       
 
-            <!-- <div id="cke_ruler_wrap"></div> -->
-            <div id="editor" @selectionChange="" style="
+
+            <div class="col-12 text-left" style="position: absolute;padding-top:20px;;">
+              <a href="@" @click.prevent="$router.go(-1)"> <img src="@/assets/flecha-izquierda.svg"
+                  style="height:20px;width:20px;" />
+
+              </a>
+            </div>
+            <div class="text-left">
+
+
+              <div id="editor" contenteditable="true" v-html="contentText" style="
               height: calc(65vh);
               overflow: hidden;
               overflow-y: scroll;
               width: calc(100vw - 110px);
-              text-align: center;
-              padding-left:0;
+              padding-top: ;
+           text-align: left;
               padding-right:0; 
+              padding-left:5px; 
+              min-height: calc(65vh);
             "></div>
+            </div>
+
+
+            <!-- <div id="cke_ruler_wrap"></div> -->
+
 
 
             <div class="col-12" style="position:relative" v-if="editor_view">
-              <button type="submit" class="btn btn-primary" style="width:120px;position:relative" disabled="true"
-                v-if="shopsavepop">
-                <div class="spinner-border text-light spinner-border-sm" role="status" style="width: 15px;
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" style="width:120px;position:relative" disabled="true"
+                  v-if="shopsavepop">
+                  <div class="spinner-border text-light spinner-border-sm" role="status" style="width: 15px;
                       height: 15px;
                       border-width: 1px; 
-                      margin: 0;">
-                  <span class="sr-only">Loading...</span>
-                </div>
-              </button>
+                      margin: 0;  align-content: center;
+                  justify-content: center;
+                  align-items: center;">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </button>
+              </div>
 
               <!-- v-if="popshared" -->
               <div style="    display: flex;
@@ -52,7 +65,7 @@
                   bottom: 0;
                   align-content: center;
                   justify-content: center;
-                  align-items: center;" v-if="popshared">
+                  align-items: center;" v-if="shopsavepop">
                 <div style="
                   color: rgb(52, 52, 52);
                   width: 355px;
@@ -112,7 +125,7 @@
 
           <div class="text-center">
 
-            <button type="submit" class="btn btn-primary" style="width:120px;position:relative" @click="save()"
+            <button type="submit" class="btn btn-primary" style="width:120px;position:relative" @click="openOrg()"
               v-if="!shopsavepop">Crear</button>
           </div>
         </div>
@@ -177,14 +190,16 @@
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   padding: 8px;
   border: none;
-  text-align: center;
+  margin-left: 3vw;
+  text-align: left;
 }
 
 .ql-toolbar.ql-snow+.ql-container.ql-snow {
   border-top: 0px;
   background: white;
   border: transparent;
-} 
+}
+
 /* 
 .ql-video,
 .ql-image,
@@ -289,11 +304,16 @@ export default {
       saveLoadingNtShare: false,
       saveLoadingNtShareDisabled: false,
       attachFiles: [],
+      contentText: null,
 
     }
   },
   created() {
-    this.contentText = ``;
+
+
+
+
+
 
     const maxRows = 10;
     const maxCols = 5;
@@ -331,6 +351,21 @@ export default {
   },
   mounted() {
 
+    // if (this.$route.name == 'document-edit') {
+    const getDocStorage = JSON.parse(localStorage.getItem('editDocumentPrivate'))
+    console.log(getDocStorage)
+    this.data = getDocStorage
+    this.contentText = getDocStorage.data.content;
+    this.fields = getDocStorage.data.fields
+    // } else if (this.$route.name == 'document-new') {
+    //   localStorage.removeItem('editDocumentPrivate')
+    //   console.log('aaaa' + this.contentText)
+    //   this.contentText = null
+    //   this.fields = []
+
+    // }
+
+
     setTimeout(() => {
 
       this.quill = new Quill('#editor', {
@@ -348,7 +383,7 @@ export default {
                 fd.append("file", file);
                 fd.append("name", file.name);
 
-               this.attachFile(fd);
+                this.attachFile(fd);
               });
             },
           },
@@ -391,11 +426,24 @@ export default {
 
   },
   methods: {
+    crearPaginas() {
+      const new_div = document.createElement("div");
+
+      const total_elements_kept = 8;
+
+      // Move the children of the original div into the new div
+      Array.from(document.querySelector('#editor').children).slice(total_elements_kept,)
+        .forEach(function (elm) {
+          new_div.appendChild(elm).classList.add('margin-bottom: 10px');
+        });
+
+    },
+
     attachFile(fd) {
       this.$Progress.start();
       console.log(fd)
-    
-      
+
+
       fetch(this.endpointUpload, {
         method: 'POST',
         body: fd
@@ -447,29 +495,22 @@ export default {
     },
 
     saveShare(value) {
-      console.log(this.data)
       if (value == 1) {
+        this.save()
         this.saveLoadingShare = true;
         this.saveLoadingNtShareDisabled = true;
         this.saveLoadingShareDisabled = true;
-        this.$router.push({ name: 'document-organize', params: { id: this.data.insertedId } })
+        this.$router.push({ name: 'document-organize', params: { id: this.data._id } })
 
       } else {
+        this.save()
         this.saveLoadingNtShare = true;
         this.saveLoadingShareDisabled = true;
         this.saveLoadingNtShareDisabled = true;
         this.popshared = false;
-    
 
-        setTimeout(() => {
-          this.$router.push({
-          name: 'librarie',
-          query: {
-            id: this.data.insertedId
-          }
-        })
-        }, 1000);
-        
+
+
         // this.$toast.success("Archivo creado", { position: "bottom-right" })
 
 
@@ -479,16 +520,26 @@ export default {
       }
 
     },
-
-    save() {
+    openOrg() {
       this.shopsavepop = true;
 
+    },
+
+    save() {
+
+
+
+      this.contentText = this.quill.container.innerHTML
+      console.log(this.quill.container.innerHTML)
+      // this.quill.setHTML('<div>Hello</div>');
       var temp = [];
       var copy = this.fields;
       for (var i = copy.length - 1; i >= 0; i--) {
         copy[i].element = null;
         temp.push(copy[i]);
       }
+
+
       const requestOptions = {
         method: "POST",
         headers: {
@@ -498,7 +549,7 @@ export default {
           auth: this.auth,
           data: {
             type: 'document',
-            content: document.querySelector('.ql-editor').innerHTML,
+            content: this.contentText,
             // fields: temp,
             title: 'Documento sin titulo', //this.titleDocument,
             description: 'Documento sin descripcion', //this.descriptionDocument, 
@@ -509,14 +560,33 @@ export default {
 
         })
       };
-      fetch(this.endpoint, requestOptions).then(response => response.json()).then((data) => {
-        console.log(data)
-        setTimeout(() => {
+
+
+      const asiNo = `<div class="ql-editor ql-blank" data-gramm="false" contenteditable="true" data-placeholder="Pega o escribi aca el contenido legal que quieras agregar."><p><br></p></div><div class="ql-clipboard" contenteditable="true" tabindex="-1"></div><div class="ql-tooltip ql-hidden"><a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank"></a><input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL"><a class="ql-action"></a><a class="ql-remove"></a></div><div><div id="__ID_SPLIT__.QUILL-LOADING">
+              <span class="quill-progress"></span>
+            </div>
+            </div>`
+
+      if (this.contentText == asiNo) {
+        this.$toast.error("Completar", { position: "bottom-right" })
+        this.saveLoadingShare = false;
+        this.saveLoadingShareDisabled = true;
+        this.saveLoadingNtShareDisabled = true;
+        this.shopsavepop = false;
+      } else {
+        fetch(this.endpoint, requestOptions).then(response => response.json()).then((data) => {
+
+          console.log(data)
+
           this.shopsavepop = false;
           this.popshared = true;
-        }, 1500)
-        this.data = data;
-      })
+          this.$toast.success("Archivo creado", { position: "bottom-right" })
+          setTimeout(() => {
+            this.$router.push({ name: 'view-automatic-document', params: { id: this.data.id } })
+          }, 1500)
+          this.data = data;
+        })
+      }
     },
 
 
