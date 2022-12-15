@@ -9,28 +9,28 @@
  
  <div class="col-12 text-right" style="height:50px;" v-if="showToolbar">
               
-              	 <a href="#" class="icons-link" v-if="details.validate == false  && details.owner == false" @click.prevent="validateDocument()">
+              	 <a href="#" v-tooltip="'Validar'"  class="icons-link" v-if="details.validate == false  && details.owner == false" @click.prevent="validateDocument()">
                 <img src="@/assets/estrella.png"/>
               </a>
 
-              <a href="#" class="icons-link validate-true" v-if="details.validate == true && details.owner == false">
+              <a href="#" v-tooltip="'Documento validado'"  class="icons-link validate-true" v-if="details.validate == true && details.owner == false">
                 <img src="@/assets/estrella.png"/>
               </a>
           
 
-              <a href="#"  class="icons-link" @click.prevent="saveDocument()" v-if="!details.copy">
+              <a href="#"  v-tooltip="'Marcar'"  class="icons-link" @click.prevent="saveDocument()" v-if="!details.copy">
                 <img src="@/assets/marcador.svg"/>
               </a>
                
-               <a href="#"  class="icons-link"  v-if="details.copy">
+               <a href="#"   v-tooltip="'Eliminar marca'" class="icons-link"  v-if="details.copy">
                 <img src="@/assets/etiqueta.png"/>
               </a>  
 
-              <a href="#"  class="icons-link" @click.prevent="openReportModal()">
+              <a href="#"   v-tooltip="'Reportar'"  class="icons-link" @click.prevent="openReportModal()">
                 <img src="@/assets/exclamation.svg"/>
               </a>
 
-              <a href="#"  class="icons-link" @click.prevent="openShareContent()">
+              <a href="#"   v-tooltip="'Compartir'"  class="icons-link" @click.prevent="openShareContent()">
                 <img src="@/assets/cuota.svg"/>
               </a>
 
@@ -110,7 +110,7 @@
                <input type="text" class="form-control" v-model="valUrl" readonly="true" style="    height: 30px;
     min-height: 33px;border-radius:30px;    border-radius: 30px;
     border: 1px solid rgb(199, 199, 199);
-    background: rgb(231, 231, 231);margin-top:15px" />
+    background: rgb(231, 231, 231);margin-top:15px" /> 
             </div>
 
 

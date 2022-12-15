@@ -1,94 +1,57 @@
 <template>
   <navBar />
-  <Transition name="fade">
-    <main>
-      <div class="container-fluid">
-        <div class="row">
-          <div
-            class="col-md-2"
-            style="
+
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2" style="
               height: calc(100vh - 70px);
               overflow: hidden;
               overflow-y: auto;
               padding: 0;
-            "
-          >
-            <columnLeft />
-          </div>
-          <div
-            class="col-md-10"
-            style="height: calc(100vh - 70px); border: 1px solid #e2e2e2"
-          >
-            <!-- ======================================= -->
+            ">
+          <columnLeft />
+        </div>
+        <div class="col-md-10" style="height: calc(100vh - 70px); border: 1px solid #e2e2e2">
+          <!-- ======================================= -->
 
-            <div class="row">
-              <div
-                class="col-md-3"
-                style="
+          <div class="row">
+            <div class="col-md-3" style="
                   height: calc(100vh - 70px);
                   overflow: hidden;
                   overflow-y: auto;
-                "
-              >
-                <div
-                  class="col-12"
-                  style="
+                ">
+              <div class="col-12" style="
                     font-weight: 600;
                     color: black;
                     padding-top: 2.5px;
                     padding-bottom: 2.5px;
                     border-bottom: 1px solid #e6e6e6;
-                  "
-                >
-                  Etiquetas
-                </div>
+                  ">
+                Etiquetas
+              </div>
 
-                <div
-                  class="col-12 text-center"
-                  style="
+              <div class="col-12 text-center" style="
                     padding-top: 8.5px;
                     padding-bottom: 8.5px;
                     border-bottom: 1px solid #e5e5e5;
-                  "
-                >
-                  <input
-                    type="text"
-                    class="form-control type-input-3"
-                    v-model="searchTarget.target"
-                    @keyup="search()"
-                    placeholder="Buscar etiqueta..."
-                  />
+                  ">
+                <input type="text" class="form-control type-input-3" v-model="searchTarget.target" @keyup="search()"
+                  placeholder="Buscar etiqueta..." />
+              </div>
+
+              <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
+                  <span class="sr-only">Loading...</span>
                 </div>
 
-                <div
-                  class="col-12"
-                  style="padding-top: 10px; padding-bottom: 10px"
-                >
-                  <div
-                    class="spinner-border spinner-border-sm"
-                    role="status"
-                    v-if="loadingFolders"
-                  >
-                    <span class="sr-only">Loading...</span>
-                  </div>
+                <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
+                  Todos los documentos</a>
 
-                  <a
-                    href="#"
-                    style="font-size: 13px; font-weight: 600"
-                    @click.prevent="loadAllDocuments()"
-                  >
-                    Todos los documentos</a
-                  >
-
-                  <hr />
-                  <div
-                    class="col-12 text-left"
-                    style="padding: 0"
-                    v-if="tagsSelected.length > 0"
-                  >
-                    <p style="font-size: 13px; font-weight: 600">Filtros :</p>
-                    <ul
-                      style="
+                <hr />
+                <div class="col-12 text-left" style="padding: 0" v-if="tagsSelected.length > 0">
+                  <p style="font-size: 13px; font-weight: 600">Filtros :</p>
+                  <ul style="
                         padding: 0px;
                         list-style: none;
                         width: 100%;
@@ -97,10 +60,8 @@
                         align-items: center;
                         flex-direction: column;
                         align-content: flex-start;
-                      "
-                    >
-                      <li
-                        style="
+                      ">
+                    <li style="
                           width: 100%;
                           display: flex;
                           justify-content: flex-start;
@@ -108,12 +69,8 @@
                           flex-direction: column;
                           align-content: flex-start;
                           margin-bottom: 5px;
-                        "
-                        v-for="(tagSelected, index) in tagsSelected"
-                      >
-                        <a
-                          href="#"
-                          style="
+                        " v-for="(tagSelected, index) in tagsSelected">
+                      <a href="#" style="
                             font-size: 12px;
                             padding-top: 5px;
                             padding-bottom: 5px;
@@ -126,52 +83,33 @@
                             font-weight: 600;
                             padding-left: 10px;
                             padding-right: 10px;
-                          "
-                          >{{ tagSelected.title }}
-                          <a
-                            href="#"
-                            style="margin-left: 10px"
-                            @click="removeFilterTag(index, tagSelected.title)"
-                            ><i class="fas fa-times"></i
-                          ></a>
-                        </a>
-                      </li>
-                    </ul>
-                    <hr />
-                  </div>
+                          ">{{ tagSelected.title }}
+                        <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.title)"><i
+                            class="fas fa-times"></i></a>
+                      </a>
+                    </li>
+                  </ul>
+                  <hr />
+                </div>
 
-                  <ul
-                    style="padding: 0; margin: 0; width: 100%; list-style: none"
-                    v-if="items.length > 0"
-                  >
-                    <li
-                      style="
+                <ul style="padding: 0; margin: 0; width: 100%; list-style: none" v-if="items.length > 0">
+                  <li style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
                         line-height: 15px;
                         margin-bottom: 15px;
-                      "
-                      v-for="item in filteredResources"
-                      :key="index"
-                      @click.prevent="
+                      " v-for="item in filteredResources" :key="index" @click.prevent="
                         getDocumentsByTag(item._id, item.data.title)
-                      "
-                    >
-                      <a
-                        href="#"
-                        style="color: black; font-weight: 600; font-size: 12px"
-                        >{{ item.data.title }}</a
-                      >
-                    </li>
-                  </ul>
-                </div>
+                      ">
+                    <a href="#" style="color: black; font-weight: 600; font-size: 12px">{{ item.data.title }}</a>
+                  </li>
+                </ul>
               </div>
+            </div>
 
-              <div
-                class="col-md-3"
-                style="
+            <div class="col-md-3" style="
                   border-left: 1px solid #e6e6e6;
                   border-right: 1px solid #e6e6e6;
                   padding: 0;
@@ -179,54 +117,31 @@
                   overflow: hidden;
                   overflow-y: auto;
                   position: relative;
-                "
-              >
-                <!-- <div class="col-12" style="background:#e0dfdf;padding:15px;">
+                ">
+              <!-- <div class="col-12" style="background:#e0dfdf;padding:15px;">
                 						<b style="color:#858484;font-size:16px">Lorem ipsum dolor sit amet</b>
                 					    <p style="color:#858484;font-size:13px">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 							tempor incididunt ut labore et dolore magna aliqua...</p>
                 					</div>
                                      -->
 
-                <div
-                  class="col-12"
-                  style="
+              <div class="col-12" style="
                     padding: 15px;
                     border-bottom: 1px solid #e6e6e6;
                     cursor: pointer;
-                  "
-                  v-for="(document, index) in documents"
-                  :key="index"
-                  @click="getDocument(document._id)"
-                  v-bind:class="{
-                    activeDocument: document._id === activeDocumentId,
-                  }"
-                >
-                  <div
-                    class="col-12"
-                    style="padding: 0"
-                    v-if="document._ext.edit_title == false"
-                  >
-                    <span class="edit-mode"
-                      >{{ document.data.title }}
-                      <img
-                        src="@/assets/boligrafo.png"
-                        @click.prevent="document._ext.edit_title = true"
-                      />
-                    </span>
-                  </div>
+                  " v-for="(document, index) in documents" :key="index" @click="getDocument(document._id)"
+                v-bind:class="{
+                  activeDocument: document._id === activeDocumentId,
+                }">
+                <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
+                  <span class="edit-mode">{{ document.data.title }}
+                    <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
+                  </span>
+                </div>
 
-                  <form
-                    @submit.prevent="saveEditMode(document._id, index)"
-                    class="col-12"
-                    style="padding: 0; display: flex; margin-bottom: 10px"
-                    v-if="document._ext.edit_title"
-                  >
-                    <input
-                      type="text"
-                      class="form-control col-12"
-                      v-model="document.data.title"
-                      style="
+                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12"
+                  style="padding: 0; display: flex; margin-bottom: 10px" v-if="document._ext.edit_title">
+                  <input type="text" class="form-control col-12" v-model="document.data.title" style="
                         font-size: 13px;
                         border-radius: 30px;
                         height: 30px;
@@ -234,40 +149,23 @@
                         max-height: 30px;
                         background: white;
                         font-weight: 700;
-                      "
-                    />
-                    <button type="submit" hidden="true"></button>
-                  </form>
+                      " />
+                  <button type="submit" hidden="true"></button>
+                </form>
 
-                  <p
-                    class="edit-mode"
-                    style="color: #525252; font-size: 12px"
-                    v-if="!document._ext.edit_description"
-                  >
-                    {{ document.data.description }}
-                    <img
-                      src="@/assets/boligrafo.png"
-                      @click.prevent="document._ext.edit_description = true"
-                    />
-                  </p>
+                <p class="edit-mode" style="color: #525252; font-size: 12px" v-if="!document._ext.edit_description">
+                  {{ document.data.description }}
+                  <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_description = true" />
+                </p>
 
-                  <form
-                    @submit.prevent="saveEditMode(document._id, index)"
-                    class="col-12"
-                    style="
+                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12" style="
                       padding: 0px;
                       display: flex;
                       flex-direction: row;
                       flex-wrap: wrap;
                       margin-bottom: 10px;
-                    "
-                    v-if="document._ext.edit_description"
-                  >
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="document.data.description"
-                      style="
+                    " v-if="document._ext.edit_description">
+                  <input type="text" class="form-control" v-model="document.data.description" style="
                         font-size: 12px;
                         border-radius: 8px;
                         height: fit-content;
@@ -275,37 +173,25 @@
                         max-height: fit-content;
                         background: white;
                         margin-bottom: 5px;
-                      "
-                    />
-                    <button type="submit" hidden="true"></button>
-                  </form>
+                      " />
+                  <button type="submit" hidden="true"></button>
+                </form>
 
-                  <!-- <b style="color:black;font-size:15px">{{document.data.title}}</b>
+                <!-- <b style="color:black;font-size:15px">{{document.data.title}}</b>
                 					    <p style="color:#525252;font-size:12px">{{document.data.description}}</p> -->
 
-                  <div style="position:absolute:top:0:right:0;height:100%">
-                    <img
-                      src="@/assets/cerrar-con-llave.svg"
-                      style="height: 20px; width: 20px"
-                      v-if="document.data.share == 0"
-                    />
-                    <img
-                      src="@/assets/candado-abierto(2).png"
-                      style="height: 20px; width: 20px"
-                      v-if="document.data.share == 1"
-                    />
+                <div style="position:absolute:top:0:right:0;height:100%">
+                  <img src="@/assets/cerrar-con-llave.svg" style="height: 20px; width: 20px"
+                    v-if="document.data.share == 0" />
+                  <img src="@/assets/candado-abierto(2).png" style="height: 20px; width: 20px"
+                    v-if="document.data.share == 1" />
 
-                    <img
-                      src="@/assets/acortar.svg"
-                      style="height: 20px; width: 20px"
-                      v-if="document.data.attachment.length > 0"
-                    />
-                  </div>
+                  <img src="@/assets/acortar.svg" style="height: 20px; width: 20px"
+                    v-if="document.data.attachment.length > 0" />
                 </div>
               </div>
-              <div
-                class="col-md-6 scroll-size-medium"
-                style="
+            </div>
+            <div class="col-md-6 scroll-size-medium" style="
                   border-left: 1px solid #e6e6e6;
                   border-right: 1px solid #e6e6e6;
                   padding: 0;
@@ -313,66 +199,42 @@
                   overflow: hidden;
                   overflow-y: auto;
                   position: relative;
-                "
-              >
-                <div
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  v-if="loadingDocument"
-                  style="position: absolute"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <div class="col-12" v-if="document" style="padding: 10px">
-                  <div class="row">
-                    <div class="col-md-8">
-                      <b>{{ document.data.title }}</b>
-                    </div>
-                    <div class="col-md-4 text-right">
-                      <a href="#" style="margin: 5px" @click="openFullScreen()">
-                        <img
-                          src="@/assets/expandir.svg"
-                          style="width: 14px; height: 14px; margin-right: 5px"
-                        />
-                      </a>
+                ">
+              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
+                style="position: absolute">
+                <span class="sr-only">Loading...</span>
+              </div>
+              <div class="col-12" v-if="document" style="padding: 10px">
+                <div class="row">
+                  <div class="col-md-8">
+                    <b>{{ document.data.title }}</b>
+                  </div>
+                  <div class="col-md-4 text-right">
+                    <a href="#" style="margin: 5px" @click="openFullScreen()">
+                      <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
+                    </a>
 
-                      <buttonShare
-                        v-bind:id="document.data.id_share_comuniy"
-                        v-if="document.data.share == 1"
-                      />
-                      <!-- <a href="#" style="margin:5px" v-if="document.data.share == 1 "><img src="@/assets/cuota.svg" style="width:14px;height:14px;margin-right:5px" /></a> -->
-                    </div>
+                    <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
+                    <!-- <a href="#" style="margin:5px" v-if="document.data.share == 1 "><img src="@/assets/cuota.svg" style="width:14px;height:14px;margin-right:5px" /></a> -->
                   </div>
                 </div>
-
-                <div
-                  id="editor2"
-                  style="width: 100%; padding: 20px; color: black"
-                  v-html="contentDocument"
-                ></div>
               </div>
-            </div>
 
-            <!-- ======================================= -->
+              <div id="editor2" style="width: 100%; padding: 20px; color: black" v-html="contentDocument"></div>
+            </div>
           </div>
+
+          <!-- ======================================= -->
         </div>
       </div>
-    </main>
-  </Transition>
+    </div>
+  </main>
+
 
   <!-- Modal -->
-  <div
-    class="modal fade FullScreenModal"
-    id="FullScreenModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="modelTitleId"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
-      role="document"
-    >
+  <div class="modal fade FullScreenModal" id="FullScreenModal" tabindex="-1" role="dialog"
+    aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-body">
           <div class="container-fluid">
@@ -382,18 +244,12 @@
                   <b>{{ document.data.title }}</b>
                 </div>
                 <div class="col-md-4 text-right">
-                  <buttonShare
-                    v-bind:id="document.data.id_share_comuniy"
-                    v-if="document.data.share == 1"
-                  />
+                  <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
                   <!-- <a href="#" style="margin:5px" v-if="document.data.share == 1 "><img src="@/assets/cuota.svg" style="width:14px;height:14px;margin-right:5px" /></a> -->
                 </div>
               </div>
             </div>
-            <div
-              style="width: 100%; padding: 20px; color: black"
-              v-html="contentDocument"
-            ></div>
+            <div style="width: 100%; padding: 20px; color: black" v-html="contentDocument"></div>
           </div>
         </div>
       </div>
@@ -408,6 +264,7 @@
   color: black;
   font-size: 15px;
 }
+
 .edit-mode img {
   visibility: collapse;
   width: 15px;
@@ -456,7 +313,7 @@ export default {
       },
     };
   },
-  created() {},
+  created() { },
   mounted() {
     this.loadAllDocuments();
     this.loadTags();
@@ -786,7 +643,7 @@ export default {
             this.document = data;
             this.contentDocument = data.data.content;
             this.contentDocument = data.data.content.replace("http://", "https://");
-            
+
             this.loadingDocument = false;
             this.$Progress.finish();
           }
@@ -832,8 +689,8 @@ export default {
           }
         });
     },
-    pause() {},
-    hover() {},
+    pause() { },
+    hover() { },
   },
 };
 </script>

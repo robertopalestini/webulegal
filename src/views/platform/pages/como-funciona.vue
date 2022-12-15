@@ -21,7 +21,7 @@
  
 
 
-       <div class="row justify-content-center mt-20">
+       <div class="row contenedor justify-content-center mt-20">
                 <div class="col-md-12 text-center mb-5" >
                     <h1 class="titles" >
                         ¿Como Funciona?
@@ -51,7 +51,7 @@
             </div>
              <!--SECTION 4-->
             <div style="margin: 80px auto;">
-                <div class="row justify-content-center">
+                <div class="row contenedor justify-content-center">
                     
                     <div class="col-md-7">
                         <img class="contrato" src="@/assets/econtra.png" alt="">
@@ -72,7 +72,7 @@
             </div>
             <!--SECTION 5-->
          <div style="margin: 80px auto;">
-            <div class="row justify-content-center"> 
+            <div class="row contenedor justify-content-center"> 
                 
                 <div class="col-md-5">
                     <h1 class="text-wrap titles text-left">

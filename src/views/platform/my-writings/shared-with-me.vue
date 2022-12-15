@@ -1,32 +1,6 @@
-
-<!-- this one, is in wich we have methods, modals, and all const declared to call, this have too the v-tooltip, its like a complete 
-version. Your task is have working this all functions, in library and writings.
-anything you need, ium here, meanwhile i will be working in other frontend fix
-ii think for the "Make public" we need endppoint with dbcollection update, so work in fullstack please
-
-you are right, now its ok
--->
-
-<!-- thank you -->
-<!-- I will be working on components first. I think I can do more work today since there is no task yet on my work -->
-<!-- Tomorrow or Friday, I am not sure I will be available because task is starting in one of those days
-ok, maybe you can do an extra, in freelancer you need 30 usd to withdrae
-
-so, you will do the component, and put this in the 4 sections? at the moment in development,  we need the prop to disable/hide some actions,
-aat the first i mean use a hardcode 'true' but after we have this in the 4 views, we put functions with boolean return
-
-Go!, START time: 11:49 PM in argentina, now is 0:11am, 20 minutes at this moment, you can write work-hours and break-times here
-go hard, go pro!
-Sure, on it!
-disconnect :'(
-if you need break please take notes, i trust
--->
-
-<!-- please share server for the node.js as well, I see only localhost:3000 (vue) is being shared -->
-<!-- upi -->
-
 <template>
   <navBar />
+
   <main>
     <div class="container-fluid">
       <div class="row">
@@ -45,19 +19,19 @@ if you need break please take notes, i trust
             ">
           <!-- ======================================= -->
 
-          <div class="row" style="padding-right: 0px; padding-left: 0px;">
+          <div class="row">
             <div class="col-md-3" style="
                   position: relative;
                   overflow: hidden;
-                  overflow-y: auto; 
-                  margin: 0; 
+                  overflow-y: auto;
                   padding-right: 0px; padding-left: 0px;
-                  height: calc(100vh - 70px);">
+                  height: calc(100vh - 70px);
+                ">
 
               <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
                   <a class="nav-link" @click.prevent="setActive('folders')"
-                    :class="{ active: isActive('folders') }">Carpetas</a>
+                    :class="{active: isActive('folders')}">Carpetas</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" @click.prevent="setActive('tags')"
@@ -87,7 +61,7 @@ if you need break please take notes, i trust
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      " v-for="item in filteredResources" :key="index"
+                      " v-for="(item, index) in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
                             item.text
@@ -111,8 +85,7 @@ if you need break please take notes, i trust
                     <Tree id="my-tree-id" ref="my-tree" :custom-options="myCustomOptions"
                       :custom-styles="myCustomStyles" :nodes="treeDisplayData"></Tree>
 
-                    <span style="font-size: 12px; font-weight: 500" v-if="treeDisplayData.length == 0">No se
-                      encontraron
+                    <span style="font-size: 12px; font-weight: 500" v-if="treeDisplayData.length == 0">No se encontraron
                       carpetas.</span>
                   </div>
 
@@ -139,7 +112,7 @@ if you need break please take notes, i trust
                         flex-direction: column;
                         align-content: flex-start;
                         margin-bottom: 5px;
-                      " v-for="(tagSelected, index) in tagsSelected">
+                      " v-for="(tagSelected, index) in tagsSelected" :key="index">
                         <a href="#" style="
                           font-size: 12px;
                           padding: 5px;
@@ -163,9 +136,7 @@ if you need break please take notes, i trust
                 </div>
                 <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
 
-                  <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
-                                     <a href="#" style="font-size:13px;">Nueva carpeta</a>
-                                   </div>  -->
+
                   <div class="col-12 text-center" style="
                     padding-top: 8.5px;
                     padding-bottom: 8.5px;
@@ -174,22 +145,24 @@ if you need break please take notes, i trust
                     <input type="text" class="form-control type-input-3" v-model="searchTarget.target"
                       placeholder="Buscar etiqueta.." />
                   </div>
-                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
-                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingTags">
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openModalAddTags()">
+                  <div class="col-12 text-center" style="
+                    padding-top: 8.5px;
+                    padding-bottom: 8.5px;
+                    border-bottom: 1px solid #e5e5e5;
+                  ">
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openCreateTagModal()">
                       <img src="@/assets/admin-add.png" style="width: 20px" />
                       Nueva etiqueta</a>
-                    <NewTagModal style="z-index: 1000" />
-
-
-                    <hr />
+                  </div>
+                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
+                      <span class="sr-only">Loading...</span>
+                    </div>
                     <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
                       Todos los documentos</a>
                     <hr />
 
-                    <div class="col-12 text-left" style="padding: 0" v-if="tagsSelectedTags.length > 0">
+                    <div class="col-12 text-left" style="padding: 0" v-if="tagsSelected.length > 0">
                       <p style="font-size: 13px; font-weight: 600">Filtros :</p>
                       <ul style="
                         padding: 0px;
@@ -209,7 +182,7 @@ if you need break please take notes, i trust
                           flex-direction: column;
                           align-content: flex-start;
                           margin-bottom: 5px;
-                        " v-for="(tagSelectedTags, index) in tagsSelectedTags">
+                        " v-for="(tagSelected, index) in tagsSelected" :key="index">
                           <a href="#" style="
                             font-size: 12px;
                             padding-top: 5px;
@@ -223,16 +196,16 @@ if you need break please take notes, i trust
                             font-weight: 600;
                             padding-left: 10px;
                             padding-right: 10px;
-                          ">{{ tagSelectedTags.title }}
-                            <a href="#" style="margin-left: 10px"
-                              @click="removeFilterTags(index, tagSelectedTags.title)"><i class="fas fa-times"></i></a>
+                          ">{{ tagSelected.text }}
+                            <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.text)"><i
+                                class="fas fa-times"></i></a>
                           </a>
                         </li>
                       </ul>
                       <hr />
                     </div>
 
-                    <ul style="padding: 0; margin: 0; width: 100%; list-style: none" v-if="itemsTags.length > 0">
+                    <ul style="padding: 0; margin: 0; width: 100%; list-style: none">
                       <li style="
                         padding: 0;
                         margin: 0;
@@ -240,22 +213,19 @@ if you need break please take notes, i trust
                         list-style: none;
                         line-height: 15px;
                         margin-bottom: 15px;
-                      " v-for="item in filteredResourcesTags" :key="index" @click.prevent="
+                      " v-for="(item, index) in filteredResourcesTags" :key="index" @click.prevent="
                         getDocumentsByTag(item._id, item.data.title)
                       ">
-                        <a href="#" style="color: black; font-weight: 600; font-size: 12px">{{ item.data.title
-                        }}</a>
+                        <a href="#" style="color: black; font-weight: 600; font-size: 12px">{{ item.data.title }}</a>
                       </li>
                     </ul>
                   </div>
-                </div>
-              </div>
 
-              <!-- <a href="@" v-tooltip="'Ocultar'" @click.prevent="$router.go(-1)"
-                  style="position:fixed;justify-items: end ; top: 50%;margin-top: 20px; margin-top: -40px"
-                  class="text-right">
-                  <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" class="text-right" />
-                </a> -->
+
+
+                </div>
+
+              </div>
 
             </div>
 
@@ -275,19 +245,22 @@ if you need break please take notes, i trust
                                     </div>
                                      -->
 
-              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
+              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocuments"
                 style="position: absolute">
                 <span class="sr-only">Loading...</span>
               </div>
 
-              <div v-if="(!loadingDocument)" class="col-12" style="
+              <div class="col-12" style="
                     padding: 15px;
                     border-bottom: 1px solid #e6e6e6;
                     cursor: pointer;
-                    position: relative;" v-for="(document, index) in fixerEditMode" :key="index"
-                @click="getDocument(document._id)"
-                v-bind:class="{ activeDocument: document._id === activeDocumentIdTags, }"
-                @contextmenu.prevent="openContextmenu($event, document, index)">
+                    position: relative;
+                  " v-for="(document, index) in fixerEditMode" :key="index" @click="getDocument(document._id)"
+                v-bind:class="{
+                  activeDocument: document._id === activeDocumentId,
+                }" @contextmenu.prevent="
+  openContextmenu($event, document, index)
+">
                 <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
                   <span class="edit-mode">{{ document.data.title }}
                     <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
@@ -308,7 +281,7 @@ if you need break please take notes, i trust
                   <button type="submit" hidden="true"></button>
                 </form>
 
-                <a href="#" v-tooltip="'Editar Descripcion'">
+                <a href="" v-tooltip="'Editar descripción'">
                   <p class="edit-mode" style="color: #525252; font-size: 12px" v-if="!document._ext.edit_description">
                     {{ document.data.description }}
                     <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_description = true" />
@@ -337,26 +310,24 @@ if you need break please take notes, i trust
                 </form>
 
                 <div style="position:absolute:top:0:right:0;height:100%">
-                  <a href="#" v-tooltip="'Documento privado'">
+                  <a v-tooltip="'Documento privado'">
                     <img src="@/assets/cerrar-con-llave.svg" style="height: 20px; width: 20px"
                       v-if="document.data.share == 0" />
-
+                    <span></span>
                   </a>
-                  <a href="#" v-tooltip="'Documento publico'">
+                  <a v-tooltip="'Documento publico'">
                     <img src="@/assets/candado-abierto(2).png" style="height: 20px; width: 20px"
                       v-if="document.data.share == 1" />
 
                   </a>
-                  <a href="#" v-tooltip="'Automatizado'">
-                    <img src="@/assets/automatizado.svg" style="height: 20px; width: 20px"
-                      v-if="document.data.complete == 1" />
-                  </a>
-                  <a href="#" v-tooltip="'Modelo'">
-                    <span v-if="document.data.complete == 0">
-                      <img src="@/assets/a-automatizar.svg" style="height: 20px; width: 20px; cursor: pointer"
-                        v-if="document.data.form_complete" @click="getDocumentModal(document._id)" />
-                    </span>
-                  </a>
+
+                  <img v-tooltip="'Automatizado'" src="@/assets/automatizado.svg" style="height: 20px; width: 20px"
+                    v-if="document.data.complete == 1" />
+
+                  <span v-tooltip="'Modelo'" v-if="document.data.complete == 0">
+                    <img src="@/assets/a-automatizar.svg" style="height: 20px; width: 20px; cursor: pointer"
+                      v-if="document.data.form_complete" />
+                  </span>
                 </div>
               </div>
             </div>
@@ -382,18 +353,19 @@ if you need break please take notes, i trust
 
 
                     <span v-if="document.data.complete == 0">
-                      <a href="#" style="margin:5px" class="textHover" v-tooltip="'Expandir'"
-                        v-if="document.data.form_complete" @click="getDocumentModal(document._id)">
+
+                      <a href="#" style="margin:5px" v-tooltip="'Expandir'" v-if="document.data.form_complete"
+                        @click="getDocumentModal(document._id)">
                         <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
-                        <span>Expandir</span>
+
                       </a>
 
                     </span>
 
-                    <a href="#" style="margin:5px" class="textHover" v-tooltip="'Expandir'"
-                      v-if="document.data.complete == 1" @click="openFullScreen()">
+                    <a href="#" style="margin:5px" v-tooltip="'Expandir'" v-if="document.data.complete == 1"
+                      @click="openFullScreen()">
                       <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
-                      <span>Expandir</span>
+
                     </a>
 
 
@@ -403,7 +375,7 @@ if you need break please take notes, i trust
                           data-toggle="dropdown" aria-expanded="false">
                           <img src="@/assets/descargar.svg" style="
                                 width: 14px;
-                                height: 14px; 
+                                height: 14px;
                                 margin-right: 5px;
                               " />
                         </button>
@@ -415,147 +387,48 @@ if you need break please take notes, i trust
                     </component>
 
                     <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
-                    <!-- Droption Document Component -->
                     <div style="display:inline-block">
-                      <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
+                      <DocumentDropdown :document="document" @go-edit-document-private="goEditDocumentPrivate(document)"
                         @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
-                        @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
+                        @save-share="hacerPublico(document)" @delete-document="deleteDocument(activeDocumentId)"
                         @open-compartir-privada="openCompartirPrivada()" />
                     </div>
-
-                    <!-- <component v-bind:document="document" v-if="document.data.complete == 0">
-                        <div class="dropdown" style="margin: 5px; display: inline">
-                          <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                            <img src="@/assets/menu.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#" @click.prevent="goEditPrivate(document)">
-                              <img src="@/assets/edit.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Editar</a>
-
-
-                            <a class="dropdown-item" href="#" @click="openModalMoveDocument()">
-                              <img src="@/assets/mover-carpeta.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Mover</a>
-
-
-                            <a class="dropdown-item" href="#" @click="openModalAddTags()">
-                              <img src="@/assets/etiquetas.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Agregar etiquetas (Privadas)</a>
-
-                            <a class="dropdown-item" href="#" @click="saveShare(1, activeDocumentId)">
-                              <img src="@/assets/candado-abierto(1).png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Hacer Publico</a>
-
-                            <a class="dropdown-item" href="#" @click="deleteDocument(activeDocumentId)">
-                              <img src="@/assets/tacho-de-basura.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Eliminar</a>
-                          </div>
-                        </div>
-                      </component> -->
-
-                    <!-- <component v-bind:document="document" v-if="document.data.complete == 1">
-                        <div class="dropdown" style="margin: 5px; display: inline">
-                          <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                            <img src="@/assets/menu.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-
-                            <a class="dropdown-item" href="#" @click="openModalMoveDocument()">
-                              <img src="@/assets/mover-carpeta.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Mover</a>
-
-
-                            <a class="dropdown-item" href="#" @click="openModalAddTags()">
-                              <img src="@/assets/etiquetas.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Agregar etiquetas (Privadas)</a>
-
-                            <a class="dropdown-item" href="#" @click.prevent="openCompartirPrivada(document)"
-                              v-if="document._id">
-                              <img src="@/assets/users.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Compartir de forma privada</a>
-
-                            <a class="dropdown-item" href="#" @click="deleteDocument(activeDocumentId)">
-                              <img src="@/assets/tacho-de-basura.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                              Eliminar</a>
-                          </div>
-                        </div>
-                      </component> -->
                   </div>
                 </div>
               </div>
 
-
-              <!-- 
-                <div v-if="(document.data.complete === 0 && !loadingDocument)" v-html="contentDocument" id="editor-full"
-                  contenteditable="true" style="width: 100%;
-                          padding: 20px;
-                          overflow: hidden;
-                          height: calc(100vh - 206px); 
-                          overflow-y: auto;
-                          color:black;">
-                </div> -->
-
-              <div v-if="(!loadingDocument)" id="editor-full" v-html="contentDocument"
-                :contenteditable="document.data.type === 'document' ? true : false" style=" 
+              <div v-if="(document.data.complete === 0 && !loadingDocument)"
+                v-html="'Para completar este escrito hacé click aca.'" id="editor-full" contenteditable="false" style="width: 100%;
+                  padding: 20px;
+                  overflow: hidden;
+                  height: calc(100vh - 206px); 
+                  overflow-y: auto;
+                  color:black;">
+              </div>
+              <div v-else-if="(!loadingDocument)" id="editor-full2" v-html="contentDocument" contenteditable="true"
+                style=" 
                       width: 100%;
                       padding: 20px;
-                      overflow: hidden; 
-                      height: calc(100vh - 206px); 
+                      overflow: hidden;
+                      height: calc(100vh - 206px);
                       overflow-y: auto;
                       color:black;">
               </div>
-
             </div>
-            <!-- no need this. because it's in template , but i got string 'contentmodel, aaa i didnt put value for content model, ok, so the
-    ternaries  are in value of the bind'
-  yes it was my bad passing the string-->
-            <!-- let's try -->
-
           </div>
-        </div>
 
-        <!-- ======================================= -->
+          <!-- ======================================= -->
+        </div>
       </div>
     </div>
-
   </main>
-
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg " role="document" style="width:80vw">
-
-      <div class="modal-content" style="">
-
+    <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
+      <div class="modal-content">
         <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
           <div class="row justify-content-center">
             <div class="col-12 text-left" style="margin-bottom: 20px">
               <b>{{ document.data.title }}</b>
@@ -568,16 +441,21 @@ if you need break please take notes, i trust
 
             <div class="col-4" style="position: relative; position: sticky; top: 0;">
               <div class="col-12 view-writing-fields-content">
-                <!-- 
-                <div class="form-group" v-for="(field, index) in documentModal.data.fields"
-                  style="text-align: left; padding: 10px">
-                  <label style="font-size: 13px; color: black; font-weight: 600">{{ field.replace }}</label>
-                  <input type="text" class="form-control input-field" style="
+
+
+
+
+
+                <div class="col-12" style="padding: 0; min-height: 300px" v-if="version == '1.00'">
+                  <div class="form-group" v-for="(field, index) in documentModal.data.fields" :key="index"
+                    style="text-align: left; padding: 10px">
+                    <label style="font-size: 13px; color: black; font-weight: 600">{{ field.replace }}</label>
+                    <input type="text" class="form-control input-field" style="
                       height: 30px !important;
     min-height: 30px !important;
     border-top: none !important;
     border-right: none !important;
-    border-bottom: 2px solid rgb(141, 141, 141) !important; 
+    border-bottom: 2px solid rgb(141, 141, 141) !important;
     border-left: none !important;
     border-image: initial !important;
     background: transparent !important;
@@ -586,17 +464,17 @@ if you need break please take notes, i trust
     font-weight: 500 !important;
     border-radius: 0 !important;
     " v-model="field.user.input" @keyup="previewText(index)" />
-                </div>  -->
-
+                  </div>
+                </div>
 
 
 
                 <div class="col-12" style="padding:0;min-height:380px" v-if="version == '2.00'">
-                  <div v-for="(field, index) in documentModal.data.fields">
+                  <div v-for="(field, index) in documentModal.data.fields" :key="index">
                     <div class="form-group" style="text-align: left;padding: 10px;" v-if="field.existent == false">
                       <label style="font-size: 13px;color: black;font-weight: 600;">{{ field.replace }}</label>
                       <input type="text" class="form-control input-field" style="height: 30px !important;
-    min-height: 30px !important; 
+    min-height: 30px !important;
     border-top: none !important;
     border-right: none !important;
     border-bottom: 2px solid rgb(141, 141, 141) !important;
@@ -610,6 +488,11 @@ if you need break please take notes, i trust
                     </div>
                   </div>
                 </div>
+
+
+
+
+
 
 
                 <div class="col-12 text-center">
@@ -657,7 +540,7 @@ if you need break please take notes, i trust
           padding: 0;
           margin: 0;
           list-style: none;
-          padding-top: 6px; 
+          padding-top: 6px;
           padding-bottom: 6px;
         ">
         <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="deleteDocument()">Eliminar</a>
@@ -670,8 +553,8 @@ if you need break please take notes, i trust
   <!-- Modal -->
   <div class="modal fade" id="compartir-privada" tabindex="-1" role="dialog" aria-labelledby="report-contentTitle"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-      <div class="modal-content" style="border-radius:10px;border:none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content" style="border-radius:10px;border:none; height:50vh">
         <div class="modal-header text-center"
           style="background : #dedcdc;color:#454545;border-top-left-radius: 10px;border-top-right-radius: 10px">
           <h5 class="modal-title"
@@ -686,25 +569,31 @@ if you need break please take notes, i trust
             style="background:#F2F2F2  ;color:#141414;font-weight:600;text-align:left;padding:20px;margin-bottom:10px">
             Escribí el mail de registro del usuario al que querés dar acceso
 
-            <input type="text" v-model="valEmail"
-              style="height: 30px; min-height: 33px;border-radius:30px; border-radius: 30px; border: 1px solid rgb(199, 199, 199); background: rgb(231, 231, 231);margin-top:15px;padding-left:10px" />
+            <input type="text" class="modal-text" v-model="valEmail" style="    height: 30px;
+    min-height: 33px;border-radius:30px;    border-radius: 30px;
+    border: 1px solid rgb(199, 199, 199);
+    background: rgb(231, 231, 231);margin-top:15px" />
 
           </div>
           <div class="col-md-12"
             style="margin-left:1vw;display: flex;justify-content: center;align-items: center;color:#141414;font-weight:600;text-align:left;">
-            <input type="radio" :value="onlyRead" @input="setOnlyRead()" class="show-checkbox"
-              style="height: 30px; min-height: 33px;border-radius:30px; border-radius: 30px; border: 1px solid rgb(199, 199, 199); background: rgb(231, 231, 231); margin-right: 0.5vw; " />
+            <input type="radio" class="show-checkbox" style="    height: 30px;
+    min-height: 33px;border-radius:30px;    border-radius: 30px;
+    border: 1px solid rgb(199, 199, 199);
+    background: rgb(231, 231, 231); margin-right: 0.5vw; " />
             <label style="margin-top:1vh">Solo Lectura</label>
 
 
-            <input type="radio" :value="readWrite" @input="setReadWrite()" class="show-checkbox"
-              style="height: 30px; min-height: 33px;border-radius:30px; border-radius: 30px; border: 1px solid rgb(199, 199, 199); background: rgb(231, 231, 231);margin-right: 0.5vw; margin-left:4vw" />
+            <input type="radio" class="show-checkbox" style="    height: 30px;
+    min-height: 33px;border-radius:30px;    border-radius: 30px;
+    border: 1px solid rgb(199, 199, 199);
+    background: rgb(231, 231, 231);margin-right: 0.5vw; margin-left:4vw" />
             <label style="margin-top:1vh">Lectura y Edición</label>
           </div>
 
 
           <div class="col-12 text-center">
-            <button type="submit" class="btn btn-primary" style="width: 120px; margin-top:3vh"
+            <button type="submit" class="btn btn-primary" style="width: 120px; position: relative; margin-top:3vh"
               @click="compartirPrivado(valEmail)">
               Compartir
             </button>
@@ -721,7 +610,7 @@ if you need break please take notes, i trust
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content" style="border-radius:10px;border:none;">
+      <div class="modal-content" style="border-radius:10px;border:none; height:20vh">
         <form class="modal-content" @submit.prevent="createFolderRoot()" style="border-radius: 10px; border: none;">
           <div class="modal-header text-center">
             <h5 class="modal-title">Nueva carpeta</h5>
@@ -748,7 +637,7 @@ if you need break please take notes, i trust
   <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="true" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content" style="border-radius:10px;border:none">
+      <div class="modal-content" style="border-radius:10px;border:none; height:20vh">
         <form class="modal-content" @submit.prevent="createFolder()">
           <div class="modal-header text-center">
             <h5 class="modal-title">Nueva carpeta</h5>
@@ -773,8 +662,8 @@ if you need break please take notes, i trust
   <!-- Modal -->
   <div class="modal fade" id="staticBackdrop4" data-backdrop="static" data-keyboard="true" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content" style="border-radius:10px;border:none;">
+    <div class="modal-dialog modal-dialog-centered modal-sm" style="height:5vw">
+      <div class="modal-content" style="border-radius:10px;border:none; height:20vh">
         <form class="modal-content" @submit.prevent="modalDeleteFolder()" style="border-radius: 10px; border: none">
           <div class="modal-header text-center">
             <h5 class="modal-title">Eliminar carpeta</h5>
@@ -817,11 +706,11 @@ if you need break please take notes, i trust
 
   <!-- Modal -->
   <div class="modal fade ModalFullScreen" id="ModalFullScreen" tabindex="-1" role="dialog"
-    aria-labelledby="ModalFullScreen" aria-hidden="true">
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header text-center">
-          <h5 class="modal-title">Titulo: {{ document.data.title }}</h5>
+          <h5 class="modal-title">{{ document.data.title }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -831,9 +720,34 @@ if you need break please take notes, i trust
             <div class="col-12" v-if="document.data.title" style="padding: 10px">
               <div class="row">
                 <div class="col-md-8">
-                  <b>Descripción: {{ document.data.description }}</b>
+                  <b></b>
                 </div>
                 <div class="col-md-4 text-right">
+
+
+
+                  <span v-if="document.data.complete == 0">
+
+                    <a href="#" class="textHover" style="margin:5px" v-if="document.data.form_complete"
+                      @click="getDocumentModal(document._id)">
+                      <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
+                      <span>Expandir</span>
+                    </a>
+
+
+
+                  </span>
+
+
+
+                  <a href="#" class="textHover" style="margin:5px" v-if="document.data.complete == 1"
+                    @click="openFullScreen()">
+                    <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
+                    <span>Expandir</span>
+                  </a>
+
+
+
 
 
                   <component v-if="document.data.complete == 1">
@@ -842,7 +756,7 @@ if you need break please take notes, i trust
                         data-toggle="dropdown" aria-expanded="false">
                         <img src="@/assets/descargar.svg" style="
                                 width: 14px;
-                                height: 14px; 
+                                height: 14px;
                                 margin-right: 5px;
                               " />
                       </button>
@@ -853,65 +767,6 @@ if you need break please take notes, i trust
                     </div>
                   </component>
 
-                  <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
-                  <!-- Droption Document Component -->
-                  <div style="display:inline-block">
-                    <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
-                      @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openNewTag()"
-                      @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
-                      @open-compartir-privada="openCompartirPrivada()" />
-                  </div>
-                  <!-- 
-
-                  <component v-bind:document="document" v-if="document.data.complete != null">
-                    <div class="dropdown" style="margin: 5px; display: inline">
-                      <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                        <img src="@/assets/menu.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" @click.prevent="goEditPrivate(document)">
-                          <img src="@/assets/edit.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Edddditar</a>
-
-
-                        <a class="dropdown-item" href="#" @click="openModalMoveDocument()">
-                          <img src="@/assets/mover-carpeta.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Mover</a>
-
-
-                        <a class="dropdown-item" href="#" @click="openModalAddTags()">
-                          <img src="@/assets/etiquetas.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Agregar etiquetas</a>
-
-                        <a class="dropdown-item" href="#" @click="saveShare(1, activeDocumentId)">
-                          <img src="@/assets/candado-abierto(1).png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Hacer Publico</a>
-
-                        <a class="dropdown-item" href="#" @click.prevent="openCompartirPrivada(document)"
-                          v-if="document._id">
-                          <img src="@/assets/users.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Compartir de forma privada</a>
-
-                        <a class="dropdown-item" href="#" @click="deleteDocument(activeDocumentId)">
-                          <img src="@/assets/tacho-de-basura.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Eliminar</a>
-                      </div>
-                    </div>
-                  </component> -->
 
 
 
@@ -924,19 +779,26 @@ if you need break please take notes, i trust
                 </div>
               </div>
             </div>
-            <!-- 
-            <RichTextEditor /> -->
-            <div id="cke_ruler_wrap"></div>
-
-            <div id="editor-modal" contenteditable="true" style="
-            width: 100%;
-            padding: 20px;
-            overflow: hidden;
-            height: calc(90vh);
-            overflow-y: auto;
-            color:black" v-html="contentDocument"></div>
 
 
+            <div id="editor-full3" contenteditable="true" style="width: 100%;
+                          padding: 20px;
+                          overflow: hidden;
+                          height: calc(100vh - 206px); 
+                          overflow-y: auto;
+                          color:black;" v-html="contentDocument">
+            </div>
+
+
+            <!-- <div id="editor2-full" contenteditable="true" style="
+                    width: 100%;
+                    padding: 20px;
+                    overflow: hidden;
+                    height: 80vh;
+                    overflow-y: auto;
+                    color:black;
+                    margin-bottom: 0;
+                  " v-html="contentDocument" @keyup="autoSaveFull()"></div> -->
           </div>
         </div>
       </div>
@@ -948,7 +810,7 @@ if you need break please take notes, i trust
   <div class="modal fade" id="ModalAddTags" data-backdrop="static" data-keyboard="true" tabindex="-1"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <form class="modal-content" style="border-radius:10px;border:none" @submit.prevent="createNewTag(newTagName)">
+      <form class="modal-content" @submit.prevent="createNewTag(newTagName)">
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
 
@@ -956,7 +818,7 @@ if you need break please take notes, i trust
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" style="height:20vh">
+        <div class="modal-body">
 
 
 
@@ -981,74 +843,12 @@ if you need break please take notes, i trust
   </div>
 
 
-  <div style="
-                  display: flex;
-                  top: 0px;
-                  left: 0px;
-                  right: 0px;
-                  position: fixed;
-                  bottom: 0;
-                  align-content: center;
-                  justify-content: center;
-                  align-items: center;
-                " v-if="popshared">
-    <div style="
-                    color: rgb(52, 52, 52);
-                    width: 355px;
-                    right: 180px;
-                    font-size: 14px;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    background: #e7e7e7;
-                    padding: 10px;
-                  ">
-
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="popshared = false"><span
-          aria-hidden="true">×</span></button>
-
-
-      El escrito automatizado se guardara en tu carpeta privada "Mis
-      escritos". ¿Queres compartirlo con la comunidad legal?
-      <div class="col-12 text-right" style="display: flex">
-        <button class="btn btn-primary" style="margin: 5px" @click="saveShare(1)" :disabled="saveLoadingShareDisabled">
-          <span v-if="!saveLoadingShare">Si</span>
-          <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingShare" style="
-                          height: 10px;
-                          margin: 0px;
-                          padding: 0px;
-                          width: 10px !important; 
-                          color: white;
-                          margin-top: -10px !important; 
-                        ">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </button>
-
-        <button href="#" class="btn btn-primary" style="margin: 5px" @click="saveShare(0)"
-          :disabled="saveLoadingNtShareDisabled">
-          <span v-if="!saveLoadingNtShare">No</span>
-          <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingNtShare" style="
-                          height: 10px; 
-                          margin: 0px;
-                          padding: 0px;
-                          width: 10px !important;
-                          color: white;
-                          margin-top: -10px !important;
-                        ">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </button>
-      </div>
-    </div>
-  </div>
-
 
   <!-- Modal -->
   <div class="modal fade" id="moveDocumentTofolder" data-backdrop="static" data-keyboard="true" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" style="height:40vh">
-      <form class="modal-content" style="border-radius:10px;border:none; height:50vh"
-        @submit.prevent="selectPathMoveSave()">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" @submit.prevent="selectPathMoveSave()">
         <div class="modal-header text-center">
           <h5 class="modal-title">Asignar carpeta</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1111,7 +911,16 @@ if you need break please take notes, i trust
 @import "@/assets/platform.css";
 
 
+.modal-dialog {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 80vh;
+  width: 100vh;
+}
 
+.modal-dialog-centered {
+  align-items: unset;
+}
 
 
 .input-field {
@@ -1366,437 +1175,20 @@ input[type="checkbox"] {
 .textHover:hover {
   text-decoration: none;
 }
-
-#cke_ruler_wrap {
-  margin: 0 auto;
-  display: block;
-}
-
-.cke_wysiwyg_frame {
-  height: calc(100% - 50px) !important;
-  margin-top: 15px !important;
-}
-
-.noUi-target,
-.noUi-target * {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -ms-touch-action: none;
-  touch-action: none;
-  -ms-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box
-}
-
-.noUi-target {
-  position: relative;
-  direction: ltr
-}
-
-.noUi-base {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  z-index: 1;
-  margin-top: 25px;
-}
-
-.noUi-connect {
-  position: absolute;
-  right: 0;
-  top: 0;
-  left: 0;
-  bottom: 0
-}
-
-.noUi-origin {
-  position: absolute;
-  height: 0;
-  width: 0
-}
-
-.noUi-handle {
-  position: relative;
-  z-index: 1
-}
-
-.noUi-state-tap .noUi-connect,
-.noUi-state-tap .noUi-origin {
-  -webkit-transition: top .3s, right .3s, bottom .3s, left .3s;
-  transition: top .3s, right .3s, bottom .3s, left .3s
-}
-
-.noUi-state-drag * {
-  cursor: inherit !important
-}
-
-.noUi-base,
-.noUi-handle {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0)
-}
-
-.noUi-horizontal {
-  height: 10px
-}
-
-.noUi-horizontal .noUi-handle {
-  width: 10px;
-  height: 24px;
-  left: -5px;
-  top: -4px
-}
-
-.noUi-target {
-  background: transparent;
-  border-radius: 4px;
-}
-
-.noUi-connect {
-  background: rgba(87, 149, 224, 0.25);
-  -webkit-transition: background 450ms;
-  transition: background 450ms
-}
-
-.noUi-draggable {
-  cursor: w-resize
-}
-
-.noUi-handle {
-  border: 1px solid #D9D9D9;
-  border-radius: 3px;
-  background: #FFF;
-  cursor: ew-resize;
-  display: none;
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB
-}
-
-.noUi-active {
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB
-}
-
-.noUi-handle:after,
-.noUi-handle:before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 10px;
-  width: 1px;
-  background: #E8E7E6;
-  left: 2px;
-  top: 6px
-}
-
-.noUi-handle:after {
-  left: 5px
-}
-
-[disabled] .noUi-connect {
-  background: #B8B8B8
-}
-
-[disabled] .noUi-handle,
-[disabled].noUi-handle,
-[disabled].noUi-target {
-  cursor: not-allowed
-}
-
-.noUi-pips,
-.noUi-pips * {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box
-}
-
-.noUi-pips {
-  position: absolute;
-  color: #999
-}
-
-.noUi-value {
-  position: absolute;
-  text-align: center;
-  bottom: 18px;
-}
-
-.noUi-value-sub {
-  color: #ccc;
-  font-size: 9px;
-}
-
-.noUi-marker {
-  position: absolute;
-  background: #CCC;
-  bottom: 0;
-}
-
-.noUi-marker-large,
-.noUi-marker-sub {
-  background: #AAA
-}
-
-.noUi-pips-horizontal {
-  padding: 10px 0;
-  height: 25px;
-  bottom: 0;
-  left: 0;
-  width: 100%
-}
-
-.noUi-value-horizontal {
-  -webkit-transform: translate3d(-50%, 50%, 0);
-  transform: translate3d(-50%, 50%, 0);
-  font-size: 9px;
-}
-
-.noUi-marker-horizontal.noUi-marker {
-  margin-left: -1px;
-  width: 1px;
-  height: 4px
-}
-
-.noUi-marker-horizontal.noUi-marker-sub {
-  height: 5px
-}
-
-.noUi-marker-horizontal.noUi-marker-large {
-  height: 8px
-}
-
-.noUi-tooltip {
-  display: block;
-  position: absolute;
-  border: 1px solid #D9D9D9;
-  border-radius: 3px;
-  background: #fff;
-  color: #000;
-  padding: 5px;
-  text-align: center
-}
-
-.noUi-horizontal .noUi-tooltip {
-  -webkit-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
-  left: 50%;
-  bottom: 120%
-}
-
-.document-editor {
-  border: 1px solid var(--ck-color-base-border);
-  border-radius: var(--ck-border-radius);
-  /* Set vertical boundaries for the document editor. */
-  max-height: 700px;
-  /* This element is a flex container for easier rendering. */
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.document-editor__toolbar {
-  /* Make sure the toolbar container is always above the editable. */
-  z-index: 1;
-  /* Create the illusion of the toolbar floating over the editable. */
-  box-shadow: 0 0 5px hsla(0, 0%, 0%, .2);
-  /* Use the CKEditor CSS variables to keep the UI consistent. */
-  border-bottom: 1px solid var(--ck-color-toolbar-border);
-}
-
-/* Adjust the look of the toolbar inside of the container. */
-.document-editor__toolbar .ck-toolbar {
-  border: 0;
-  border-radius: 0;
-}
-
-/* Make the editable container look like the inside of a native word processor app. */
-.document-editor__editable-container {
-  padding: calc(2 * var(--ck-spacing-large));
-  background: var(--ck-color-base-foreground);
-  /* Make it possible to scroll the "page" of the edited content. */
-  overflow-y: scroll;
-}
-
-.document-editor__editable-container .document-editor__editable.ck-editor__editable {
-  /* Set the dimensions of the "page". */
-  width: 15.8cm;
-  min-height: 21cm;
-  /* Keep the "page" off the boundaries of the container. */
-  padding: 1cm 2cm 2cm;
-  border: 1px hsl(0, 0%, 82.7%) solid;
-  border-radius: var(--ck-border-radius);
-  background: white;
-  /* The "page" should cast a slight shadow (3D illusion). */
-  box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
-  /* Center the "page". */
-  margin: 0 auto;
-}
-
-/* Override the page's width in the "Examples" section which is wider. */
-.main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-  width: 18cm;
-}
-
-/* Set the default font for the "page" of the content. */
-.document-editor .ck-content,
-.document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-  font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/* Adjust the headings dropdown to host some larger heading styles. */
-.document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-  line-height: calc(1.7 * var(--ck-line-height-base) * var(--ck-font-size-base));
-  min-width: 6em;
-}
-
-/* Scale down all heading previews because they are way too big to be presented in the UI.
-  Preserve the relative scale, though. */
-.document-editor .ck-heading-dropdown .ck-list .ck-heading_heading1 .ck-button__label,
-.document-editor .ck-heading-dropdown .ck-list .ck-heading_heading2 .ck-button__label {
-  transform: scale(0.8);
-  transform-origin: left;
-}
-
-/* Set the styles for "Heading 1". */
-.document-editor .ck-content h2,
-.document-editor .ck-heading-dropdown .ck-heading_heading1 .ck-button__label {
-  font-size: 2.18em;
-  font-weight: normal;
-}
-
-.document-editor .ck-content h2 {
-  line-height: 1.37em;
-  padding-top: .342em;
-  margin-bottom: .142em;
-}
-
-/* Set the styles for "Heading 2". */
-.document-editor .ck-content h3,
-.document-editor .ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
-  font-size: 1.75em;
-  font-weight: normal;
-  color: hsl(203, 100%, 50%);
-}
-
-.document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
-  color: var(--ck-color-list-button-on-text);
-}
-
-/* Set the styles for "Heading 2". */
-.document-editor .ck-content h3 {
-  line-height: 1.86em;
-  padding-top: .171em;
-  margin-bottom: .357em;
-}
-
-/* Set the styles for "Heading 3". */
-.document-editor .ck-content h4,
-.document-editor .ck-heading-dropdown .ck-heading_heading3 .ck-button__label {
-  font-size: 1.31em;
-  font-weight: bold;
-}
-
-.document-editor .ck-content h4 {
-  line-height: 1.24em;
-  padding-top: .286em;
-  margin-bottom: .952em;
-}
-
-/* Make the block quoted text serif with some additional spacing. */
-.document-editor .ck-content blockquote {
-  font-family: Georgia, serif;
-  margin-left: calc(2 * var(--ck-spacing-large));
-  margin-right: calc(2 * var(--ck-spacing-large));
-}
-
-@media only screen and (max-width: 960px) {
-
-  /* Because on mobile 2cm paddings are to big. */
-  .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-    padding: 1.5em;
-  }
-}
-
-@media only screen and (max-width: 1200px) {
-  .main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-    width: 100%;
-  }
-}
-
-/* Style document editor a'ka Google Docs.*/
-@media only screen and (min-width: 1360px) {
-  .main .main__content.main__content-wide {
-    padding-right: 0;
-  }
-}
-
-@media only screen and (min-width: 1600px) {
-  .main .main__content.main__content-wide {
-    width: 24cm;
-  }
-
-  .main .main__content.main__content-wide .main__content-inner {
-    width: auto;
-    margin: 0 50px;
-  }
-
-  /* Keep "page" look based on viewport width. */
-  .main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-    width: 60%;
-  }
-}
-
-.document-editor__editable-container .document-editor__editable.ck-editor__editable {
-  width: 600px;
-  min-height: 21cm;
-  padding: 1cm 2cm 2cm;
-  border: 1px hsl(0, 0%, 82.7%) solid;
-  border-radius: var(--ck-border-radius);
-  background: white;
-  box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
-  margin: 0 auto;
-}
-
-#cke_ruler_wrap {
-
-  margin: 0 auto;
-  display: block;
-}
-
-.ql-toolbar.ql-snow {
-  border: none;
-  border-top: 1px solid #d1d5db;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  border-bottom: 1px solid #d1d5db;
-  text-align: center;
-  margin-left: 0;
-}
-
-.ql-container .ql-snow {
-  border-top: 1px solid #d1d5db;
-  border: none;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-
-  text-align: center;
-}
 </style>
 
 <script setup>
-import { onMounted } from 'vue'
 import columnLeft from "@/components/platform/left.vue";
 import RichTextEditor from "@/components/platform/RichTextEditor.vue";
 import navBar from "@/components/platform/navbar.vue";
-import DocumentDropdown from '@/components/platform/DocumentDropdown.vue'
 import Tree from "vuejs-tree";
 import buttonShare from "@/components/platform/share-button-writting-private.vue";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import NewTagModal from "@/components/platform/new-tags-suggest.vue";
 import { Quill, QuillEditor } from "@vueup/vue-quill";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
 import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import noUiSlider from "nouislider"
-
-const rectWidth = 160;
-const rectHeight = 200;
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 Quill.register(quillTable.TableCell);
@@ -1805,74 +1197,55 @@ Quill.register(quillTable.Table);
 Quill.register(quillTable.Contain);
 Quill.register('modules/table', quillTable.TableModule);
 
-// What about the private share, and when it send mail , set shared-with userid ? its working?
-// whatahoookk
-// idid, using pinia, gettin all documents, then save in state document[], so there we have the array of documents we get in the first request
-// there is a lot to change though. Take a look into stores/writings.js
-// currently im hating this base we got, but this will be areson to recontractor me/us again when PO watch old-new versions
-// im going to push branch in github so there he will be diffs
-// now im going to continue to clean all cards as i can in trello,
-// Sure, I think share in private is complete yesterday (?)
-// I am not sure though. I will try to share with you. What is your user email?
-// mine is robertoadrianpalestini@yahoo.com.arm
-// , open for a meet?
-// after this
-// ok i think its okey if u are focus
-// Already shared, please check your email
-// got email, and i have the link in <a> lets open
-// okey, atm the link with https://webulegal.com/platform/document/638e9d5903e1c2280e8c697a hass baseurl from webu, im handling the url just 1 time, i preffer to dont touch this
-// sure
-// y
-// for now, if we safe this file, the page will be broken. I will try to migare it from option api (below) to composition api (current with setup beside script)
 </script>
  
 
 <script>
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
+import DocumentDropdown from "../../../components/platform/DocumentDropdown.vue";
 export default {
   components: {
     RichTextEditor,
+    DocumentDropdown,
     QuillEditor
   },
   data() {
     return {
-      readWrite: null,
-      onlyRead: null,
       activeItem: 'folders',
-      showCol: true,
       version: '1.00',
       auth: localStorage.getItem("auth"),
-      authId: localStorage.getItem("authId"),
-      endpointSearch: window.ENDPOINT + "/writings/search",
-      endpoint: window.ENDPOINT + "/writings/get/folders",
-      endpointTags: window.ENDPOINT + "/writings/get/tags",
-      endpointDocuments: window.ENDPOINT + "/writings/get/folders/documents",
-      endpointTaggedDocuments: window.ENDPOINT + "/writings/get/tags/documents",
-      endpointDocument: window.ENDPOINT + "/writings/get/document",
-      endpointGet: window.ENDPOINT + "/writings/get/documents",
+      userId: localStorage.getItem("userIdValue"),
+      userDecoded: null,
+      endpoint: window.ENDPOINT + "/shared/get/folders",
+      endpointTags: window.ENDPOINT + "/shared/get/tags",
+      endpointPrivateTags: window.ENDPOINT + "/private/get/tags",
+      endpointSearch: window.ENDPOINT + "/shared/search",
+      endpointDocuments: window.ENDPOINT + "/shared/get/folders/documents",
+      endpointDocumentsByTags: window.ENDPOINT + "/shared/get/tags/documents",
+      endpointDocument: window.ENDPOINT + "/shared/get/document",
+      endpointWriting: window.ENDPOINT + "/shared/get/writing",
+      endpointGetAllWritingsShared: window.ENDPOINT + "/shared/get/documents",
+      endpointGetAllDocumentsShared: window.ENDPOINT + "/library/get/documents/shared-with-me",
+      endpointGetAll: window.ENDPOINT + "/writings/get/documents",
+      endpointGetAllLibrarie: window.ENDPOINT + "/librarie/get/documents",
       endpointTextPreview: window.ENDPOINT + "/writings/fields/preview",
-      endpointSaveFolders: window.ENDPOINT + "/writings/save/folders",
-      endpointMoveSave: window.ENDPOINT + "/writings/save/folders/organize",
-      endpointDeleteDocument: window.ENDPOINT + "/writings/delete/documents",
+      endpointSaveFolders: window.ENDPOINT + "/shared/save/folders",
       endpointSavePrivateTags: window.ENDPOINT + "/private/save/tags",
+      endpointSaveFoldersChild: window.ENDPOINT + "/shared/save/folders/childs",
+      endpointMoveSave: window.ENDPOINT + "/shared/save/folders/organize",
+      endpointDeleteDocument: window.ENDPOINT + "/shared/delete/documents",
       endpointSave: window.ENDPOINT + "/writings/folders/edit",
       editor_enabled: false,
       items: [],
       itemsTags: [],
-      tags: [],
       newTagName: '',
+      tags: [],
       documents: [],
-      documentsSearch: [],
-      documentsSearchTags: [],
-      documentsTags: [],
-      loadingTags: true,
       loadingFolders: true,
       loadingDocument: false,
-      tagsSelectedTags: [],
-      contentDocumentTags: null,
-      activeDocumentIdTags: null,
+      loadingDocuments: false,
+      tagsSelected: [],
       contentDocument: null,
-      contentModel: null,
       activeDocumentId: null,
       documentModal: {
         data: {
@@ -1901,7 +1274,7 @@ export default {
         id: null,
         enabled: false,
       },
-      tempTags: {
+      temp: {
         editFont: "Arial",
       },
       treeDisplayData: [],
@@ -1928,21 +1301,10 @@ export default {
         node: null,
       },
       documentMoveTemp: false,
-      popshared: null,
-      scale: 2, //658813476562495, //1,
-      startX: 0,
-      startY: 0,
-      lines: {
-        h: [100, 200],
-        v: [100, 200]
-      },
-      thick: 20,
-      isShowRuler: true,
-      isShowReferLine: true
+      valEmail: ''
     };
   },
   created() {
-
 
     const maxRows = 10;
     const maxCols = 5;
@@ -1953,8 +1315,7 @@ export default {
       }
     }
 
-
-    const noToolbar = []
+    const addCampos = 'ql-customb'
 
     this.toolbarOptions = [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -1980,62 +1341,6 @@ export default {
       ['clean']                                         // remove formatting button
     ];
 
-
-
-    setTimeout(() => {
-
-
-      this.quill = new Quill('#editor-full', {
-        theme: 'snow',
-        placeholder: 'Inicializando la aplicacion',
-        modules: {
-          table: true,
-          toolbar: this.toolbarOptions,
-          // imageDropAndPaste: {
-          //   handler: this.imageHandler
-          // },
-        }
-      });
-
-      var q = this.quill
-      q.on('text-change', function (delta, source) {
-        console.log('Editor contents have changed', delta);
-      });
-
-      q.insertText(this.contentDocument);
-      console.log(q.getText());   // Should output "Hello World Bilbo!\nSome initial bold text";
-      console.log(this.quill + 'textchange')
-      // const content = this.quill.setText('aaa')
-
-    }, 300);
-
-
-    document.addEventListener(this.openmodalcomplete, () => {
-
-      this.quill = new Quill('#editor-modal', {
-        theme: 'snow',
-        placeholder: 'Inicializando la aplicacion',
-        modules: {
-          table: true,
-          toolbar: this.toolbarOptions,
-          // imageDropAndPaste: {
-          //   handler: this.imageHandler
-          // },
-        }
-      });
-
-      var qm = this.quill
-      qm.on('text-change', function (delta, source) {
-        console.log('Editor contents have changed', delta);
-      });
-
-      qm.insertText(this.contentDocument);
-      console.log(qm.getText());   // Should output "Hello World Bilbo!\nSome initial bold text";
-      console.log(this.quill + 'editormodal')
-      // const content = this.quill.setText('aaa')
-
-    })
-
     document.addEventListener("click", () => {
       this.showContextMenu = false;
       this.selected.row = {};
@@ -2048,63 +1353,76 @@ export default {
       // }
       // },500)
     });
-  },
-  mounted() {
-    this.loadAllDocuments();
-    console.log('mounted load')
-    this.loadTags();
-    this.loadFolders();
-    this.loadFoldersTree2();
+    setTimeout(() => {
+      this.quill = new Quill('#editor-full', {
+        theme: 'snow',
+        placeholder: 'Disfruta Webulegal.com! Empeza eligiendo el documento',
+        modules: {
+          table: true,
+          toolbar: this.toolbarOptions,
+          imageDropAndPaste: {
+            handler: this.imageHandler
+          },
+        },
+        readOnly: true
+      });
+      this.quill = new Quill('#editor-full2', {
+        theme: 'snow',
+        placeholder: '',
+        modules: {
+          // table: true,
+          // toolbar: this.toolbarOptions,
+          // imageDropAndPaste: {
+          //     handler: this.imageHandler
+          // },
+        }
+      });
 
-    var width = 600;
-    var leftLine;
-    var test = {
-      values: 21, // segment number of the ruler
-      step: 0.25, // accuracy of sliders
-      sliders: {
-        left: 2, // left slider value
-        right: 19 // right slider value (21-19 = 2)
-      },
-      padding: {
-        top: 20, // top 'canvas' padding (px)
-        bottom: 20 // bottom 'canvas' padding (px)
-      }
-    };
-    var range = document.getElementById('cke_ruler_wrap');
-    // setPadding([configs.sliders.left, configs.sliders.right]);
-    noUiSlider.create(range, {
-      start: [test.sliders.left, test.sliders.right],
-      margin: 2,
-      connect: [false, false, false],
-      behaviour: 'drag',
-      step: test.step,
-      range: {
-        'min': 0,
-        'max': test.values
-      },
-      pips: {
-        mode: 'count',
-        values: test.values,
-        density: 2
+
+
+    }, 300);
+
+
+    this.quill = new Quill('#editor-full3', {
+      theme: 'snow',
+      modules: {
+        table: true,
+        toolbar: this.toolbarOptions,
+        imageDropAndPaste: {
+          handler: this.imageHandler
+        },
       }
     });
 
 
 
+
+  },
+  mounted() {
+    this.loadTags();
+    this.loadPrivateTags();
+    this.loadAllDocuments();
+    this.loadFolders();
+    this.loadFoldersTree2();
+
+
+    console.log(JSON.stringify(this.document))
+    console.log('doc' + this.authId)
     if (this.$route.query.id) {
       this.activeDocumentId = this.$route.query.id;
       this.getDocument(this.$route.query.id);
     }
+
+
   },
   computed: {
-
     searchTagsInResults() {
-      return this.documentsSearchTags.filter((item) => {
-        if (this.tagsSelectedTags.length > 0) {
+      return this.documentsSearch.filter((item) => {
+        if (this.tagsSelected.length > 0) {
           for (var i = item.data.tags.length - 1; i >= 0; i--) {
             var row = item.data.tags[i];
-            for (var i = this.tagsSelectedTags.length - 1; i >= 0; i--) {
-              var rowTarget = this.tagsSelectedTags[i];
+            for (var i = this.tagsSelected.length - 1; i >= 0; i--) {
+              var rowTarget = this.tagsSelected[i];
               if (row._id == rowTarget.id) {
                 return item;
               }
@@ -2127,17 +1445,16 @@ export default {
     filteredResourcesTags() {
       if (this.searchTarget.target) {
         this.searchDocuments();
-        return this.itemsTags.filter((item) => {
+        return this.tags.filter((item) => {
           return item.data.title.toLowerCase().startsWith(this.searchTarget.target.toLowerCase());
         });
       } else {
-        return this.itemsTags;
+        return this.tags;
       }
     },
     filteredResources() {
       if (this.searchTargetFolders.target) {
         return this.items.filter((item) => {
-          console.log(item.text.startsWith(this.searchTargetFolders.target));
           return item.text.startsWith(this.searchTargetFolders.target);
         });
       } else {
@@ -2434,13 +1751,6 @@ export default {
             },
           },
         },
-        cols: {
-          active: {
-            style: {
-              "display": "hidden"
-            },
-          },
-        },
       };
     },
     myCustomOptions2() {
@@ -2505,87 +1815,11 @@ export default {
     },
   },
   methods: {
-    loadAllDocuments() {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          auth: this.auth,
-        }),
-      };
-      this.$Progress.start()
-      fetch(window.ENDPOINT + "/writings/get/documents", requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-          this.documents = data
-          this.$Progress.finish()
-        });
-    },
-    goEditPrivate(escrito) {
-
-      localStorage.setItem('editDocument', JSON.stringify(escrito));
-      console.log(escrito)
-
-      this.$router.push({
-        name: 'autowriting-edit',
-        params: { id: escrito._id }
-      });
-
-    },
-
-    saveShare(value, activeDocumentId) {
-      console.log(this.data);
-      console.log(activeDocumentId)
-      if (value == 1) {
-        this.saveLoadingShare = true;
-        this.saveLoadingNtShareDisabled = true;
-        this.saveLoadingShareDisabled = true;
-        setTimeout(() => {
-          this.$router.push({
-            name: "autowriting-organize",
-            params: { id: activeDocumentId },
-          });
-        }, 1500);
-      } else {
-        this.saveLoadingNtShare = true;
-        this.saveLoadingShareDisabled = true;
-        this.saveLoadingNtShareDisabled = true;
-        this.popshared = false;
-
-        this.$router.push({
-          name: "my-writings-folders",
-          query: {
-            id: activeDocumentId,
-          },
-        });
-        this.$toast.success("Escrito creado", { position: "bottom-right" });
-
-        // setTimeout(() => {
-        //      this.$router.push({ name: 'my-writings-view-automatic-document', params: { id: this.data.id }})
-        //  },1500)
-      }
-    },
     isActive(menuItem) {
       return this.activeItem === menuItem
     },
     setActive(menuItem) {
       this.activeItem = menuItem
-    },
-    setReadWrite(value) {
-      this.readWrite = true
-      this.onlyRead = null
-    },
-    setOnlyRead(value) {
-      this.readWrite = null
-      this.onlyRead = true
-    },
-    isHideCol(col) {
-      return this.showCol === col
-    },
-    setHidecol(col) {
-      this.showCol = col
     },
     removeTag(index) {
       this.tagSelected.splice(index, 1);
@@ -2610,33 +1844,26 @@ export default {
           search: this.searchInputTags.target,
         }),
       };
-      fetch(this.endpointTags, requestOptions)
+      fetch(this.endpointSearchTags, requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          if (data == {}) {
-            this.itemsTags = [];
+          if (data.empty) {
+            this.tags = [];
           } else {
-            this.itemsTags = data;
+            this.tags = data;
             console.log('soytags')
           }
         });
     },
 
-    compartirPrivado(email) { //function to fetch baack
-
-      const user = JSON.parse(localStorage.getItem('user'))
-
-      console.log(user)
+    compartirPrivado(email) {
       const requestOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email,
-          documentId: this.document._id,
-          firstName: user.profile.firstname,
-          lastName: user.profile.lastname,
+          email
         })
       };
       fetch(window.ENDPOINT + "/writings/share/private", requestOptions).then(response => response.json()).then((data) => {
@@ -2648,11 +1875,12 @@ export default {
         )
       })
     },
-    openCompartirPrivada() { // open private share mode 
+    openCompartirPrivada() {
       $('#compartir-privada').modal('show');
+      console.log(this.document.data.idUser)
+      console.log(this.authId)
     },
-    hacerPublico(row) {  // Public the writing. if you have to public this, its important complete all values for the comunity
-
+    hacerPublico(row) {
 
       this.selectedIdDocument = row._id;
       const requestOptions = {
@@ -2675,8 +1903,12 @@ export default {
     },
     openFullScreen() {
       $('.ModalFullScreen').modal('show')
+      const content = document.querySelector('#editor-full3').innerHTML;
+      this.document.data.content = content;
+      document.querySelector('#editor-full3').innerHTML = content;
+
     },
-    openModalAddTags() {
+    openCreateTagModal() {
       $('#ModalAddTags').modal('show')
     },
     createNewTag(name) {
@@ -2690,7 +1922,7 @@ export default {
           auth: this.auth,
           data: {
             name,
-            type: 'writing'
+            type: 'shared'
           }
         }),
       };
@@ -2705,6 +1937,27 @@ export default {
           $("#ModalAddTags").modal("hide");
         });
     },
+    goEditDocumentPrivate(doc) {
+      if (this.document.data.type !== 'document' && this.document.data.complete != 0) {
+        console.log(doc + 'cvhvh')
+        localStorage.setItem('editDocument', JSON.stringify(doc));
+        console.log(doc)
+        this.$router.push({
+          name: 'autowriting-edit',
+          params: { id: doc._id }
+        });
+      } else {
+        console.log(doc + 'document')
+        localStorage.setItem('editDocumentPrivate', JSON.stringify(doc));
+        console.log(doc)
+
+        this.$router.push({
+          name: 'document-edit',
+          params: { id: doc._id }
+        });
+      }
+    },
+
     openModalMoveDocument() {
       const requestOptions = {
         method: "POST",
@@ -2716,22 +1969,22 @@ export default {
           id: this.selectedIdDocument,
         }),
       };
-      fetch(window.ENDPOINT + "/writings/get/document", requestOptions)
+      fetch(endpointDocument, requestOptions)
         .then((response) => response.json())
         .then((data) => {
           this.documentMoveTemp = data;
           $("#moveDocumentTofolder").modal("show");
         });
     },
-    openNewTag() {
-      $("#newTagSuggest").modal("show");
+    openCreateFolderRootModal() {
+      $("#staticBackdrop").modal("show");
     },
     autoSaveFull() {
 
       const content = document.querySelector('#editor2-full').innerHTML;
 
       this.document.data.content = content;
-      document.querySelector('#editor2-full').innerHTML = content;
+      document.querySelector('#editor2').innerHTML = content;
       const requestOptions = {
         method: "POST",
         headers: {
@@ -2756,7 +2009,7 @@ export default {
 
 
     autoSave() {
-      const content = document.querySelector('#editor-full').innerHTML;
+      const content = document.querySelector('#editor2').innerHTML;
       this.document.data.content = content;
 
       const requestOptions = {
@@ -2962,12 +2215,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.documentModal.data.content = data.content;
-          console.log(data.content)
         });
     },
     openmodalcomplete() {
       $("#exampleModalLong").modal("show");
-      console.log(this.documentModal.data.fields)
       this.previewText();
     },
     // getPrice(prices,currency) {
@@ -2992,19 +2243,101 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.empty) {
-            this.loadingTags = false;
-            this.itemsTags = [];
+            this.loadingFolders = false;
+            this.tags = [];
             this.$Progress.finish();
             return;
           }
+
           if (data.error == true) {
           } else {
             alphabetizeByProperty("data.title", data);
-            this.itemsTags = data;
-            this.loadingTags = false;
+            this.tags = data;
+            this.loadingFolders = false;
             this.$Progress.finish();
           }
         });
+    },
+    loadPrivateTags() {
+      this.$Progress.start();
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            type: 'shared'
+          }
+        }),
+      };
+      fetch(this.endpointPrivateTags, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.empty) {
+            this.loadingFolders = false;
+            this.tags = [];
+            this.$Progress.finish();
+            return;
+          }
+
+          if (data.error == true) {
+          } else {
+            alphabetizeByProperty("data.title", data);
+            this.tags = [...this.tags, data];
+            this.loadingFolders = false;
+            this.$Progress.finish();
+          }
+        });
+    },
+    loadAllDocuments() {
+      this.$Progress.start();
+
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+        }),
+      };
+      fetch(this.endpointGetAllDocumentsShared, requestOptions)
+        .then((response) => response.json())
+
+        .then((data) => {
+          console.log('dataconsoleee' + data)
+          if (data.length == 0) {
+            this.loadingDocuments = false;
+            this.documents = [];
+            this.$Progress.finish();
+            return;
+          }
+
+          // this.loadingDocuments = false;
+
+          this.documents = data;
+          // this.$Progress.finish();
+        });
+
+      fetch(this.endpointGetAllWritingsShared, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.length == 0) {
+            this.loadingDocuments = false;
+            this.documents = [];
+            this.$Progress.finish();
+            return;
+          }
+
+          this.loadingDocuments = false;
+
+          this.documents = [...this.documents, ...data]
+          console.log(this.documents)
+          this.$Progress.finish();
+        });
+
     },
     searchDocuments() {
       const requestOptions = {
@@ -3065,49 +2398,6 @@ export default {
           this.$Progress.finish();
         });
     },
-    removeFilterTags(index, name) {
-      this.$Progress.start();
-      delete this.tagsSelectedTags[index];
-      this.tagsSelectedTags = this.tagsSelectedTags.filter(function (a) {
-        return typeof a !== "undefined";
-      });
-      if (this.tagsSelectedTags.length == 0) {
-        this.loadAllDocuments();
-        return;
-      }
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          auth: this.auth,
-          tags: this.tagsSelectedTags,
-          // id_tag:idtag,
-          // name:tag
-        }),
-      };
-      fetch(this.endpointTaggedDocuments, requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.empty) {
-            this.documents = [];
-            this.loadingDocuments = false;
-            this.$Progress.finish();
-            return;
-          }
-          if (data.error == true) {
-          } else {
-            if (data.length > 0) {
-              for (var i = data.length - 1; i >= 0; i--) {
-                data[i]._ext = { edit_title: false, edit_description: false };
-              }
-            }
-            this.documents = data;
-            this.$Progress.finish();
-          }
-        });
-    },
     removeFilterTag(index, name) {
       this.$Progress.start();
       delete this.tagsSelected[index];
@@ -3162,7 +2452,7 @@ export default {
           // name:tag
         }),
       };
-      fetch(this.endpointDocument, requestOptions)
+      fetch(this.endpointWriting, requestOptions)
         .then((response) => response.json())
         .then((data) => {
           if (data.code) {
@@ -3187,11 +2477,10 @@ export default {
             }
 
             if (data.data.complete == 0) {
-
               this.editor_enabled = false;
               if (data.data.form_complete) {
-                this.documentModal = data
-                this.contentDocument = data.content;
+                this.documentModal = data;
+                this.contentDocument = data.data.content;
                 this.loadingDocument = false;
                 this.$Progress.finish();
 
@@ -3249,31 +2538,25 @@ export default {
               this.document = data;
               this.contentDocument = data.data.content;
               this.loadingDocument = false;
-
-              let toolbar = this.quill.getModule('toolbar');
-              toolbar.container.style.display = 'none';
-
               this.$Progress.finish();
             } else {
               this.editor_enabled = true;
               this.document = data;
-              let toolbar = this.quill.getModule('toolbar');
-              toolbar.container.style.display = 'block';
               this.contentDocument = data.data.content;
               this.loadingDocument = false;
-              console.log(this.quill + 'Holaquill')
               this.$Progress.finish();
             }
-
-
           }
         });
     },
 
     getDocumentsByTag(idtag, tag) {
       this.$Progress.start();
-      this.tagsSelectedTags.push({ title: tag, id: idtag });
-      this.loadingTags = true;
+      this.tagsSelected.push({
+        text: tag,
+        id: idtag,
+      });
+      this.loadingDocuments = true;
       const requestOptions = {
         method: "POST",
         headers: {
@@ -3281,14 +2564,14 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          tags: this.tagsSelectedTags,
+          tags: this.tagsSelected,
         }),
       };
-      fetch(this.endpointTaggedDocuments, requestOptions)
+      fetch(this.endpointDocumentsByTags, requestOptions)
         .then((response) => response.json())
         .then((data) => {
           if (data.empty) {
-            this.loadingTags = false;
+            this.loadingDocuments = false;
             this.documents = [];
             this.$Progress.finish();
             return;
@@ -3297,7 +2580,7 @@ export default {
           if (data.error == true) {
           } else {
             this.documents = data;
-            this.loadingTags = false;
+            this.loadingDocuments = false;
             this.$Progress.finish();
           }
         });
@@ -3475,6 +2758,7 @@ export default {
             position: "bottom-right",
           });
           delete this.documents[this.selectedIndexDocument];
+          this.loadAllDocuments()
           this.documents = this.documents.filter(function (a) {
             return typeof a !== "undefined";
           });
@@ -3506,7 +2790,7 @@ export default {
           data: newNode,
         }),
       };
-      fetch(window.ENDPOINT + "/writings/save/folders", requestOptions)
+      fetch(this.endpointSaveFoldersChild, requestOptions)
         .then((response) => response.json())
         .then((data) => {
           this.$Progress.finish();
@@ -3600,6 +2884,9 @@ export default {
       this.deleteForlderRequest(this.temp.node.id);
       // this.saveFolders(true);
     },
+    openNewTag() {
+      $("#newTagSuggest").modal("show");
+    },
     deleteFolder(node, index) {
       console.log("deleteforlder", node, index);
       this.temp = {
@@ -3622,7 +2909,7 @@ export default {
           id: id
         }),
       };
-      fetch(window.ENDPOINT + "/writings/delete/folders", requestOptions)
+      fetch(window.ENDPOINT + "/shared/delete/folders", requestOptions)
         .then((response) => response.json())
         .then((data) => {
           this.$Progress.finish();
@@ -3675,7 +2962,7 @@ export default {
           parent: parent,
         }),
       };
-      fetch(window.ENDPOINT + "/writings/get/folders/child", requestOptions)
+      fetch(window.ENDPOINT + "/shared/get/folders/childs", requestOptions)
         .then((response) => response.json())
         .then((data) => {
           if (data.empty) {

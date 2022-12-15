@@ -160,17 +160,17 @@ opacity:0.5;
     }
   },
     created() {
-    if(localStorage.getItem('auth') == undefined || localStorage.getItem('auth') == null ||  localStorage.getItem('auth') == '' ||   localStorage.getItem('auth') == ' '){
-         this.$router.push({
-                            name: 'home',
-                            query: {
-                                rel: window.location.href
-                            }
-         })
-    	return;
-    }
-       this.getDocument(this.$route.params.id)
-       // this.getDetails();
+    // if(localStorage.getItem('auth') == undefined || localStorage.getItem('auth') == null ||  localStorage.getItem('auth') == '' ||   localStorage.getItem('auth') == ' '){
+    //      this.$router.push({
+    //                         name: 'home',
+    //                         query: {
+    //                             rel: window.location.href
+    //                         }
+    //      })
+    // 	return;
+    // }
+      //  this.getDocument(this.$route.params.id)
+      //  // this.getDetails();
     },
     mounted() {   
         

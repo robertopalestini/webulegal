@@ -21,7 +21,7 @@
  
 
 
-       <div class="row">
+       <div class="row contenedor">
                 <div class="col-md-12">
                 <h1 class="text-center titles" >¿Por qué formar parte de Webu?</h1>
                     <p class="text-center mt-3">

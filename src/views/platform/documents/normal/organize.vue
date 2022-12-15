@@ -1,3 +1,4 @@
+
  <style>
   @import   '@/assets/platform.css';
      .ul-categories {
@@ -13,7 +14,6 @@
         margin-bottom: 10px;
         flex-direction: column;
      }
-
      .ul-categories li a {
         padding: 10px;
         border-radius: 30px;
@@ -24,8 +24,6 @@
         padding-left: 30px;
         padding-right: 30px;
      }
-
-
       .ul-categories-subcategorias {
          margin: 0;
          padding: 0;
@@ -42,7 +40,6 @@
         margin-bottom: 10px;
         flex-direction: column;
      }
-
      .ul-categories-subcategorias li a {
         padding: 5px;
         border-radius: 30px;
@@ -63,7 +60,6 @@
     margin: 0;
      }
  
-
      .activeDocument {
     padding: 15px;
     border-bottom: 1px solid rgb(230, 230, 230);
@@ -76,11 +72,9 @@
    color: #2b44ff !important;
     transition: all 250ms;
 }
-
 #column_left {
     background-color: #515151;
 }
-
 .nav-list li a {
     text-decoration: none;
     display: block;
@@ -89,14 +83,12 @@
     border-bottom: 1px solid #515151 !important;
     color: #9d9d9d;
 }
-
 .nav-list > li > a {
     color: #C4C4C4;
     font-size: 14px;
     padding-left: 13px !important;
     border-bottom: 1px solid #585858;
 }
-
 .nav-list > li > a:hover {
     background-color: #444444;
 }
@@ -112,43 +104,34 @@ padding:0;margin:0;width:100%;list-style:none
 .folder-menu li:hover > .icon-add{
     opacity: 1;
 }
-
 .folder-menu li .icon-add {
     opacity: 0;
     float: right;
     cursor: pointer;
 }
-
 .folder-menu-child {
        padding:0;margin:0;width:100%;list-style:none;padding-left:10px;
      }
-
      .folder-menu-child li {
       padding:0;margin:0;width:100%;list-style:none
      }
-
      .folder-menu-child li a{
       color:black;font-weight:600;font-size:12px;
      }
-
      .folder-menu-child li:hover > .icon-add{
     opacity: 1;
 }
-
 .folder-menu-child li   .icon-add {
     opacity: 0;
     float: right;
     cursor: pointer;
 }
-
 .folder_icon_active , .folder_icon {
     display: none !important;
 }
-
 input[type=checkbox], input[type=radio] {
       display: none !important;
 }
-
 .expanded_icon {
     transform: rotate(0deg);
     transition: all .2s ease;
@@ -159,7 +142,6 @@ input[type=checkbox], input[type=radio] {
     border-width: -2px 0 4px 8px;
     border-color: transparent transparent transparent #555;
 }
-
  
 .button-move-tree {
     background-image: url(/src/assets/boton-agregar.png);
@@ -181,11 +163,9 @@ input[type=checkbox], input[type=radio] {
     display: none !important;
     content: '';
 }
-
 .row_data:hover {
     color:  #0C00FF !important;
 }
-
  </style>
 <template>
     <navBar /> 
@@ -372,10 +352,7 @@ export default {
             endpointTags: 'http://api.webu.lt/search/tags/default',
             endpointSave: window.ENDPOINT +  '/library/organize', 
             endpointSearchTags: window.ENDPOINT +  '/search/tags',
-
            
-
-
             modalCreate: false,
             inputCreate: null,
             categories: [],
@@ -629,14 +606,12 @@ export default {
                 this.treeDisplayData = this.prepareArray(data); 
             })
         },
-
     	 pathMoveSelectedRemove(index,nodeid) {
             delete this.pathMoveSelected[index];
             this.pathMoveSelected = this.pathMoveSelected.filter(function(a) {
                 return typeof a !== 'undefined';
             })
         },
-
     	 selectPathMove(node) { 
             console.log(node); 
             if(this.pathMoveSelected.length < 1) {
@@ -651,14 +626,11 @@ export default {
             }
             
         },
-
         mySelectedFunction: function(nodeId, state) {
             console.log(`is ${nodeId} selected ? ${state}`);
             console.log(this.$refs["my-tree"].getSelectedNode());
-
            
         },
-
     	 getDocument() {
             this.$Progress.start(); 
             const requestOptions = {
@@ -678,23 +650,15 @@ export default {
             })
         },
         save() {
-
-
             if(this.tagSelected.length < 3) {
                 this.$toast.error( "Por favor , selecciona como minimo 3 etiquetas",{position: "bottom-right" })
                 return;
             }
-
-
-
             if(this.pathMoveSelected.length < 1) {
                 this.$toast.error( "Por favor , selecciona una categoria",{position: "bottom-right" })
                 return;
             }
-
-
            
-
             // this.loadingSave = true;
             const requestOptions = {
                 method: "POST",
@@ -711,7 +675,6 @@ export default {
                 })
             };
             fetch(this.endpointSave, requestOptions).then(response => response.json()).then((data) => {
-
                if(data.insertedId) {
                	        this.$router.push({
                             name: 'librarie-folders',
@@ -719,12 +682,10 @@ export default {
                                 id: this.id_document
                             } 
                         })
-
             		this.$toast.success( "Gracias por compartir con la comunidad tu documento",{position: "bottom-right" })
             	} else {
             		 this.$toast.error( "Ocurrio un error , por favor intente luego",{position: "bottom-right" })
             	}
-
             })
         },
         selectCategorie(data) {
@@ -767,7 +728,6 @@ export default {
                 } 
             })
         }, 
-
            getChilds(parent) {
             this.$Progress.start();
             const requestOptions = {
@@ -813,7 +773,6 @@ export default {
             } 
             return fix; 
         }
-
         
     }
 }

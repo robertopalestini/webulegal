@@ -30,9 +30,18 @@
            </div> 
 
            <div class="form-group"> 
+             <input type="text" class="form-control" placeholder="Telefono (Opcional)" v-model="data.phone" />
+           </div>
+
+           <div class="form-group"> 
              <input type="text" class="form-control" placeholder="Codigo promocional" v-model="data.code_promotional" />
            </div>
 
+
+         
+           <div class="form-group" style="margin-top:20px;margin-bottom:20px;">
+           <p>Al ingresar aceptás los <a href='/src/assets/TÉRMINOS-Y-CONDICIONES-GENERALES-WEBU.pdf'>términos y condiciones</a> y la <a href="/src/assets/Politica-de-Privacidad-Webu.pdf" >política de privacidad</a>.</p>
+          </div>
 
            <div class="form-group" style="margin-top:20px;margin-bottom:20px;">
             <button type="submit" class="btn btn-primary col-12" style="width:120px;position:relative;width:100%;height:45px">Registrarse</button>
@@ -467,6 +476,7 @@ endpointGoogle: window.ENDPOINT + '/users/login/google',
         password: null,
         firstname: null,
         lastname: null,
+        phone: null,
         code_promotional:null
       },
       loading_submit:false,
@@ -602,6 +612,7 @@ submitGoogle(response, data) {
                 password:this.data.password,
                 firstname:this.data.firstname,
                 lastname:this.data.lastname,
+                phone: this.data.phone,
                 code_promotional : this.data.code_promotional,
              })
          };
