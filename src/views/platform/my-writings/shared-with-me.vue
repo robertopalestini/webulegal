@@ -1187,8 +1187,6 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { Quill, QuillEditor } from "@vueup/vue-quill";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import noUiSlider from "nouislider"
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 Quill.register(quillTable.TableCell);
