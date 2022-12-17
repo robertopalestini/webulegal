@@ -1,63 +1,84 @@
- 
 <template>
   <navBar />
   <main>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-2" style="height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;padding:0;">
+        <div
+          class="col-md-2"
+          style="
+            height: calc(100vh - 70px);
+            overflow: hidden;
+            overflow-y: auto;
+            padding: 0;
+          "
+        >
           <columnLeft />
         </div>
-        <div class="col-md-10  create-doc-normal" style="padding-top: 0">
-
-
+        <div class="col-md-10 create-doc-normal" style="padding-top: 0">
           <div class="row" v-if="editor_view">
-
-
-
-            <div class="col-12 text-left" style="position: absolute;padding-top:20px;;">
-              <a href="@" @click.prevent="$router.go(-1)"> <img src="@/assets/flecha-izquierda.svg"
-                  style="height:20px;width:20px;" />
-
+            <div
+              class="col-12 text-left"
+              style="position: absolute; padding-top: 20px"
+            >
+              <a href="@" @click.prevent="$router.go(-1)">
+                <img
+                  src="@/assets/flecha-izquierda.svg"
+                  style="height: 20px; width: 20px"
+                />
               </a>
             </div>
             <div class="text-left">
-
-
-              <div id="editor" contenteditable="true" v-html="contentText" style="
-              height: calc(65vh);
-              overflow: hidden;
-              overflow-y: scroll;
-              width: calc(100vw - 110px);
-              padding-top: ;
-           text-align: left;
-              padding-right:0; 
-              padding-left:5px; 
-              min-height: calc(65vh);
-            "></div>
+              <div
+                id="editor"
+                contenteditable="true"
+                v-html="contentText"
+                style="
+                  height: calc(65vh);
+                  overflow: hidden;
+                  overflow-y: scroll;
+                  width: calc(100vw - 110px);
+                  padding-top: ;
+                  text-align: left;
+                  padding-right: 0;
+                  padding-left: 5px;
+                  min-height: calc(65vh);
+                "
+              ></div>
             </div>
-
 
             <!-- <div id="cke_ruler_wrap"></div> -->
 
-
-
-            <div class="col-12" style="position:relative" v-if="editor_view">
+            <div class="col-12" style="position: relative" v-if="editor_view">
               <div class="text-center">
-                <button type="submit" class="btn btn-primary" style="width:120px;position:relative" disabled="true"
-                  v-if="shopsavepop">
-                  <div class="spinner-border text-light spinner-border-sm" role="status" style="width: 15px;
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="width: 120px; position: relative"
+                  disabled="true"
+                  v-if="shopsavepop"
+                >
+                  <div
+                    class="spinner-border text-light spinner-border-sm"
+                    role="status"
+                    style="
+                      width: 15px;
                       height: 15px;
-                      border-width: 1px; 
-                      margin: 0;  align-content: center;
-                  justify-content: center;
-                  align-items: center;">
+                      border-width: 1px;
+                      margin: 0;
+                      align-content: center;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
                     <span class="sr-only">Loading...</span>
                   </div>
                 </button>
               </div>
 
               <!-- v-if="popshared" -->
-              <div style="    display: flex;
+              <div
+                style="
+                  display: flex;
                   top: 0px;
                   left: 0px;
                   right: 0px;
@@ -65,68 +86,99 @@
                   bottom: 0;
                   align-content: center;
                   justify-content: center;
-                  align-items: center;" v-if="shopsavepop">
-                <div style="
-                  color: rgb(52, 52, 52);
-                  width: 355px;
-                  right: 180px;
-                  font-size: 14px;
-                  border-radius: 8px;
-                  font-weight: 600;
-                  background: #e7e7e7;
-                  padding: 10px;
-                  ">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                    @click="popshared = false"><span aria-hidden="true">×</span></button>
+                  align-items: center;
+                "
+                v-if="shopsavepop"
+              >
+                <div
+                  style="
+                    color: rgb(52, 52, 52);
+                    width: 355px;
+                    right: 180px;
+                    font-size: 14px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    background: #e7e7e7;
+                    padding: 10px;
+                  "
+                >
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    @click="popshared = false"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
 
-                  El archivo de biblioteca se guardará en tu carpeta privada “Mi biblioteca”. ¿Querés compartirlo con la
-                  comunidad legal?
-                  <div class="col-12 text-right" style="display: flex;">
-
-                    <button class="btn btn-primary" style="margin:5px;" @click="saveShare(1)"
-                      :disabled="saveLoadingShareDisabled">
+                  El archivo de biblioteca se guardará en tu carpeta privada “Mi
+                  biblioteca”. ¿Querés compartirlo con la comunidad legal?
+                  <div class="col-12 text-right" style="display: flex">
+                    <button
+                      class="btn btn-primary"
+                      style="margin: 5px"
+                      @click="saveShare(1)"
+                      :disabled="saveLoadingShareDisabled"
+                    >
                       <span v-if="!saveLoadingShare">Si</span>
-                      <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingShare" style=" 
+                      <div
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        v-if="saveLoadingShare"
+                        style="
                           height: 10px;
                           margin: 0px;
                           padding: 0px;
                           width: 10px !important;
                           color: white;
-                          margin-top: -10px !important; ">
+                          margin-top: -10px !important;
+                        "
+                      >
                         <span class="sr-only">Loading...</span>
                       </div>
                     </button>
 
-
-                    <button href="#" class="btn btn-primary" style="margin:5px" @click="saveShare(0)"
-                      :disabled="saveLoadingNtShareDisabled">
+                    <button
+                      href="#"
+                      class="btn btn-primary"
+                      style="margin: 5px"
+                      @click="saveShare(0)"
+                      :disabled="saveLoadingNtShareDisabled"
+                    >
                       <span v-if="!saveLoadingNtShare">No</span>
-                      <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingNtShare" style=" 
-                        height: 10px;
-                        margin: 0px;
-                        padding: 0px;
-                        width: 10px !important;
-                        color: white;
-                        margin-top: -10px !important; 
-                    ">
+                      <div
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        v-if="saveLoadingNtShare"
+                        style="
+                          height: 10px;
+                          margin: 0px;
+                          padding: 0px;
+                          width: 10px !important;
+                          color: white;
+                          margin-top: -10px !important;
+                        "
+                      >
                         <span class="sr-only">Loading...</span>
                       </div>
                     </button>
                   </div>
                 </div>
-
-
-
               </div>
             </div>
-
           </div>
 
-
           <div class="text-center">
-
-            <button type="submit" class="btn btn-primary" style="width:120px;position:relative" @click="openOrg()"
-              v-if="!shopsavepop">Crear</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="width: 120px; position: relative"
+              @click="openOrg()"
+              v-if="!shopsavepop"
+            >
+              Crear
+            </button>
           </div>
         </div>
       </div>
@@ -139,12 +191,9 @@
 
 </div>
  -->
-
-
-
 </template>
 <style>
-@import '@/assets/platform.css';
+@import "@/assets/platform.css";
 
 .btn-attach {
   background: #efeded;
@@ -179,7 +228,7 @@
   color: #2b44ff !important;
 }
 */
-.ql-toolbar.ql-snow+.ql-container.ql-snow {
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
   border-top: 0px;
   border-top: 1px solid #cfcfcf;
 }
@@ -187,14 +236,14 @@
 .ql-toolbar.ql-snow {
   border: 1px solid #d1d5db;
   box-sizing: border-box;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   padding: 8px;
   border: none;
   margin-left: 3vw;
   text-align: left;
 }
 
-.ql-toolbar.ql-snow+.ql-container.ql-snow {
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
   border-top: 0px;
   background: white;
   border: transparent;
@@ -236,14 +285,13 @@ iframe {
   background: #f4f2f2;
 } */
 </style>
- 
-<script setup>
-import columnLeft from '@/components/platform/left.vue';
-import navBar from '@/components/platform/navbar.vue';
-import { Editable } from '@livingdocs/editable.js/src/core'
 
+<script setup>
+import columnLeft from "@/components/platform/left.vue";
+import navBar from "@/components/platform/navbar.vue";
+import { Editable } from "@livingdocs/editable.js/src/core";
 </script>
- 
+
 <script>
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
@@ -253,8 +301,6 @@ import quillTable from "quill-table";
 import { ImageHandler, VideoHandler, AttachmentHandler } from "quill-upload";
 import BaseHandler from "quill-upload/src/handlers/BaseHandler";
 import { AttachmentBlot } from "quill-upload/src/blots";
-
-
 
 Quill.register("blots/attachment", AttachmentBlot);
 // register quill-upload
@@ -266,24 +312,24 @@ Quill.register(quillTable.TableCell);
 Quill.register(quillTable.TableRow);
 Quill.register(quillTable.Table);
 Quill.register(quillTable.Contain);
-Quill.register('modules/table', quillTable.TableModule);
+Quill.register("modules/table", quillTable.TableModule);
 
 export default {
   components: {
-    QuillEditor
+    QuillEditor,
   },
   data() {
     return {
       editor: null,
 
       data: {},
-      auth: localStorage.getItem('auth'),
-      endpointUpload: window.ENDPOINT + '/upload',
-      endpoint: window.ENDPOINT + '/documents/save',
+      auth: localStorage.getItem("auth"),
+      endpointUpload: window.ENDPOINT + "/upload",
+      endpoint: window.ENDPOINT + "/documents/save",
       quill: null,
       toolbarOptions: null,
       addCampos: null,
-      endpointShare: window.ENDPOINT + '/documents/save',
+      endpointShare: window.ENDPOINT + "/documents/save",
       popshared: false,
       editor_view: true,
       categories_view: false,
@@ -305,58 +351,52 @@ export default {
       saveLoadingNtShareDisabled: false,
       attachFiles: [],
       contentText: null,
-
-    }
+    };
   },
   created() {
-
-
-
-
-
-
     const maxRows = 10;
     const maxCols = 5;
     const tableOptions = [];
     for (let r = 1; r <= maxRows; r++) {
       for (let c = 1; c <= maxCols; c++) {
-        tableOptions.push('newtable_' + r + '_' + c);
+        tableOptions.push("newtable_" + r + "_" + c);
       }
     }
 
-    const addCampos = 'ql-customb'
+    const addCampos = "ql-customb";
 
     this.toolbarOptions = [
-      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ["bold", "italic", "underline", "strike"], // toggled buttons
       // ['blockquote', 'code-block'],
 
-      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-      [{ 'direction': 'rtl' }],                         // text direction
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
 
       // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
       // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
-      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-      [{ 'font': [] }],
-      [{ 'align': [] }],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
 
-      ['image', 'video', "attachment"],
+      ["image", "video", "attachment"],
       // [{ table: tableOptions }, { table: 'append-row' }, { table: 'append-col' }],
 
-      ['clean']                                         // remove formatting button
+      ["clean"], // remove formatting button
     ];
   },
   mounted() {
-
     // if (this.$route.name == 'document-edit') {
-    const getDocStorage = JSON.parse(localStorage.getItem('editDocumentPrivate'))
-    console.log(getDocStorage)
-    this.data = getDocStorage
+    const getDocStorage = JSON.parse(
+      localStorage.getItem("editDocumentPrivate")
+    );
+    console.log(getDocStorage);
+    this.data = getDocStorage;
     this.contentText = getDocStorage.data.content;
-    this.fields = getDocStorage.data.fields
+    this.fields = getDocStorage.data.fields;
     // } else if (this.$route.name == 'document-new') {
     //   localStorage.removeItem('editDocumentPrivate')
     //   console.log('aaaa' + this.contentText)
@@ -365,12 +405,11 @@ export default {
 
     // }
 
-
     setTimeout(() => {
-
-      this.quill = new Quill('#editor', {
-        theme: 'snow',
-        placeholder: 'Pega o escribi aca el contenido legal que quieras agregar.',
+      this.quill = new Quill("#editor", {
+        theme: "snow",
+        placeholder:
+          "Pega o escribi aca el contenido legal que quieras agregar.",
         modules: {
           // table: true,
           toolbar: this.toolbarOptions,
@@ -387,11 +426,8 @@ export default {
               });
             },
           },
-
-        }
-      }
-      );
-
+        },
+      });
     }, 1000);
 
     // document
@@ -399,15 +435,12 @@ export default {
     //   .addEventListener("paste", (e) => {
     //     e.preventDefault();
     //     var contentOnBlur = (e.originalEvent || e).clipboardData.getData('text/html') || prompt('Paste something..');
-    //     // contentOnBlur = contentOnBlur.replace(/(<([^>]+)>)/ig,''); 
+    //     // contentOnBlur = contentOnBlur.replace(/(<([^>]+)>)/ig,'');
     //     contentOnBlur = striptags(contentOnBlur, ['span', 'table', 'tbody', 'tr', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'b', 'em', 'strong', 'br', 'u', 'strike', 'p']);
     //     document.execCommand('insertHtml', false, contentOnBlur.replace(/[\s;]background-color:[^;]+(?=;)|^background-color:[^;]+;/g, '').replace(/[\s;]color:[^;]+(?=;)|^color:[^;]+;/g, ''));
     //   })
 
-
     //   document.querySelector('#editor3').addEventListener('paste', (event) => {
-
-
 
     //      let paste = (event.clipboardData || window.clipboardData).getData('text');
     //       paste.replace(/<[^>]*>?/gm, '');
@@ -417,14 +450,10 @@ export default {
     //     selection.deleteFromDocument();
     //    selection.getRangeAt(0).insertNode(document.createTextNode(paste));
 
-
     //     event.preventDefault();
     // });
-
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     crearPaginas() {
       const new_div = document.createElement("div");
@@ -432,61 +461,70 @@ export default {
       const total_elements_kept = 8;
 
       // Move the children of the original div into the new div
-      Array.from(document.querySelector('#editor').children).slice(total_elements_kept,)
+      Array.from(document.querySelector("#editor").children)
+        .slice(total_elements_kept)
         .forEach(function (elm) {
-          new_div.appendChild(elm).classList.add('margin-bottom: 10px');
+          new_div.appendChild(elm).classList.add("margin-bottom: 10px");
         });
-
     },
 
     attachFile(fd) {
       this.$Progress.start();
-      console.log(fd)
-
+      console.log(fd);
 
       fetch(this.endpointUpload, {
-        method: 'POST',
-        body: fd
+        method: "POST",
+        body: fd,
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           if (data.status) {
             const url = window.PATHUPLOAD + data.data.name;
 
             // if(data.data.ext === ".doc") {
-            if (data.data.ext.startsWith('.doc')) {
-
+            if (data.data.ext.startsWith(".doc")) {
               // $('#editor3').append(` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://www.mtsac.edu/webdesign/accessible-docs/word/example03.docx" width="100%" height="500px"></iframe><br/><p></p>`)
-              this.quill = $(".ql-editor").append(` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=` + url + `" width="100%" height="500px"></iframe><br/><p></p>`)
+              this.quill = $(".ql-editor").append(
+                ` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=` +
+                  url +
+                  `" width="100%" height="500px"></iframe><br/><p></p>`
+              );
             }
 
-
             if (data.data.ext === ".pdf") {
-              this.quill = $(".ql-editor").append(` <iframe src="` + url + `" width="100%" height="500px"></iframe><br/><p></p>`)
+              this.quill = $(".ql-editor").append(
+                ` <iframe src="` +
+                  url +
+                  `" width="100%" height="500px"></iframe><br/><p></p>`
+              );
             }
 
             // if(data.data.ext === ".xls") {
-            if (data.data.ext.startsWith('.xl')) {
-              // $('#editor3').append(` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://dornsife.usc.edu/assets/sites/298/docs/ir211wk12sample.xls" width="100%" height="500px"></iframe><br/><p></p>`) 
+            if (data.data.ext.startsWith(".xl")) {
+              // $('#editor3').append(` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://dornsife.usc.edu/assets/sites/298/docs/ir211wk12sample.xls" width="100%" height="500px"></iframe><br/><p></p>`)
 
-              this.quill = $(".ql-editor").append(` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=` + url + `" width="100%" height="500px"></iframe><br/><p></p>`)
+              this.quill = $(".ql-editor").append(
+                ` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=` +
+                  url +
+                  `" width="100%" height="500px"></iframe><br/><p></p>`
+              );
             }
             this.attachFiles.push(data.data);
 
             this.$Progress.finish();
           }
-          console.log(data)
+          console.log(data);
         })
-        .catch(error => {
-          console.error(error)
-        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     actionTeste(event, role) {
       switch (role) {
-        case 'h1':
-        case 'h2':
-        case 'p':
-          document.execCommand('formatBlock', false, role);
+        case "h1":
+        case "h2":
+        case "p":
+          document.execCommand("formatBlock", false, role);
           break;
         default:
           document.execCommand(role, false, null);
@@ -496,41 +534,35 @@ export default {
 
     saveShare(value) {
       if (value == 1) {
-        this.save()
+        this.save();
         this.saveLoadingShare = true;
         this.saveLoadingNtShareDisabled = true;
         this.saveLoadingShareDisabled = true;
-        this.$router.push({ name: 'document-organize', params: { id: this.data._id } })
-
+        this.$router.push({
+          name: "document-organize",
+          params: { id: this.data._id },
+        });
       } else {
-        this.save()
+        this.save();
         this.saveLoadingNtShare = true;
         this.saveLoadingShareDisabled = true;
         this.saveLoadingNtShareDisabled = true;
         this.popshared = false;
 
-
-
         // this.$toast.success("Archivo creado", { position: "bottom-right" })
 
-
         // setTimeout(() => {
-        //      this.$router.push({ name: 'my-writings-view-automatic-document', params: { id: this.data.id }})   
-        //  },1500) 
+        //      this.$router.push({ name: 'my-writings-view-automatic-document', params: { id: this.data.id }})
+        //  },1500)
       }
-
     },
     openOrg() {
       this.shopsavepop = true;
-
     },
 
     save() {
-
-
-
-      this.contentText = this.quill.container.innerHTML
-      console.log(this.quill.container.innerHTML)
+      this.contentText = this.quill.container.innerHTML;
+      console.log(this.quill.container.innerHTML);
       // this.quill.setHTML('<div>Hello</div>');
       var temp = [];
       var copy = this.fields;
@@ -539,56 +571,56 @@ export default {
         temp.push(copy[i]);
       }
 
-
       const requestOptions = {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           auth: this.auth,
           data: {
-            type: 'document',
+            type: "document",
             content: this.contentText,
             // fields: temp,
-            title: 'Documento sin titulo', //this.titleDocument,
-            description: 'Documento sin descripcion', //this.descriptionDocument, 
+            title: "Documento sin titulo", //this.titleDocument,
+            description: "Documento sin descripcion", //this.descriptionDocument,
             categories: [],
             tags: [],
-            attachment: this.attachFiles
-          }
-
-        })
+            attachment: this.attachFiles,
+          },
+        }),
       };
-
 
       const asiNo = `<div class="ql-editor ql-blank" data-gramm="false" contenteditable="true" data-placeholder="Pega o escribi aca el contenido legal que quieras agregar."><p><br></p></div><div class="ql-clipboard" contenteditable="true" tabindex="-1"></div><div class="ql-tooltip ql-hidden"><a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank"></a><input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL"><a class="ql-action"></a><a class="ql-remove"></a></div><div><div id="__ID_SPLIT__.QUILL-LOADING">
               <span class="quill-progress"></span>
             </div>
-            </div>`
+            </div>`;
 
       if (this.contentText == asiNo) {
-        this.$toast.error("Completar", { position: "bottom-right" })
+        this.$toast.error("Completar", { position: "bottom-right" });
         this.saveLoadingShare = false;
         this.saveLoadingShareDisabled = true;
         this.saveLoadingNtShareDisabled = true;
         this.shopsavepop = false;
       } else {
-        fetch(this.endpoint, requestOptions).then(response => response.json()).then((data) => {
+        fetch(this.endpoint, requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
 
-          console.log(data)
-
-          this.shopsavepop = false;
-          this.popshared = true;
-          this.$toast.success("Archivo creado", { position: "bottom-right" })
-          setTimeout(() => {
-            this.$router.push({ name: 'view-automatic-document', params: { id: this.data.id } })
-          }, 1500)
-          this.data = data;
-        })
+            this.shopsavepop = false;
+            this.popshared = true;
+            this.$toast.success("Archivo creado", { position: "bottom-right" });
+            setTimeout(() => {
+              this.$router.push({
+                name: "view-automatic-document",
+                params: { id: this.data.id },
+              });
+            }, 1500);
+            this.data = data;
+          });
       }
     },
-
 
     next() {
       this.text_view = true;
@@ -596,13 +628,7 @@ export default {
       this.help_view = false;
 
       this.categories_view = false;
-
-
-
-    }
-  }
-}
-
+    },
+  },
+};
 </script>
-
- 
