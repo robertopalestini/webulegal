@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vitePluginRaw from 'vite-plugin-raw'
 const path = require('path');
 
 // https://vitejs.dev/config/
