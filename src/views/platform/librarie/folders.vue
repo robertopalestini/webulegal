@@ -1017,11 +1017,15 @@
     tabindex="-1"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-dialog modal-dialog-centered">
       <form
         class="modal-content"
         style="border-radius: 10px; border: none"
-        @submit.prevent="createNewTag(newTagName)"
+        @submit.prevent="
+          !activeDocumentId
+            ? createNewTag(newTagName)
+            : insertDocumentTags(activeDocumentId, tagSelected)
+        "
       >
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
@@ -1036,6 +1040,35 @@
           </button>
         </div>
         <div class="modal-body" style="height: 20vh">
+          <ul style="margin: 16px 0">
+            <li
+              v-for="(tag, index) in tagSelected"
+              :key="tag._id"
+              style="
+                padding: 2px 16px;
+                width: 100%;
+                display: flex;
+                column-gap: 6px;
+                align-items: center;
+                width: max-content;
+                border-radius: 12px;
+                background: #f6f5f5;
+                border-bottom: 1px solid #e6e6e6;
+                font-size: 12px;
+                color: black;
+                font-weight: 500;
+              "
+              @click="selectTag(index)"
+            >
+              <p style="margin-bottom: 0; font-size: 14px">
+                {{ tag.data.name }}
+              </p>
+              <img
+                src="@/assets/boton-agregar.png"
+                style="width: 20px; height: 20px"
+              />
+            </li>
+          </ul>
           <div class="col-12" style="padding-top: 0px">
             <h4 style="font-weight: bold; text-align: left; font-size: 17px">
               Asignale al documento como minimo tres etiquetas
@@ -1046,6 +1079,35 @@
               class="form-control input-search-dashboard"
               placeholder="Escribe para agregar una etiqueta"
             />
+          </div>
+          <div v-if="activeDocumentId" style="margin: 16px 0">
+            <div
+              v-for="(tag, index) in tags"
+              :key="tag._id"
+              style="
+                padding: 2px 16px;
+                width: 100%;
+                display: flex;
+                column-gap: 6px;
+                align-items: center;
+                width: max-content;
+                border-radius: 12px;
+                background: #f6f5f5;
+                border-bottom: 1px solid #e6e6e6;
+                font-size: 12px;
+                color: black;
+                font-weight: 500;
+              "
+              @click="selectTag(index)"
+            >
+              <p style="margin-bottom: 0; font-size: 14px">
+                {{ tag.data.name }}
+              </p>
+              <img
+                src="@/assets/boton-agregar.png"
+                style="width: 20px; height: 20px"
+              />
+            </div>
           </div>
         </div>
         <div class="modal-footer" style="border: none">
@@ -1390,6 +1452,9 @@ export default {
       endpointMoveSave: window.ENDPOINT + "/library/save/folders/organize",
       endpointDeleteDocument: window.ENDPOINT + "/library/delete/documents",
       endpointSavePrivateTags: window.ENDPOINT + "/private/save/tags",
+      endpointOrganizePrivateTags:
+        window.ENDPOINT + "/private/save/tags/organize",
+      endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
       endpointSave: window.ENDPOINT + "/library/folders/edit",
       editor_enabled: false,
       items: [],
@@ -1401,6 +1466,7 @@ export default {
       endpointTaggedDocuments: window.ENDPOINT + "/library/get/tags/documents",
       itemsTags: [],
       tags: [],
+      tagSelected: [],
       newTagName: "",
       documentsSearchTags: [],
       documentsTags: [],
@@ -1481,6 +1547,7 @@ export default {
     this.loadAllDocuments();
     this.loadFolders();
     this.loadTags();
+    this.getTags();
     this.loadFoldersTree2();
     if (this.$route.query.id) {
       this.activeDocumentId = this.$route.query.id;
@@ -1859,6 +1926,27 @@ export default {
           $("#moveDocumentTofolder").modal("show");
         });
     },
+    getTags() {
+      this.$Progress.start();
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            type: "library",
+          },
+        }),
+      };
+      fetch(this.endpointGetPrivateTags, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$Progress.finish();
+          this.tags = data;
+        });
+    },
     openCreateTagModal() {
       $("#ModalAddTags").modal("show");
     },
@@ -1882,6 +1970,33 @@ export default {
         .then((data) => {
           this.$Progress.finish();
           this.newTagName = "";
+          this.$toast.success("Crear con éxito nuevas etiquetas", {
+            position: "bottom-right",
+          });
+          $("#ModalAddTags").modal("hide");
+        });
+    },
+    insertDocumentTags(documentId, tags) {
+      this.$Progress.start();
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            name: tags.map((tag) => tag.data.name),
+            documentId,
+            type: "library",
+          },
+        }),
+      };
+      fetch(this.endpointOrganizePrivateTags, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$Progress.finish();
+          this.tagSelected = [];
           this.$toast.success("Crear con éxito nuevas etiquetas", {
             position: "bottom-right",
           });
