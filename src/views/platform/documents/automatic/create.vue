@@ -167,15 +167,15 @@ startText();
                                 <div class="editor-wrapper" style="margin-left:-190px">
 
                                     <ckeditor placeholders="Pega" id="editor" :editor="editorCK" v-html="contentText"
-                                        v-model="contentText" @ready="onReadyCK" @overflow="onAddPage" style="
-                                     
-                                height: calc(700px);
-                                text-align: left;  
-                                padding-left:10px;
-                                padding-right:0; 
-                                
-                                ">
-
+                                        :editorData="contentText" @update:editorData="contentText = $event"
+                                        :select="selectedRange" @update:select="selectedRange = $event"
+                                        @ready="onReadyCK" @overflow="onAddPage" style="                                     
+                                        height: calc(700px);
+                                        text-align: left;  
+                                        padding-left:10px; 
+                                        padding-right:0; 
+                                        
+                                        ">
                                     </ckeditor>
 
 
@@ -361,7 +361,7 @@ startText();
                     </button>
                 </div>
                 <div class="modal-body text-danger" style="padding:0;">
-                    <form @submit.prevent="replaceSelectedText" style="padding:20px">
+                    <form @submit.prevent="replaceSelectedText()" style="padding:20px">
                         <input type="text" class="form-control" style="
                             font-weight: 600;
                             height: 32px !important;
@@ -393,7 +393,7 @@ startText();
             overflow-y: scroll;
           " v-if="fields.length > 0">
                         <li v-for="(field, index) in fields">
-                            <a href="#" @click="addExistentField($event, index)" @mouseover="mouseoverfield(index)"
+                            <a href="#" @click="(e) => addExistentField(e, i)" @mouseover="mouseoverfield(index)"
                                 v-if="field.existent == false" @mouseleave="mouseleavefield(index)"
                                 style="padding: 7px; border-bottom: 1px solid #c9c9c9;width:100%;display:block;position:relative">{{
         field.field
@@ -823,14 +823,13 @@ export default {
             base: null,
             range: null,
             editDocument: null,
+            selectedRange: null,
             editorCK: DecoupledEditor,
+            editorData: null,
+            editorConfig: null,
             linesDoc: 20,
             columnsDoc: null
-            // editorCKData: '<p>Content of the editor.</p>',
-            // editorCKConfig: {
-            //     // Run the editor with the German UI.
-            //     language: 'es'
-            // }
+
         };
     },
     created() {
@@ -916,6 +915,7 @@ export default {
         },
 
         onReadyCK(editor) {
+
 
 
             // Insert the toolbar before the editable area.
@@ -1057,21 +1057,33 @@ export default {
             // }
         },
 
-        addExistentField(event, index) {
+        addExistentField(e, index) {
+
             this.replaceforExistent = true;
             this.replaceforExistentIndex = index;
-            this.replaceSelectedText(event);
+            console.log(this.selec)
+            this.getSelectionOnField()
+            this.openAddField()
         },
 
-        openModalChangeText() {
-            sel = window.getSelection();
-            base = window
-                .getSelection()
-                .anchorNode.data.substring(
-                    window.getSelection().anchorOffset,
-                    window.getSelection().extentOffset
-                );
-            range = sel.getRangeAt(0);
+        getSelectionOnField() {
+
+            this.$sel = window.getSelection();
+            if (this.$sel.extentOffset) console.log('existo!')
+            this.$sel.extentOffset
+            this.$base = window
+                .getSelection().anchorNode.textContent
+            // .substring(
+            //     window.getSelection().extentOffset,
+            //     window.getSelection().anchorOffset
+            // );
+            this.$range = this.$sel.getRangeAt(0);
+
+            console.log('sel' + this.$sel)
+
+            console.log('base' + this.$base)
+
+            console.log('ahora' + this.$range)
 
             let selection = window
                 .getSelection()
@@ -1080,11 +1092,10 @@ export default {
                     window.getSelection().anchorOffset
                 );
 
+
             if (selection.length !== 0) {
                 //open popup in cursor
                 var event;
-                this.openAddField()
-                // this.replaceSelectedText(event);
                 // const onMouseMove = (e) => {
                 //     var popup = document.querySelector("#popup-selected-text");
                 //     popup.style.left = e.pageX + 20 + "px";
@@ -1106,6 +1117,9 @@ export default {
 
         replaceSelectedText(e) {
             // e.preventDefault();
+            this.getSelectionOnField()
+
+            console.log('Llamando al replacesleected text')
             console.log(range)
             console.log(this.fields)
             e.preventDefault();
@@ -1173,8 +1187,14 @@ export default {
             this.fields.push(newField);
 
             // selectionrr.insertNode(a);
-            range.insertNode(a);
-            range.deleteContents();
+            console.log('agregar campo')
+            console.log(range)
+            console.log(a)
+
+            this.$range.insertNode(a);
+
+
+            this.$range.deleteContents();
             this.replace_text.target = null
             this.closeAddField()
 
@@ -1201,7 +1221,7 @@ export default {
                 ["mouseup", "keyup", "selectionchange"].forEach((e) => {
                     document
                         .querySelector("#editor")
-                        .addEventListener(e, this.openModalChangeText);
+                        .addEventListener(e, this.getSelectionOnField);
                 });
             }, 300);
 
