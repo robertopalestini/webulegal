@@ -1060,10 +1060,10 @@ export default {
         addExistentField(event, index) {
             this.replaceforExistent = true;
             this.replaceforExistentIndex = index;
-            this.replaceSelectedText(event);
+            this.openAddField()
         },
 
-        openModalChangeText() {
+        getSelectionOnField() {
             sel = window.getSelection();
             base = window
                 .getSelection()
@@ -1072,6 +1072,7 @@ export default {
                     window.getSelection().extentOffset
                 );
             range = sel.getRangeAt(0);
+            console.log('ahora' + range)
 
             let selection = window
                 .getSelection()
@@ -1083,8 +1084,8 @@ export default {
             if (selection.length !== 0) {
                 //open popup in cursor
                 var event;
-                this.openAddField()
-                // this.replaceSelectedText(event);
+                this.replaceSelectedText(event)
+
                 // const onMouseMove = (e) => {
                 //     var popup = document.querySelector("#popup-selected-text");
                 //     popup.style.left = e.pageX + 20 + "px";
@@ -1106,6 +1107,7 @@ export default {
 
         replaceSelectedText(e) {
             // e.preventDefault();
+            console.log('Llamando al replacesleected text')
             console.log(range)
             console.log(this.fields)
             e.preventDefault();
@@ -1173,7 +1175,13 @@ export default {
             this.fields.push(newField);
 
             // selectionrr.insertNode(a);
+            console.log('agregar campo')
+            console.log(range)
+            console.log(a)
+
             range.insertNode(a);
+
+
             range.deleteContents();
             this.replace_text.target = null
             this.closeAddField()
@@ -1201,7 +1209,7 @@ export default {
                 ["mouseup", "keyup", "selectionchange"].forEach((e) => {
                     document
                         .querySelector("#editor")
-                        .addEventListener(e, this.openModalChangeText);
+                        .addEventListener(e, this.getSelectionOnField);
                 });
             }, 300);
 
