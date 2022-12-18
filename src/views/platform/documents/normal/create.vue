@@ -3,37 +3,24 @@
   <main>
     <div class="container-fluid">
       <div class="row">
-        <div
-          class="col-md-2"
-          style="
+        <div class="col-md-2" style="
             height: calc(100vh - 70px);
             overflow: hidden;
             overflow-y: auto;
             padding: 0;
-          "
-        >
+          ">
           <columnLeft />
         </div>
         <div class="col-md-10 create-doc-normal" style="padding-top: 0">
           <div class="row" v-if="editor_view">
-            <div
-              class="col-12 text-left"
-              style="position: absolute; padding-top: 20px"
-            >
+            <div class="col-12 text-left" style="position: absolute; padding-top: 20px">
               <a href="@" @click.prevent="$router.go(-1)">
-                <img
-                  src="@/assets/flecha-izquierda.svg"
-                  style="height: 20px; width: 20px"
-                />
+                <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
               </a>
             </div>
             <div class="text-left">
-              <div
-                id="editor"
-                contenteditable="true"
-                v-html="contentText"
-                style="
-                  height: calc(65vh);
+              <div id="editor" contenteditable="true" v-html="contentText" style="
+                  height: calc(80vh);
                   overflow: hidden;
                   overflow-y: scroll;
                   width: calc(100vw - 110px);
@@ -42,25 +29,16 @@
                   padding-right: 0;
                   padding-left: 5px;
                   min-height: calc(65vh);
-                "
-              ></div>
+                "></div>
             </div>
 
             <!-- <div id="cke_ruler_wrap"></div> -->
 
-            <div class="col-12" style="position: relative" v-if="editor_view">
+            <div class="col-12" style="position: relative; margin-top:15px" v-if="editor_view">
               <div class="text-center">
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  style="width: 120px; position: relative"
-                  disabled="true"
-                  v-if="shopsavepop"
-                >
-                  <div
-                    class="spinner-border text-light spinner-border-sm"
-                    role="status"
-                    style="
+                <button type="submit" class="btn btn-primary" style="width: 120px; position: relative" disabled="true"
+                  v-if="shopsavepop">
+                  <div class="spinner-border text-light spinner-border-sm" role="status" style="
                       width: 15px;
                       height: 15px;
                       border-width: 1px;
@@ -68,16 +46,14 @@
                       align-content: center;
                       justify-content: center;
                       align-items: center;
-                    "
-                  >
+                    ">
                     <span class="sr-only">Loading...</span>
                   </div>
                 </button>
               </div>
 
               <!-- v-if="popshared" -->
-              <div
-                style="
+              <div style="
                   display: flex;
                   top: 0px;
                   left: 0px;
@@ -87,11 +63,8 @@
                   align-content: center;
                   justify-content: center;
                   align-items: center;
-                "
-                v-if="shopsavepop"
-              >
-                <div
-                  style="
+                " v-if="shopsavepop">
+                <div style="
                     color: rgb(52, 52, 52);
                     width: 355px;
                     right: 180px;
@@ -100,66 +73,41 @@
                     font-weight: 600;
                     background: #e7e7e7;
                     padding: 10px;
-                  "
-                >
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                    @click="popshared = false"
-                  >
+                  ">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    @click="popshared = false">
                     <span aria-hidden="true">×</span>
                   </button>
 
                   El archivo de biblioteca se guardará en tu carpeta privada “Mi
                   biblioteca”. ¿Querés compartirlo con la comunidad legal?
                   <div class="col-12 text-right" style="display: flex">
-                    <button
-                      class="btn btn-primary"
-                      style="margin: 5px"
-                      @click="saveShare(1)"
-                      :disabled="saveLoadingShareDisabled"
-                    >
+                    <button class="btn btn-primary" style="margin: 5px" @click="saveShare(1)"
+                      :disabled="saveLoadingShareDisabled">
                       <span v-if="!saveLoadingShare">Si</span>
-                      <div
-                        class="spinner-border spinner-border-sm"
-                        role="status"
-                        v-if="saveLoadingShare"
-                        style="
+                      <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingShare" style="
                           height: 10px;
                           margin: 0px;
                           padding: 0px;
                           width: 10px !important;
                           color: white;
                           margin-top: -10px !important;
-                        "
-                      >
+                        ">
                         <span class="sr-only">Loading...</span>
                       </div>
                     </button>
 
-                    <button
-                      href="#"
-                      class="btn btn-primary"
-                      style="margin: 5px"
-                      @click="saveShare(0)"
-                      :disabled="saveLoadingNtShareDisabled"
-                    >
+                    <button href="#" class="btn btn-primary" style="margin: 5px" @click="saveShare(0)"
+                      :disabled="saveLoadingNtShareDisabled">
                       <span v-if="!saveLoadingNtShare">No</span>
-                      <div
-                        class="spinner-border spinner-border-sm"
-                        role="status"
-                        v-if="saveLoadingNtShare"
-                        style="
+                      <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingNtShare" style="
                           height: 10px;
                           margin: 0px;
                           padding: 0px;
                           width: 10px !important;
                           color: white;
                           margin-top: -10px !important;
-                        "
-                      >
+                        ">
                         <span class="sr-only">Loading...</span>
                       </div>
                     </button>
@@ -170,13 +118,8 @@
           </div>
 
           <div class="text-center">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="width: 120px; position: relative"
-              @click="openOrg()"
-              v-if="!shopsavepop"
-            >
+            <button type="submit" class="btn btn-primary" style="width: 120px; position: relative" @click="openOrg()"
+              v-if="!shopsavepop">
               Crear
             </button>
           </div>
@@ -228,7 +171,7 @@
   color: #2b44ff !important;
 }
 */
-.ql-toolbar.ql-snow + .ql-container.ql-snow {
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
   border-top: 0px;
   border-top: 1px solid #cfcfcf;
 }
@@ -243,7 +186,7 @@
   text-align: left;
 }
 
-.ql-toolbar.ql-snow + .ql-container.ql-snow {
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
   border-top: 0px;
   background: white;
   border: transparent;
@@ -428,7 +371,10 @@ export default {
           },
         },
       });
+      this.changeButtonForQuill()
     }, 1000);
+
+
 
     // document
     //   .querySelector("#editor3")
@@ -486,16 +432,16 @@ export default {
               // $('#editor3').append(` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://www.mtsac.edu/webdesign/accessible-docs/word/example03.docx" width="100%" height="500px"></iframe><br/><p></p>`)
               this.quill = $(".ql-editor").append(
                 ` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=` +
-                  url +
-                  `" width="100%" height="500px"></iframe><br/><p></p>`
+                url +
+                `" width="100%" height="500px"></iframe><br/><p></p>`
               );
             }
 
             if (data.data.ext === ".pdf") {
               this.quill = $(".ql-editor").append(
                 ` <iframe src="` +
-                  url +
-                  `" width="100%" height="500px"></iframe><br/><p></p>`
+                url +
+                `" width="100%" height="500px"></iframe><br/><p></p>`
               );
             }
 
@@ -505,8 +451,8 @@ export default {
 
               this.quill = $(".ql-editor").append(
                 ` <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=` +
-                  url +
-                  `" width="100%" height="500px"></iframe><br/><p></p>`
+                url +
+                `" width="100%" height="500px"></iframe><br/><p></p>`
               );
             }
             this.attachFiles.push(data.data);
@@ -629,6 +575,29 @@ export default {
 
       this.categories_view = false;
     },
+    changeButtonForQuill() {
+      const se = document.querySelectorAll('.ql-attachment')
+      se.innerHTML(`<button type="submit" class="btn btn-primary" style="width:200px;position:relative;z-index:1000; "
+                        @click="openAddField()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"
+                            fill="#FFFFFF">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg> Nuevo campo
+                    </button>`)
+      se.removeChild()
+      se.insertNode((`<button type="submit" class="btn btn-primary" style="width:200px;position:relative;z-index:1000; "
+                        @click="openAddField()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"
+                            fill="#FFFFFF">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg> Nuevo campo
+                    </button>`))
+
+
+
+    }
   },
 };
 </script>
