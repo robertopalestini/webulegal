@@ -229,7 +229,7 @@
                             align-content: flex-start;
                             margin-bottom: 5px;
                           "
-                          v-for="(tagSelectedTags, index) in tagsSelectedTags"
+                          v-for="(tag, index) in tags"
                           :key="index"
                         >
                           <a
@@ -249,13 +249,11 @@
                               padding-right: 10px;
                             "
                           >
-                            {{ tagSelectedTags.title }}
+                            {{ tag.data.name }}
                             <a
                               href="#"
                               style="margin-left: 10px"
-                              @click="
-                                removeFilterTags(index, tagSelectedTags.title)
-                              "
+                              @click="removeFilterTags(index, tag.data.name)"
                             >
                               <i class="fas fa-times"></i>
                             </a>
@@ -272,7 +270,7 @@
                         width: 100%;
                         list-style: none;
                       "
-                      v-if="itemsTags.length > 0"
+                      v-if="tags.length > 0"
                     >
                       <li
                         style="
@@ -286,7 +284,7 @@
                         v-for="(item, index) in filteredResourcesTags"
                         :key="index"
                         @click.prevent="
-                          getDocumentsByTag(item._id, item.data.title)
+                          getDocumentsByTag(item._id, item.data.name)
                         "
                       >
                         <a
@@ -297,7 +295,7 @@
                             font-size: 12px;
                           "
                         >
-                          {{ item.data.title }}
+                          {{ item.data.name }}
                         </a>
                       </li>
                     </ul>
@@ -1463,7 +1461,7 @@ export default {
       loadingDocument: false,
       tagsSelected: [],
       endpointTags: window.ENDPOINT + "/library/get/tags",
-      endpointTaggedDocuments: window.ENDPOINT + "/library/get/tags/documents",
+      endpointTaggedDocuments: window.ENDPOINT + "/private/get/tags/documents",
       itemsTags: [],
       tags: [],
       tagSelected: [],
@@ -1568,13 +1566,13 @@ export default {
     filteredResourcesTags() {
       if (this.searchTarget.target) {
         this.searchDocuments();
-        return this.itemsTags.filter((item) => {
-          return item.data.title
+        return this.tags.filter((item) => {
+          return item.data.name
             .toLowerCase()
             .startsWith(this.searchTarget.target.toLowerCase());
         });
       } else {
-        return this.itemsTags;
+        return this.tags;
       }
     },
     filteredResources() {
@@ -1830,6 +1828,9 @@ export default {
         name: "document-edit",
         params: { id: doc._id },
       });
+    },
+    openModalAddTags() {
+      $("#ModalAddTags").modal("show");
     },
 
     saveShare(value, activeDocumentId) {
@@ -2480,7 +2481,10 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          tags: this.tagsSelected,
+          data: {
+            name: this.tagsSelected.map((tag) => tag.text),
+            type: "library",
+          },
         }),
       };
       fetch(this.endpointTaggedDocuments, requestOptions)
