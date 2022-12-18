@@ -24,7 +24,8 @@
           style="padding:20px;border:1px solid #E2E2E2;background:white;height:calc(100vh - 70px);overflow:hidden;overflow-y:auto;border-bottom:1px solid #E5E5E5">
           <div class="row justify-content-center">
             <div class="col-md-6 text-center">
-              <img src="@/assets/logo-transparent.png" style="max-width:200px" />
+              <img rc="@/assets/Logocompleto.svg" style="max-width:200px" />
+
               <br /><br />
 
               <div class="d-flex justify-content-center">
