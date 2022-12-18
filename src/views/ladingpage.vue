@@ -12,7 +12,9 @@
         z-index: 997;
       ">
       <a class="navbar-brand" href="/">
-        <img src="@/assets/landing/logo.png" alt="" style="max-width: 150px" /></a>
+        <!-- <img src="@/assets/landing/logo.png" alt="" style="max-width: 150px" /> -->
+        <img src="@/assets/Logocompleto.svg" style="    max-width: 150px" />
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -447,7 +449,7 @@ export default {
           const btn_menu2 = document.querySelector(".btn_menu2");
           btn_menu2.classList.toggle("btn_menu_none");
         });
-      }    
+      }
       const link3 = document.querySelector(".link3");
       if (link3) {
         link3.addEventListener("click", () => {
