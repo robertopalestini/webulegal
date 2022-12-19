@@ -59,7 +59,7 @@
 
             <img
               :src="'https://ui-avatars.com/api/?background=000000&color=fff&name=' + user.profile.firstname + user.profile.lastname"
-              style="height:30px;border-radius:100%;margin-right:10px" @click="open_dropdown_user()" />
+              style="height:30px;border-radius:100%;margin-right:10px; margin-top:30px" @click="open_dropdown_user()" />
 
 
 
