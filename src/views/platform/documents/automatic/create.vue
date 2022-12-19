@@ -170,7 +170,7 @@ startText();
                                         :editorData="contentText" @update:editorData="contentText = $event"
                                         :select="selectedRange" @update:select="selectedRange = $event"
                                         @ready="onReadyCK" @overflow="onAddPage" style="                                     
-                                        height: calc(700px);
+                                        height: calc(88vh);
                                         text-align: left;  
                                         padding-left:10px; 
                                         padding-right:0; 
@@ -955,7 +955,7 @@ export default {
             }
             finally {
                 CKEDITOR.replace(document.querySelector('#editor'), {
-                    height: 'calc(vh88)',
+                    height: 'calc(88vh)',
                 });
             }
 

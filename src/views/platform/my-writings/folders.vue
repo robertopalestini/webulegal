@@ -322,6 +322,7 @@ if you need break please take notes, i trust
                             margin-bottom: 5px;
                           "
                           v-for="(tagSelectedTags, index) in tagsSelectedTags"
+                          :key="index"
                         >
                           <a
                             href="#"
@@ -361,7 +362,7 @@ if you need break please take notes, i trust
                         width: 100%;
                         list-style: none;
                       "
-                      v-if="itemsTags.length > 0"
+                      v-if="tags.length > 0"
                     >
                       <li
                         style="
@@ -372,10 +373,10 @@ if you need break please take notes, i trust
                           line-height: 15px;
                           margin-bottom: 15px;
                         "
-                        v-for="item in filteredResourcesTags"
+                        v-for="(tag, index) in filteredResourcesTags"
                         :key="index"
                         @click.prevent="
-                          getDocumentsByTag(item._id, item.data.title)
+                          getDocumentsByTag(tag._id, tag.data.name)
                         "
                       >
                         <a
@@ -385,7 +386,7 @@ if you need break please take notes, i trust
                             font-weight: 600;
                             font-size: 12px;
                           "
-                          >{{ item.data.title }}</a
+                          >{{ tag.data.name }}</a
                         >
                       </li>
                     </ul>
@@ -618,7 +619,7 @@ if you need break please take notes, i trust
                       <span>Expandir</span>
                     </a>
 
-                    <component v-if="document.data.complete == 1">
+                    <component :is="document.data.complete == 1">
                       <div
                         class="dropdown"
                         style="margin: 5px; display: inline"
@@ -2470,10 +2471,13 @@ export default {
       endpoint: window.ENDPOINT + "/writings/get/folders",
       endpointTags: window.ENDPOINT + "/writings/get/tags",
       endpointDocuments: window.ENDPOINT + "/writings/get/folders/documents",
-      endpointTaggedDocuments: window.ENDPOINT + "/writings/get/tags/documents",
+      endpointTaggedDocuments: window.ENDPOINT + "/private/get/tags/documents",
       endpointDocument: window.ENDPOINT + "/writings/get/document",
       endpointGet: window.ENDPOINT + "/writings/get/documents",
       endpointTextPreview: window.ENDPOINT + "/writings/fields/preview",
+      endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
+      endpointOrganizePrivateTags:
+        window.ENDPOINT + "/private/save/tags/organize",
       endpointSaveFolders: window.ENDPOINT + "/writings/save/folders",
       endpointMoveSave: window.ENDPOINT + "/writings/save/folders/organize",
       endpointDeleteDocument: window.ENDPOINT + "/writings/delete/documents",
@@ -2483,6 +2487,7 @@ export default {
       items: [],
       itemsTags: [],
       tags: [],
+      tagSelected: [],
       newTagName: "",
       documents: [],
       documentsSearch: [],
@@ -2668,6 +2673,7 @@ export default {
     this.loadAllDocuments();
     console.log("mounted load");
     this.loadTags();
+    this.getTags();
     this.loadFolders();
     this.loadFoldersTree2();
 
@@ -2739,13 +2745,13 @@ export default {
     filteredResourcesTags() {
       if (this.searchTarget.target) {
         this.searchDocuments();
-        return this.itemsTags.filter((item) => {
-          return item.data.title
+        return this.tags.filter((item) => {
+          return item.data.name
             .toLowerCase()
             .startsWith(this.searchTarget.target.toLowerCase());
         });
       } else {
-        return this.itemsTags;
+        return this.tags;
       }
     },
     filteredResources() {
@@ -3292,6 +3298,27 @@ export default {
     openModalAddTags() {
       $("#ModalAddTags").modal("show");
     },
+    getTags() {
+      this.$Progress.start();
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            type: "writing",
+          },
+        }),
+      };
+      fetch(this.endpointGetPrivateTags, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$Progress.finish();
+          this.tags = data;
+        });
+    },
     createNewTag(name) {
       this.$Progress.start();
       const requestOptions = {
@@ -3330,7 +3357,7 @@ export default {
           data: {
             name: tags.map((tag) => tag.data.name),
             documentId,
-            type: "library",
+            type: "writing",
           },
         }),
       };
@@ -3908,7 +3935,10 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          tags: this.tagsSelectedTags,
+          data: {
+            name: this.tagsSelectedTags.map((tag) => tag.title),
+            type: "writing",
+          },
         }),
       };
       fetch(this.endpointTaggedDocuments, requestOptions)
