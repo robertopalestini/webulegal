@@ -237,67 +237,45 @@ if you need break please take notes, i trust
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                      v-if="tags.length > 0"
-                    >
-                      <li
-                        style="
+                      " v-if="tags.length > 0">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
                           line-height: 15px;
                           margin-bottom: 15px;
-                        "
-                        v-for="(tag, index) in filteredResourcesPrivateTags"
-                        :key="index"
-                        @click.prevent="
+                        " v-for="(tag, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
                           getDocumentsByPrivateTag(tag._id, tag.data.name)
-                        "
-                      >
-                        <a
-                          href="#"
-                          style="
+                        ">
+                        <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
-                          "
-                          >{{ tag.data.name }}</a
-                        >
+                          ">{{ tag.data.name }}</a>
                       </li>
                     </ul>
-                    <ul
-                      style="
+                    <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                      v-if="itemsTags.length > 0"
-                    >
-                      <li
-                        style="
+                      " v-if="itemsTags.length > 0">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
                           line-height: 15px;
-                          margin-bottom: 15px;"
-                        v-for="(tag, index) in filteredResourcesTags"
-                        :key="index"
+                          margin-bottom: 15px;" v-for="(tag, index) in filteredResourcesTags" :key="index"
                         @click.prevent="
                           getDocumentsByTag(tag._id, tag.data.title)
-                        "
-                      >
-                        <a
-                          href="#"
-                          style="
+                        ">
+                        <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
-                          "
-                          >{{ tag.data.title }}</a
-                        >
+                          ">{{ tag.data.title }}</a>
                       </li>
                     </ul>
                   </div>
@@ -3327,6 +3305,11 @@ export default {
               this.$Progress.finish();
             }
           }
+
+console.log(this.editor)    
+          this.editor.execCommand("textarea_id", "mceInsertContent", false, contentDocument);
+
+
         });
     },
 
