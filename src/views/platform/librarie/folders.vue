@@ -1029,7 +1029,7 @@ import buttonShare from "@/components/platform/share-button-document-private.vue
 </script>
 
 <script>
-import Editor from '@tinymce/tinymce-vue/';
+import Editor from '@tinymce/tinymce-vue';
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
 import DocumentDropdown from "../../../components/platform/DocumentDropdown.vue";
 
