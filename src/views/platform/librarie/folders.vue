@@ -1029,17 +1029,12 @@ import buttonShare from "@/components/platform/share-button-document-private.vue
 </script>
 
 <script>
-import CKEditor from "@ckeditor/ckeditor5-vue";
-import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
-import Editor from '@tinymce/tinymce-vue'
-
+import Editor from '@tinymce/tinymce-vue/';
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
 import DocumentDropdown from "../../../components/platform/DocumentDropdown.vue";
 
 export default {
   components: {
-    ckeditor: CKEditor.component,
-    // DecoupledBuild,
     DocumentDropdown,
     'editor': Editor
   },
@@ -1057,7 +1052,6 @@ export default {
       endpointSavePrivateTags: window.ENDPOINT + "/private/save/tags",
       endpointOrganizePrivateTags: window.ENDPOINT + "/private/save/tags/organize",
       endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
-
       endpointSave: window.ENDPOINT + "/library/folders/edit",
       editor_enabled: false,
       items: [],
@@ -1067,8 +1061,7 @@ export default {
       tagsSelected: [],
       endpointTags: window.ENDPOINT + "/library/get/tags",
       endpointTaggedDocuments: window.ENDPOINT + "/library/get/tags/documents",
-      endpointTaggedPrivateDocuments:
-        window.ENDPOINT + "/private/get/tags/documents",
+      endpointTaggedPrivateDocuments: window.ENDPOINT + "/private/get/tags/documents",
       itemsTags: [],
       itemsTagsPrivate: [],
       tags: [],
@@ -1132,7 +1125,6 @@ export default {
       documentMoveTemp: false,
       activeItem: "folders",
       editDocument: null,
-      editorCK: DecoupledEditor,
     };
   },
   created() {
