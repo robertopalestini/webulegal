@@ -1,4 +1,3 @@
-
 <!-- this one, is in wich we have methods, modals, and all const declared to call, this have too the v-tooltip, its like a complete 
 version. Your task is have working this all functions, in library and writings.
 anything you need, ium here, meanwhile i will be working in other frontend fix
@@ -30,168 +29,168 @@ if you need break please take notes, i trust
   <main>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-2" style="
-              height: calc(100vh - 70px);
-              overflow: hidden;
-              overflow-y: auto;
-              padding: 0;
-            ">
+        <div
+          class="col-md-2"
+          style="
+            height: calc(100vh - 70px);
+            overflow: hidden;
+            overflow-y: auto;
+            padding: 0;
+          "
+        >
           <columnLeft />
         </div>
-        <div class="col-md-10" style="
-              height: calc(100vh - 70px);
-              border: 1px solid #e2e2e2;
-              position: relative;
-            ">
+        <div
+          class="col-md-10"
+          style="
+            height: calc(100vh - 70px);
+            border: 1px solid #e2e2e2;
+            position: relative;
+          "
+        >
           <!-- ======================================= -->
 
-          <div class="row" style="padding-right: 0px; padding-left: 0px;">
-            <div class="col-md-3" style="
-                  position: relative;
-                  overflow: hidden;
-                  overflow-y: auto; 
-                  margin: 0; 
-                  padding-right: 0px; padding-left: 0px;
-                  height: calc(100vh - 70px);">
-
+          <div class="row" style="padding-right: 0px; padding-left: 0px">
+            <div
+              class="col-md-3"
+              style="
+                position: relative;
+                overflow: hidden;
+                overflow-y: auto;
+                margin: 0;
+                padding-right: 0px;
+                padding-left: 0px;
+                height: calc(100vh - 70px);
+              "
+            >
               <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
-                  <a class="nav-link" @click.prevent="setActive('folders')"
-                    :class="{ active: isActive('folders') }">Carpetas</a>
+                  <a
+                    class="nav-link"
+                    @click.prevent="setActive('folders')"
+                    :class="{ active: isActive('folders') }"
+                    >Carpetas</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" @click.prevent="setActive('tags')"
-                    :class="{ active: isActive('tags') }">Etiquetas</a>
+                  <a
+                    class="nav-link"
+                    @click.prevent="setActive('tags')"
+                    :class="{ active: isActive('tags') }"
+                    >Etiquetas</a
+                  >
                 </li>
               </ul>
               <div class="tab-content py-3" id="myTabContent">
-                <div class="tab-pane fade" :class="{ 'active show': isActive('folders') }" id="folders">
-
-
-
-                  <div class="col-12 text-center" style="
-                    padding-top: 8.5px;
-                    padding-bottom: 8.5px;
-                    border-bottom: 1px solid #e5e5e5;
-                  ">
-                    <input type="text" class="form-control type-input-3" v-model="searchTargetFolders.target"
-                      @keyup="search()" placeholder="Buscar..." />
+                <div
+                  class="tab-pane fade"
+                  :class="{ 'active show': isActive('folders') }"
+                  id="folders"
+                >
+                  <div
+                    class="col-12 text-center"
+                    style="
+                      padding-top: 8.5px;
+                      padding-bottom: 8.5px;
+                      border-bottom: 1px solid #e5e5e5;
+                    "
+                  >
+                    <input
+                      type="text"
+                      class="form-control type-input-3"
+                      v-model="searchTargetFolders.target"
+                      @keyup="search()"
+                      placeholder="Buscar..."
+                    />
                   </div>
-                  <div class="col-12" style="padding-top: 10px; padding-bottom: 0">
-                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
+                  <div
+                    class="col-12"
+                    style="padding-top: 10px; padding-bottom: 0"
+                  >
+                    <div
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                      v-if="loadingFolders"
+                    >
                       <span class="sr-only">Loading...</span>
                     </div>
-                    <ul style="padding: 0; margin: 0; width: 100%; list-style: none" v-if="items.length > 0">
-                      <li style="
+                    <ul
+                      style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      " v-for="item in filteredResources" :key="index"
-                        @click.prevent="getDocumentsByTag(item.id, item.text)">
+                      "
+                      v-if="items.length > 0"
+                    >
+                      <li
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          width: 100%;
+                          list-style: none;
+                        "
+                        v-for="item in filteredResources"
+                        :key="index"
+                        @click.prevent="getDocumentsByTag(item.id, item.text)"
+                      >
                         <a href="#" style="color: black; font-weight: 600">{{
-                            item.text
+                          item.text
                         }}</a>
                       </li>
                     </ul>
                   </div>
 
-                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
-                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openCreateFolderRootModal()">
+                  <div
+                    class="col-12"
+                    style="padding-top: 10px; padding-bottom: 10px"
+                  >
+                    <a
+                      href="#"
+                      style="font-size: 13px; font-weight: 600"
+                      @click.prevent="openCreateFolderRootModal()"
+                    >
                       <img src="@/assets/admin-add.png" style="width: 20px" />
-                      Nueva carpeta raiz</a>
+                      Nueva carpeta raiz</a
+                    >
 
                     <hr />
 
-                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
-                      Todos los documentos</a>
+                    <a
+                      href="#"
+                      style="font-size: 13px; font-weight: 600"
+                      @click.prevent="loadAllDocuments()"
+                    >
+                      Todos los documentos</a
+                    >
 
                     <hr />
 
-                    <Tree id="my-tree-id" ref="my-tree" :custom-options="myCustomOptions"
-                      :custom-styles="myCustomStyles" :nodes="treeDisplayData"></Tree>
+                    <Tree
+                      id="my-tree-id"
+                      ref="my-tree"
+                      :custom-options="myCustomOptions"
+                      :custom-styles="myCustomStyles"
+                      :nodes="treeDisplayData"
+                    ></Tree>
 
-                    <span style="font-size: 12px; font-weight: 500" v-if="treeDisplayData.length == 0">No se
-                      encontraron
-                      carpetas.</span>
+                    <span
+                      style="font-size: 12px; font-weight: 500"
+                      v-if="treeDisplayData.length == 0"
+                      >No se encontraron carpetas.</span
+                    >
                   </div>
 
-                  <div class="col-12 text-center" style="
-                    padding-top: 8.5px;
-                    padding-bottom: 8.5px;
-                    border-bottom: 1px solid #e5e5e5;
-                  ">
-                    <ul style="
-                      padding: 0px;
-                      list-style: none;
-                      width: 100%;
-                      display: flex;
-                      justify-content: flex-start;
-                      align-items: center;
-                      flex-direction: column;
-                      align-content: flex-start;
-                    ">
-                      <li style="
-                        width: 100%;
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        flex-direction: column;
-                        align-content: flex-start;
-                        margin-bottom: 5px;
-                      " v-for="(tagSelected, index) in tagsSelected">
-                        <a href="#" style="
-                          font-size: 12px;
-                          padding: 5px;
-                          background: rgb(234, 234, 234);
-                          border-radius: 30px;
-                          display: flex;
-                          place-content: flex-start;
-                          align-items: center;
-                          flex-direction: row;
-                          padding-left: 10px;
-                          padding-right: 10px;
-                        ">{{ tagSelected.text }}
-                          <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.text)"><i
-                              class="fas fa-times"></i></a>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-
-
-                </div>
-                <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
-
-                  <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
-                                     <a href="#" style="font-size:13px;">Nueva carpeta</a>
-                                   </div>  -->
-                  <div class="col-12 text-center" style="
-                    padding-top: 8.5px;
-                    padding-bottom: 8.5px;
-                    border-bottom: 1px solid #e5e5e5;
-                  ">
-                    <input type="text" class="form-control type-input-3" v-model="searchTarget.target"
-                      placeholder="Buscar etiqueta.." />
-                  </div>
-                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
-                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingTags">
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openModalAddTags()">
-                      <img src="@/assets/admin-add.png" style="width: 20px" />
-                      Nueva etiqueta</a>
-                    <NewTagModal style="z-index: 1000" />
-
-
-                    <hr />
-                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
-                      Todos los documentos</a>
-                    <hr />
-
-                    <div class="col-12 text-left" style="padding: 0" v-if="tagsSelectedTags.length > 0">
-                      <p style="font-size: 13px; font-weight: 600">Filtros :</p>
-                      <ul style="
+                  <div
+                    class="col-12 text-center"
+                    style="
+                      padding-top: 8.5px;
+                      padding-bottom: 8.5px;
+                      border-bottom: 1px solid #e5e5e5;
+                    "
+                  >
+                    <ul
+                      style="
                         padding: 0px;
                         list-style: none;
                         width: 100%;
@@ -200,8 +199,10 @@ if you need break please take notes, i trust
                         align-items: center;
                         flex-direction: column;
                         align-content: flex-start;
-                      ">
-                        <li style="
+                      "
+                    >
+                      <li
+                        style="
                           width: 100%;
                           display: flex;
                           justify-content: flex-start;
@@ -209,42 +210,219 @@ if you need break please take notes, i trust
                           flex-direction: column;
                           align-content: flex-start;
                           margin-bottom: 5px;
-                        " v-for="(tagSelectedTags, index) in tagsSelectedTags">
-                          <a href="#" style="
+                        "
+                        v-for="(tagSelected, index) in tagsSelected"
+                      >
+                        <a
+                          href="#"
+                          style="
                             font-size: 12px;
-                            padding-top: 5px;
-                            padding-bottom: 5px;
-                            background: rgb(206, 206, 206);
+                            padding: 5px;
+                            background: rgb(234, 234, 234);
                             border-radius: 30px;
                             display: flex;
                             place-content: flex-start;
                             align-items: center;
                             flex-direction: row;
-                            font-weight: 600;
                             padding-left: 10px;
                             padding-right: 10px;
-                          ">{{ tagSelectedTags.title }}
-                            <a href="#" style="margin-left: 10px"
-                              @click="removeFilterTags(index, tagSelectedTags.title)"><i class="fas fa-times"></i></a>
+                          "
+                          >{{ tagSelected.text }}
+                          <a
+                            href="#"
+                            style="margin-left: 10px"
+                            @click="removeFilterTag(index, tagSelected.text)"
+                            ><i class="fas fa-times"></i
+                          ></a>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  :class="{ 'active show': isActive('tags') }"
+                  id="tags"
+                >
+                  <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
+                                     <a href="#" style="font-size:13px;">Nueva carpeta</a>
+                                   </div>  -->
+                  <div
+                    class="col-12 text-center"
+                    style="
+                      padding-top: 8.5px;
+                      padding-bottom: 8.5px;
+                      border-bottom: 1px solid #e5e5e5;
+                    "
+                  >
+                    <input
+                      type="text"
+                      class="form-control type-input-3"
+                      v-model="searchTarget.target"
+                      placeholder="Buscar etiqueta.."
+                    />
+                  </div>
+                  <div
+                    class="col-12"
+                    style="padding-top: 10px; padding-bottom: 10px"
+                  >
+                    <div
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                      v-if="loadingTags"
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <a
+                      href="#"
+                      style="font-size: 13px; font-weight: 600"
+                      @click.prevent="openModalAddTags()"
+                    >
+                      <img src="@/assets/admin-add.png" style="width: 20px" />
+                      Nueva etiqueta</a
+                    >
+                    <NewTagModal style="z-index: 1000" />
+
+                    <hr />
+                    <a
+                      href="#"
+                      style="font-size: 13px; font-weight: 600"
+                      @click.prevent="loadAllDocuments()"
+                    >
+                      Todos los documentos</a
+                    >
+                    <hr />
+
+                    <div
+                      class="col-12 text-left"
+                      style="padding: 0"
+                      v-if="tagsSelectedTags.length > 0"
+                    >
+                      <p style="font-size: 13px; font-weight: 600">Filtros :</p>
+                      <ul
+                        style="
+                          padding: 0px;
+                          list-style: none;
+                          width: 100%;
+                          display: flex;
+                          justify-content: flex-start;
+                          align-items: center;
+                          flex-direction: column;
+                          align-content: flex-start;
+                        "
+                      >
+                        <li
+                          style="
+                            width: 100%;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            flex-direction: column;
+                            align-content: flex-start;
+                            margin-bottom: 5px;
+                          "
+                          v-for="(tagSelectedTags, index) in tagsSelectedTags"
+                          :key="index"
+                        >
+                          <a
+                            href="#"
+                            style="
+                              font-size: 12px;
+                              padding-top: 5px;
+                              padding-bottom: 5px;
+                              background: rgb(206, 206, 206);
+                              border-radius: 30px;
+                              display: flex;
+                              place-content: flex-start;
+                              align-items: center;
+                              flex-direction: row;
+                              font-weight: 600;
+                              padding-left: 10px;
+                              padding-right: 10px;
+                            "
+                            >{{ tagSelectedTags.title }}
+                            <a
+                              href="#"
+                              style="margin-left: 10px"
+                              @click="
+                                removeFilterTags(index, tagSelectedTags.title)
+                              "
+                              ><i class="fas fa-times"></i
+                            ></a>
                           </a>
                         </li>
                       </ul>
                       <hr />
                     </div>
 
-                    <ul style="padding: 0; margin: 0; width: 100%; list-style: none" v-if="itemsTags.length > 0">
-                      <li style="
+                    <ul
+                      style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                        line-height: 15px;
-                        margin-bottom: 15px;
-                      " v-for="item in filteredResourcesTags" :key="index" @click.prevent="
-                        getDocumentsByTag(item._id, item.data.title)
-                      ">
-                        <a href="#" style="color: black; font-weight: 600; font-size: 12px">{{ item.data.title
-                        }}</a>
+                      "
+                      v-if="tags.length > 0"
+                    >
+                      <li
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          width: 100%;
+                          list-style: none;
+                          line-height: 15px;
+                          margin-bottom: 15px;
+                        "
+                        v-for="(tag, index) in filteredResourcesPrivateTags"
+                        :key="index"
+                        @click.prevent="
+                          getDocumentsByPrivateTag(tag._id, tag.data.name)
+                        "
+                      >
+                        <a
+                          href="#"
+                          style="
+                            color: black;
+                            font-weight: 600;
+                            font-size: 12px;
+                          "
+                          >{{ tag.data.name }}</a
+                        >
+                      </li>
+                    </ul>
+                    <ul
+                      style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                      "
+                      v-if="itemsTags.length > 0"
+                    >
+                      <li
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          width: 100%;
+                          list-style: none;
+                          line-height: 15px;
+                          margin-bottom: 15px;
+                        "
+                        v-for="(tag, index) in filteredResourcesTags"
+                        :key="index"
+                        @click.prevent="
+                          getDocumentsByTag(tag._id, tag.data.title)
+                        "
+                      >
+                        <a
+                          href="#"
+                          style="
+                            color: black;
+                            font-weight: 600;
+                            font-size: 12px;
+                          "
+                          >{{ tag.data.title }}</a
+                        >
                       </li>
                     </ul>
                   </div>
@@ -256,18 +434,20 @@ if you need break please take notes, i trust
                   class="text-right">
                   <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" class="text-right" />
                 </a> -->
-
             </div>
 
-            <div class="col-md-3" style="
-                  border-left: 1px solid #e6e6e6;
-                  border-right: 1px solid #e6e6e6;
-                  padding: 0;
-                  height: calc(100vh - 70px);
-                  overflow: hidden;
-                  overflow-y: auto;
-                  position: relative;
-                ">
+            <div
+              class="col-md-3"
+              style="
+                border-left: 1px solid #e6e6e6;
+                border-right: 1px solid #e6e6e6;
+                padding: 0;
+                height: calc(100vh - 70px);
+                overflow: hidden;
+                overflow-y: auto;
+                position: relative;
+              "
+            >
               <!-- <div class="col-12" style="background:#e0dfdf;padding:15px;">
                                         <b style="color:#858484;font-size:16px">Lorem ipsum dolor sit amet</b>
                                         <p style="color:#858484;font-size:13px">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -275,102 +455,165 @@ if you need break please take notes, i trust
                                     </div>
                                      -->
 
-              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
-                style="position: absolute">
+              <div
+                class="spinner-border spinner-border-sm"
+                role="status"
+                v-if="loadingDocument"
+                style="position: absolute"
+              >
                 <span class="sr-only">Loading...</span>
               </div>
 
-              <div v-if="(!loadingDocument)" class="col-12" style="
-                    padding: 15px;
-                    border-bottom: 1px solid #e6e6e6;
-                    cursor: pointer;
-                    position: relative;" v-for="(document, index) in fixerEditMode" :key="index"
+              <div
+                v-if="!loadingDocument"
+                class="col-12"
+                style="
+                  padding: 15px;
+                  border-bottom: 1px solid #e6e6e6;
+                  cursor: pointer;
+                  position: relative;
+                "
+                v-for="(document, index) in fixerEditMode"
+                :key="index"
                 @click="getDocument(document._id)"
-                v-bind:class="{ activeDocument: document._id === activeDocumentIdTags, }"
-                @contextmenu.prevent="openContextmenu($event, document, index)">
-                <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
-                  <span class="edit-mode">{{ document.data.title }}
-                    <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
+                v-bind:class="{
+                  activeDocument: document._id === activeDocumentIdTags,
+                }"
+                @contextmenu.prevent="openContextmenu($event, document, index)"
+              >
+                <div
+                  class="col-12"
+                  style="padding: 0"
+                  v-if="document._ext.edit_title == false"
+                >
+                  <span class="edit-mode"
+                    >{{ document.data.title }}
+                    <img
+                      src="@/assets/boligrafo.png"
+                      @click.prevent="document._ext.edit_title = true"
+                    />
                   </span>
                 </div>
 
-                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12"
-                  style="padding: 0; display: flex; margin-bottom: 10px" v-if="document._ext.edit_title">
-                  <input type="text" class="form-control col-12" v-model="document.data.title" style="
-                        font-size: 13px;
-                        border-radius: 30px;
-                        height: 30px;
-                        min-height: 30px;
-                        max-height: 30px;
-                        background: white;
-                        font-weight: 700;
-                      " />
+                <form
+                  @submit.prevent="saveEditMode(document._id, index)"
+                  class="col-12"
+                  style="padding: 0; display: flex; margin-bottom: 10px"
+                  v-if="document._ext.edit_title"
+                >
+                  <input
+                    type="text"
+                    class="form-control col-12"
+                    v-model="document.data.title"
+                    style="
+                      font-size: 13px;
+                      border-radius: 30px;
+                      height: 30px;
+                      min-height: 30px;
+                      max-height: 30px;
+                      background: white;
+                      font-weight: 700;
+                    "
+                  />
                   <button type="submit" hidden="true"></button>
                 </form>
 
                 <a href="#" v-tooltip="'Editar Descripcion'">
-                  <p class="edit-mode" style="color: #525252; font-size: 12px" v-if="!document._ext.edit_description">
+                  <p
+                    class="edit-mode"
+                    style="color: #525252; font-size: 12px"
+                    v-if="!document._ext.edit_description"
+                  >
                     {{ document.data.description }}
-                    <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_description = true" />
-
+                    <img
+                      src="@/assets/boligrafo.png"
+                      @click.prevent="document._ext.edit_description = true"
+                    />
                   </p>
                 </a>
 
-
-                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12" style="
-                      padding: 0px;
-                      display: flex;
-                      flex-direction: row;
-                      flex-wrap: wrap;
-                      margin-bottom: 10px;
-                    " v-if="document._ext.edit_description">
-                  <input type="text" class="form-control" v-model="document.data.description" style="
-                        font-size: 12px;
-                        border-radius: 8px;
-                        height: fit-content;
-                        min-height: fit-content;
-                        max-height: fit-content;
-                        background: white;
-                        margin-bottom: 5px;
-                      " />
+                <form
+                  @submit.prevent="saveEditMode(document._id, index)"
+                  class="col-12"
+                  style="
+                    padding: 0px;
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    margin-bottom: 10px;
+                  "
+                  v-if="document._ext.edit_description"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="document.data.description"
+                    style="
+                      font-size: 12px;
+                      border-radius: 8px;
+                      height: fit-content;
+                      min-height: fit-content;
+                      max-height: fit-content;
+                      background: white;
+                      margin-bottom: 5px;
+                    "
+                  />
                   <button type="submit" hidden="true"></button>
                 </form>
 
                 <div style="position:absolute:top:0:right:0;height:100%">
                   <a href="#" v-tooltip="'Documento privado'">
-                    <img src="@/assets/cerrar-con-llave.svg" style="height: 20px; width: 20px"
-                      v-if="document.data.share == 0" />
-
+                    <img
+                      src="@/assets/cerrar-con-llave.svg"
+                      style="height: 20px; width: 20px"
+                      v-if="document.data.share == 0"
+                    />
                   </a>
                   <a href="#" v-tooltip="'Documento publico'">
-                    <img src="@/assets/candado-abierto(2).png" style="height: 20px; width: 20px"
-                      v-if="document.data.share == 1" />
-
+                    <img
+                      src="@/assets/candado-abierto(2).png"
+                      style="height: 20px; width: 20px"
+                      v-if="document.data.share == 1"
+                    />
                   </a>
                   <a href="#" v-tooltip="'Automatizado'">
-                    <img src="@/assets/automatizado.svg" style="height: 20px; width: 20px"
-                      v-if="document.data.complete == 1" />
+                    <img
+                      src="@/assets/automatizado.svg"
+                      style="height: 20px; width: 20px"
+                      v-if="document.data.complete == 1"
+                    />
                   </a>
                   <a href="#" v-tooltip="'Modelo'">
                     <span v-if="document.data.complete == 0">
-                      <img src="@/assets/a-automatizar.svg" style="height: 20px; width: 20px; cursor: pointer"
-                        v-if="document.data.form_complete" @click="getDocumentModal(document._id)" />
+                      <img
+                        src="@/assets/a-automatizar.svg"
+                        style="height: 20px; width: 20px; cursor: pointer"
+                        v-if="document.data.form_complete"
+                        @click="getDocumentModal(document._id)"
+                      />
                     </span>
                   </a>
                 </div>
               </div>
             </div>
-            <div class="col-md-6 scroll-size-medium" style="
-                  border-left: 1px solid #e6e6e6;
-                  border-right: 1px solid #e6e6e6;
-                  padding: 0;
-                  height: calc(100vh - 70px);
-                  overflow: hidden;
-                  overflow-y: auto;
-                  position: relative;
-                ">
-              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
-                style="position: absolute">
+            <div
+              class="col-md-6 scroll-size-medium"
+              style="
+                border-left: 1px solid #e6e6e6;
+                border-right: 1px solid #e6e6e6;
+                padding: 0;
+                height: calc(100vh - 70px);
+                overflow: hidden;
+                overflow-y: auto;
+                position: relative;
+              "
+            >
+              <div
+                class="spinner-border spinner-border-sm"
+                role="status"
+                v-if="loadingDocument"
+                style="position: absolute"
+              >
                 <span class="sr-only">Loading...</span>
               </div>
               <div class="col-12" v-if="document" style="padding: 10px">
@@ -379,48 +622,90 @@ if you need break please take notes, i trust
                     <b>{{ document.data.title }}</b>
                   </div>
                   <div class="col-md-4 text-right">
-
-
                     <span v-if="document.data.complete == 0">
-                      <a href="#" style="margin:5px" class="textHover" v-tooltip="'Expandir'"
-                        v-if="document.data.form_complete" @click="getDocumentModal(document._id)">
-                        <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
+                      <a
+                        href="#"
+                        style="margin: 5px"
+                        class="textHover"
+                        v-tooltip="'Expandir'"
+                        v-if="document.data.form_complete"
+                        @click="getDocumentModal(document._id)"
+                      >
+                        <img
+                          src="@/assets/expandir.svg"
+                          style="width: 14px; height: 14px; margin-right: 5px"
+                        />
                         <span>Expandir</span>
                       </a>
-
                     </span>
 
-                    <a href="#" style="margin:5px" class="textHover" v-tooltip="'Expandir'"
-                      v-if="document.data.complete == 1" @click="openFullScreen()">
-                      <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
+                    <a
+                      href="#"
+                      style="margin: 5px"
+                      class="textHover"
+                      v-tooltip="'Expandir'"
+                      v-if="document.data.complete == 1"
+                      @click="openFullScreen()"
+                    >
+                      <img
+                        src="@/assets/expandir.svg"
+                        style="width: 14px; height: 14px; margin-right: 5px"
+                      />
                       <span>Expandir</span>
                     </a>
 
-
-                    <component v-if="document.data.complete == 1">
-                      <div class="dropdown" style="margin: 5px; display: inline">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                          data-toggle="dropdown" aria-expanded="false">
-                          <img src="@/assets/descargar.svg" style="
-                                width: 14px;
-                                height: 14px; 
-                                margin-right: 5px;
-                              " />
+                    <component :is="document.data.complete == 1">
+                      <div
+                        class="dropdown"
+                        style="margin: 5px; display: inline"
+                      >
+                        <button
+                          class="btn btn-light dropdown-toggle"
+                          type="button"
+                          id="dropdownMenuButton"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <img
+                            src="@/assets/descargar.svg"
+                            style="width: 14px; height: 14px; margin-right: 5px"
+                          />
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
-                          <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
+                        <div
+                          class="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            @click.prevent="exportWord()"
+                            >Documento Word</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            @click.prevent="exportPDF()"
+                            >Documento PDF</a
+                          >
                         </div>
                       </div>
                     </component>
 
-                    <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
+                    <buttonShare
+                      v-bind:id="document.data.id_share_comuniy"
+                      v-if="document.data.share == 1"
+                    />
                     <!-- Droption Document Component -->
-                    <div style="display:inline-block">
-                      <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
-                        @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
-                        @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
-                        @open-compartir-privada="openCompartirPrivada()" />
+                    <div style="display: inline-block">
+                      <DocumentDropdown
+                        :document="document"
+                        @go-edit-private="goEditPrivate(document)"
+                        @open-modal-move-document="openModalMoveDocument()"
+                        @open-modal-add-tags="openModalAddTags()"
+                        @save-share="saveShare(1, activeDocumentId)"
+                        @delete-document="deleteDocument(activeDocumentId)"
+                        @open-compartir-privada="openCompartirPrivada()"
+                      />
                     </div>
 
                     <!-- <component v-bind:document="document" v-if="document.data.complete == 0">
@@ -508,7 +793,6 @@ if you need break please take notes, i trust
                 </div>
               </div>
 
-
               <!-- 
                 <div v-if="(document.data.complete === 0 && !loadingDocument)" v-html="contentDocument" id="editor-full"
                   contenteditable="true" style="width: 100%;
@@ -519,41 +803,57 @@ if you need break please take notes, i trust
                           color:black;">
                 </div> -->
 
-              <div v-if="(!loadingDocument)" id="editor-full" v-html="contentDocument"
-                :contenteditable="document.data.type === 'document' ? true : false" style=" 
-                      width: 100%;
-                      padding: 20px;
-                      overflow: hidden; 
-                      height: calc(100vh - 206px); 
-                      overflow-y: auto;
-                      color:black;">
-              </div>
-
+              <div
+                v-if="!loadingDocument"
+                id="editor-full"
+                v-html="contentDocument"
+                :contenteditable="
+                  document.data.type === 'document' ? true : false
+                "
+                style="
+                  width: 100%;
+                  padding: 20px;
+                  overflow: hidden;
+                  height: calc(100vh - 206px);
+                  overflow-y: auto;
+                  color: black;
+                "
+              ></div>
             </div>
             <!-- no need this. because it's in template , but i got string 'contentmodel, aaa i didnt put value for content model, ok, so the
     ternaries  are in value of the bind'
   yes it was my bad passing the string-->
             <!-- let's try -->
-
           </div>
         </div>
 
         <!-- ======================================= -->
       </div>
     </div>
-
   </main>
 
-
   <!-- Modal -->
-  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg " role="document" style="width:80vw">
-
+  <div
+    class="modal fade"
+    id="exampleModalLong"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-centered modal-lg"
+      role="document"
+      style="width: 80vw"
+    >
       <div class="modal-content" style="">
-
         <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
           <div class="row justify-content-center">
@@ -561,12 +861,17 @@ if you need break please take notes, i trust
               <b>{{ document.data.title }}</b>
               <p>{{ document.data.description }}</p>
 
-              <p style="padding: 0; margin: 0; margin-top: 8px; font-size: 14px">
+              <p
+                style="padding: 0; margin: 0; margin-top: 8px; font-size: 14px"
+              >
                 Para crear el documento, completa el siguiente cuestionario
               </p>
             </div>
 
-            <div class="col-4" style="position: relative; position: sticky; top: 0;">
+            <div
+              class="col-4"
+              style="position: relative; position: sticky; top: 0"
+            >
               <div class="col-12 view-writing-fields-content">
                 <!-- 
                 <div class="form-group" v-for="(field, index) in documentModal.data.fields"
@@ -588,33 +893,52 @@ if you need break please take notes, i trust
     " v-model="field.user.input" @keyup="previewText(index)" />
                 </div>  -->
 
-
-
-
-                <div class="col-12" style="padding:0;min-height:380px" v-if="version == '2.00'">
+                <div
+                  class="col-12"
+                  style="padding: 0; min-height: 380px"
+                  v-if="version == '2.00'"
+                >
                   <div v-for="(field, index) in documentModal.data.fields">
-                    <div class="form-group" style="text-align: left;padding: 10px;" v-if="field.existent == false">
-                      <label style="font-size: 13px;color: black;font-weight: 600;">{{ field.replace }}</label>
-                      <input type="text" class="form-control input-field" style="height: 30px !important;
-    min-height: 30px !important; 
-    border-top: none !important;
-    border-right: none !important;
-    border-bottom: 2px solid rgb(141, 141, 141) !important;
-    border-left: none !important;
-    border-image: initial !important;
-    background: transparent !important;
-    font-size: 13px !important;
-    color: black !important;
-    font-weight: 500 !important;
-    border-radius: 0 !important;" v-model="field.user.input" @keyup="previewText(index)" />
+                    <div
+                      class="form-group"
+                      style="text-align: left; padding: 10px"
+                      v-if="field.existent == false"
+                    >
+                      <label
+                        style="font-size: 13px; color: black; font-weight: 600"
+                        >{{ field.replace }}</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control input-field"
+                        style="
+                          height: 30px !important;
+                          min-height: 30px !important;
+                          border-top: none !important;
+                          border-right: none !important;
+                          border-bottom: 2px solid rgb(141, 141, 141) !important;
+                          border-left: none !important;
+                          border-image: initial !important;
+                          background: transparent !important;
+                          font-size: 13px !important;
+                          color: black !important;
+                          font-weight: 500 !important;
+                          border-radius: 0 !important;
+                        "
+                        v-model="field.user.input"
+                        @keyup="previewText(index)"
+                      />
                     </div>
                   </div>
                 </div>
 
-
                 <div class="col-12 text-center">
-                  <button type="submit" class="btn btn-primary" style="width: 120px; position: relative"
-                    @click="createDocument()">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    style="width: 120px; position: relative"
+                    @click="createDocument()"
+                  >
                     Crear
                   </button>
                 </div>
@@ -623,7 +947,11 @@ if you need break please take notes, i trust
             <div class="col-8">
               <div class="col-12 view-writing-content">
                 <div class="col-12 header">Previsualizacion del documento</div>
-                <div class="col-12 content" v-html="documentModal.data.content" style="color:black"></div>
+                <div
+                  class="col-12 content"
+                  v-html="documentModal.data.content"
+                  style="color: black"
+                ></div>
               </div>
             </div>
           </div>
@@ -632,7 +960,10 @@ if you need break please take notes, i trust
     </div>
   </div>
 
-  <div class="box" @contextmenu="onContextMenu($event)" style="
+  <div
+    class="box"
+    @contextmenu="onContextMenu($event)"
+    style="
       position: fixed;
       z-index: 1000;
       background: rgb(248 248 248);
@@ -641,144 +972,300 @@ if you need break please take notes, i trust
       padding: 10px;
       border: 1px solid rgb(226, 226, 226) !important;
       border-radius: 6px;
-    " :style="{ top: selected.clientY, left: selected.clientX }">
+    "
+    :style="{ top: selected.clientY, left: selected.clientX }"
+  >
     <ul style="padding: 0; margin: 0; list-style: none">
-      <li style="
+      <li
+        style="
           padding: 0;
           margin: 0;
           list-style: none;
           padding-top: 6px;
           padding-bottom: 6px;
           border-bottom: 1px solid rgb(225 225 225 / 48%);
-        ">
-        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="openModalMoveDocument()">Mover</a>
+        "
+      >
+        <a
+          href="#"
+          style="font-size: 11px; font-weight: 600; color: black"
+          @click="openModalMoveDocument()"
+          >Mover</a
+        >
       </li>
-      <li style="
+      <li
+        style="
           padding: 0;
           margin: 0;
           list-style: none;
-          padding-top: 6px; 
+          padding-top: 6px;
           padding-bottom: 6px;
-        ">
-        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="deleteDocument()">Eliminar</a>
+        "
+      >
+        <a
+          href="#"
+          style="font-size: 11px; font-weight: 600; color: black"
+          @click="deleteDocument()"
+          >Eliminar</a
+        >
       </li>
     </ul>
   </div>
 
-
-
   <!-- Modal -->
-  <div class="modal fade" id="compartir-privada" tabindex="-1" role="dialog" aria-labelledby="report-contentTitle"
-    aria-hidden="true">
+  <div
+    class="modal fade"
+    id="compartir-privada"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="report-contentTitle"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-      <div class="modal-content" style="border-radius:10px;border:none;">
-        <div class="modal-header text-center"
-          style="background : #dedcdc;color:#454545;border-top-left-radius: 10px;border-top-right-radius: 10px">
-          <h5 class="modal-title"
-            style="    font-size: 15px;font-weight: 600;text-align: center !important;display: block !important;width: 100%;">
-            Compartir en forma privada</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-content" style="border-radius: 10px; border: none">
+        <div
+          class="modal-header text-center"
+          style="
+            background: #dedcdc;
+            color: #454545;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+          "
+        >
+          <h5
+            class="modal-title"
+            style="
+              font-size: 15px;
+              font-weight: 600;
+              text-align: center !important;
+              display: block !important;
+              width: 100%;
+            "
+          >
+            Compartir en forma privada
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="col-md-12"
-            style="background:#F2F2F2  ;color:#141414;font-weight:600;text-align:left;padding:20px;margin-bottom:10px">
+          <div
+            class="col-md-12"
+            style="
+              background: #f2f2f2;
+              color: #141414;
+              font-weight: 600;
+              text-align: left;
+              padding: 20px;
+              margin-bottom: 10px;
+            "
+          >
             Escribí el mail de registro del usuario al que querés dar acceso
 
-            <input type="text" v-model="valEmail"
-              style="height: 30px; min-height: 33px;border-radius:30px; border-radius: 30px; border: 1px solid rgb(199, 199, 199); background: rgb(231, 231, 231);margin-top:15px;padding-left:10px" />
-
+            <input
+              type="text"
+              v-model="valEmail"
+              style="
+                height: 30px;
+                min-height: 33px;
+                border-radius: 30px;
+                border-radius: 30px;
+                border: 1px solid rgb(199, 199, 199);
+                background: rgb(231, 231, 231);
+                margin-top: 15px;
+                padding-left: 10px;
+              "
+            />
           </div>
-          <div class="col-md-12"
-            style="margin-left:1vw;display: flex;justify-content: center;align-items: center;color:#141414;font-weight:600;text-align:left;">
-            <input type="radio" :value="onlyRead" @input="setOnlyRead()" class="show-checkbox"
-              style="height: 30px; min-height: 33px;border-radius:30px; border-radius: 30px; border: 1px solid rgb(199, 199, 199); background: rgb(231, 231, 231); margin-right: 0.5vw; " />
-            <label style="margin-top:1vh">Solo Lectura</label>
+          <div
+            class="col-md-12"
+            style="
+              margin-left: 1vw;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: #141414;
+              font-weight: 600;
+              text-align: left;
+            "
+          >
+            <input
+              type="radio"
+              :value="onlyRead"
+              @input="setOnlyRead()"
+              class="show-checkbox"
+              style="
+                height: 30px;
+                min-height: 33px;
+                border-radius: 30px;
+                border-radius: 30px;
+                border: 1px solid rgb(199, 199, 199);
+                background: rgb(231, 231, 231);
+                margin-right: 0.5vw;
+              "
+            />
+            <label style="margin-top: 1vh">Solo Lectura</label>
 
-
-            <input type="radio" :value="readWrite" @input="setReadWrite()" class="show-checkbox"
-              style="height: 30px; min-height: 33px;border-radius:30px; border-radius: 30px; border: 1px solid rgb(199, 199, 199); background: rgb(231, 231, 231);margin-right: 0.5vw; margin-left:4vw" />
-            <label style="margin-top:1vh">Lectura y Edición</label>
+            <input
+              type="radio"
+              :value="readWrite"
+              @input="setReadWrite()"
+              class="show-checkbox"
+              style="
+                height: 30px;
+                min-height: 33px;
+                border-radius: 30px;
+                border-radius: 30px;
+                border: 1px solid rgb(199, 199, 199);
+                background: rgb(231, 231, 231);
+                margin-right: 0.5vw;
+                margin-left: 4vw;
+              "
+            />
+            <label style="margin-top: 1vh">Lectura y Edición</label>
           </div>
-
 
           <div class="col-12 text-center">
-            <button type="submit" class="btn btn-primary" style="width: 120px; margin-top:3vh"
-              @click="compartirPrivado(valEmail)">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="width: 120px; margin-top: 3vh"
+              @click="compartirPrivado(valEmail)"
+            >
               Compartir
             </button>
           </div>
-
         </div>
-
       </div>
     </div>
   </div>
 
-
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-backdrop="static"
+    data-keyboard="true"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content" style="border-radius:10px;border:none;">
-        <form class="modal-content" @submit.prevent="createFolderRoot()" style="border-radius: 10px; border: none;">
+      <div class="modal-content" style="border-radius: 10px; border: none">
+        <form
+          class="modal-content"
+          @submit.prevent="createFolderRoot()"
+          style="border-radius: 10px; border: none"
+        >
           <div class="modal-header text-center">
             <h5 class="modal-title">Nueva carpeta</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
+            <input
+              type="text"
+              class="form-control type-input-2"
+              v-model="nameNewFolder.title"
+              required="true"
+            />
           </div>
           <div class="modal-footer" style="border: none">
-            <button type="submit" class="btn btn-primary" style="font-size: 15px">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="font-size: 15px"
+            >
               Crear carpeta
             </button>
           </div>
         </form>
       </div>
-
-
     </div>
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="true" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="staticBackdrop2"
+    data-backdrop="static"
+    data-keyboard="true"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content" style="border-radius:10px;border:none">
+      <div class="modal-content" style="border-radius: 10px; border: none">
         <form class="modal-content" @submit.prevent="createFolder()">
           <div class="modal-header text-center">
             <h5 class="modal-title">Nueva carpeta</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
+            <input
+              type="text"
+              class="form-control type-input-2"
+              v-model="nameNewFolder.title"
+              required="true"
+            />
           </div>
           <div class="modal-footer" style="border: none">
-            <button type="submit" class="btn btn-primary" style="font-size: 15px">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="font-size: 15px"
+            >
               Guardar
             </button>
           </div>
         </form>
       </div>
-
     </div>
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop4" data-backdrop="static" data-keyboard="true" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="staticBackdrop4"
+    data-backdrop="static"
+    data-keyboard="true"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content" style="border-radius:10px;border:none;">
-        <form class="modal-content" @submit.prevent="modalDeleteFolder()" style="border-radius: 10px; border: none">
+      <div class="modal-content" style="border-radius: 10px; border: none">
+        <form
+          class="modal-content"
+          @submit.prevent="modalDeleteFolder()"
+          style="border-radius: 10px; border: none"
+        >
           <div class="modal-header text-center">
             <h5 class="modal-title">Eliminar carpeta</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -786,7 +1273,11 @@ if you need break please take notes, i trust
             Esta accion no se puede deshacer
           </div>
           <div class="modal-footer" style="border: none">
-            <button type="submit" class="btn btn-primary" style="font-size: 15px">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="font-size: 15px"
+            >
               Eliminar
             </button>
           </div>
@@ -795,71 +1286,89 @@ if you need break please take notes, i trust
     </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <!-- Modal -->
-  <div class="modal fade ModalFullScreen" id="ModalFullScreen" tabindex="-1" role="dialog"
-    aria-labelledby="ModalFullScreen" aria-hidden="true">
+  <div
+    class="modal fade ModalFullScreen"
+    id="ModalFullScreen"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="ModalFullScreen"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header text-center">
           <h5 class="modal-title">Titulo: {{ document.data.title }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="row justify-content-center">
-            <div class="col-12" v-if="document.data.title" style="padding: 10px">
+            <div
+              class="col-12"
+              v-if="document.data.title"
+              style="padding: 10px"
+            >
               <div class="row">
                 <div class="col-md-8">
                   <b>Descripción: {{ document.data.description }}</b>
                 </div>
                 <div class="col-md-4 text-right">
-
-
                   <component v-if="document.data.complete == 1">
                     <div class="dropdown" style="margin: 5px; display: inline">
-                      <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-expanded="false">
-                        <img src="@/assets/descargar.svg" style="
-                                width: 14px;
-                                height: 14px; 
-                                margin-right: 5px;
-                              " />
+                      <button
+                        class="btn btn-light dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <img
+                          src="@/assets/descargar.svg"
+                          style="width: 14px; height: 14px; margin-right: 5px"
+                        />
                       </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
-                        <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
+                      <div
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                      >
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          @click.prevent="exportWord()"
+                          >Documento Word</a
+                        >
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          @click.prevent="exportPDF()"
+                          >Documento PDF</a
+                        >
                       </div>
                     </div>
                   </component>
 
-                  <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
+                  <buttonShare
+                    v-bind:id="document.data.id_share_comuniy"
+                    v-if="document.data.share == 1"
+                  />
                   <!-- Droption Document Component -->
-                  <div style="display:inline-block">
-                    <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
-                      @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openNewTag()"
-                      @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
-                      @open-compartir-privada="openCompartirPrivada()" />
+                  <div style="display: inline-block">
+                    <DocumentDropdown
+                      :document="document"
+                      @go-edit-private="goEditPrivate(document)"
+                      @open-modal-move-document="openModalMoveDocument()"
+                      @open-modal-add-tags="openNewTag()"
+                      @save-share="saveShare(1, activeDocumentId)"
+                      @delete-document="deleteDocument(activeDocumentId)"
+                      @open-compartir-privada="openCompartirPrivada()"
+                    />
                   </div>
                   <!-- 
 
@@ -913,14 +1422,10 @@ if you need break please take notes, i trust
                     </div>
                   </component> -->
 
-
-
-
-
-                  <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
-
-
-
+                  <buttonShare
+                    v-bind:id="document.data.id_share_comuniy"
+                    v-if="document.data.share == 1"
+                  />
                 </div>
               </div>
             </div>
@@ -928,48 +1433,126 @@ if you need break please take notes, i trust
             <RichTextEditor /> -->
             <div id="cke_ruler_wrap"></div>
 
-            <div id="editor-modal" contenteditable="true" style="
-            width: 100%;
-            padding: 20px;
-            overflow: hidden;
-            height: calc(90vh);
-            overflow-y: auto;
-            color:black" v-html="contentDocument"></div>
-
-
+            <div
+              id="editor-modal"
+              contenteditable="true"
+              style="
+                width: 100%;
+                padding: 20px;
+                overflow: hidden;
+                height: calc(90vh);
+                overflow-y: auto;
+                color: black;
+              "
+              v-html="contentDocument"
+            ></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-
   <!-- Modal -->
-  <div class="modal fade" id="ModalAddTags" data-backdrop="static" data-keyboard="true" tabindex="-1"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-      <form class="modal-content" style="border-radius:10px;border:none" @submit.prevent="createNewTag(newTagName)">
+  <div
+    class="modal fade"
+    id="ModalAddTags"
+    data-backdrop="static"
+    data-keyboard="true"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <form
+        class="modal-content"
+        style="border-radius: 10px; border: none"
+        @submit.prevent="
+          !activeDocumentId
+            ? createNewTag(newTagName)
+            : insertDocumentTags(activeDocumentId, tagSelected)
+        "
+      >
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
 
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" style="height:20vh">
-
-
-
+        <div class="modal-body" style="height: 20vh">
+          <ul style="margin: 16px 0">
+            <li
+              v-for="(tag, index) in tagSelected"
+              :key="tag._id"
+              style="
+                padding: 2px 16px;
+                width: 100%;
+                display: flex;
+                column-gap: 6px;
+                align-items: center;
+                width: max-content;
+                border-radius: 12px;
+                background: #f6f5f5;
+                border-bottom: 1px solid #e6e6e6;
+                font-size: 12px;
+                color: black;
+                font-weight: 500;
+              "
+              @click="selectTag(index)"
+            >
+              <p style="margin-bottom: 0; font-size: 14px">
+                {{ tag.data.name }}
+              </p>
+              <img
+                src="@/assets/boton-agregar.png"
+                style="width: 20px; height: 20px"
+              />
+            </li>
+          </ul>
           <div class="col-12" style="padding-top: 0px">
             <h4 style="font-weight: bold; text-align: left; font-size: 17px">
               Asignale al documento como minimo tres etiquetas
             </h4>
-            <input v-model="newTagName" type="text" class="form-control input-search-dashboard"
-              placeholder="Escribe para agregar una etiqueta" />
-
-
+            <input
+              v-model="newTagName"
+              type="text"
+              class="form-control input-search-dashboard"
+              placeholder="Escribe para agregar una etiqueta"
+            />
           </div>
-
+          <div v-if="activeDocumentId" style="margin: 16px 0">
+            <div
+              v-for="(tag, index) in tags"
+              :key="tag._id"
+              style="
+                padding: 2px 16px;
+                width: 100%;
+                display: flex;
+                column-gap: 6px;
+                align-items: center;
+                width: max-content;
+                border-radius: 12px;
+                background: #f6f5f5;
+                border-bottom: 1px solid #e6e6e6;
+                font-size: 12px;
+                color: black;
+                font-weight: 500;
+              "
+              @click="selectTag(index)"
+            >
+              <p style="margin-bottom: 0; font-size: 14px">
+                {{ tag.data.name }}
+              </p>
+              <img
+                src="@/assets/boton-agregar.png"
+                style="width: 20px; height: 20px"
+              />
+            </div>
+          </div>
         </div>
         <div class="modal-footer" style="border: none">
           <button type="submit" class="btn btn-primary" style="font-size: 15px">
@@ -980,61 +1563,90 @@ if you need break please take notes, i trust
     </div>
   </div>
 
+  <div
+    style="
+      display: flex;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      position: fixed;
+      bottom: 0;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+    "
+    v-if="popshared"
+  >
+    <div
+      style="
+        color: rgb(52, 52, 52);
+        width: 355px;
+        right: 180px;
+        font-size: 14px;
+        border-radius: 8px;
+        font-weight: 600;
+        background: #e7e7e7;
+        padding: 10px;
+      "
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        @click="popshared = false"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
 
-  <div style="
-                  display: flex;
-                  top: 0px;
-                  left: 0px;
-                  right: 0px;
-                  position: fixed;
-                  bottom: 0;
-                  align-content: center;
-                  justify-content: center;
-                  align-items: center;
-                " v-if="popshared">
-    <div style="
-                    color: rgb(52, 52, 52);
-                    width: 355px;
-                    right: 180px;
-                    font-size: 14px;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    background: #e7e7e7;
-                    padding: 10px;
-                  ">
-
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="popshared = false"><span
-          aria-hidden="true">×</span></button>
-
-
-      El escrito automatizado se guardara en tu carpeta privada "Mis
-      escritos". ¿Queres compartirlo con la comunidad legal?
+      El escrito automatizado se guardara en tu carpeta privada "Mis escritos".
+      ¿Queres compartirlo con la comunidad legal?
       <div class="col-12 text-right" style="display: flex">
-        <button class="btn btn-primary" style="margin: 5px" @click="saveShare(1)" :disabled="saveLoadingShareDisabled">
+        <button
+          class="btn btn-primary"
+          style="margin: 5px"
+          @click="saveShare(1)"
+          :disabled="saveLoadingShareDisabled"
+        >
           <span v-if="!saveLoadingShare">Si</span>
-          <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingShare" style="
-                          height: 10px;
-                          margin: 0px;
-                          padding: 0px;
-                          width: 10px !important; 
-                          color: white;
-                          margin-top: -10px !important; 
-                        ">
+          <div
+            class="spinner-border spinner-border-sm"
+            role="status"
+            v-if="saveLoadingShare"
+            style="
+              height: 10px;
+              margin: 0px;
+              padding: 0px;
+              width: 10px !important;
+              color: white;
+              margin-top: -10px !important;
+            "
+          >
             <span class="sr-only">Loading...</span>
           </div>
         </button>
 
-        <button href="#" class="btn btn-primary" style="margin: 5px" @click="saveShare(0)"
-          :disabled="saveLoadingNtShareDisabled">
+        <button
+          href="#"
+          class="btn btn-primary"
+          style="margin: 5px"
+          @click="saveShare(0)"
+          :disabled="saveLoadingNtShareDisabled"
+        >
           <span v-if="!saveLoadingNtShare">No</span>
-          <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingNtShare" style="
-                          height: 10px; 
-                          margin: 0px;
-                          padding: 0px;
-                          width: 10px !important;
-                          color: white;
-                          margin-top: -10px !important;
-                        ">
+          <div
+            class="spinner-border spinner-border-sm"
+            role="status"
+            v-if="saveLoadingNtShare"
+            style="
+              height: 10px;
+              margin: 0px;
+              padding: 0px;
+              width: 10px !important;
+              color: white;
+              margin-top: -10px !important;
+            "
+          >
             <span class="sr-only">Loading...</span>
           </div>
         </button>
@@ -1042,25 +1654,48 @@ if you need break please take notes, i trust
     </div>
   </div>
 
-
   <!-- Modal -->
-  <div class="modal fade" id="moveDocumentTofolder" data-backdrop="static" data-keyboard="true" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" style="height:40vh">
-      <form class="modal-content" style="border-radius:10px;border:none; height:50vh"
-        @submit.prevent="selectPathMoveSave()">
+  <div
+    class="modal fade"
+    id="moveDocumentTofolder"
+    data-backdrop="static"
+    data-keyboard="true"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-centered modal-sm"
+      style="height: 40vh"
+    >
+      <form
+        class="modal-content"
+        style="border-radius: 10px; border: none; height: 50vh"
+        @submit.prevent="selectPathMoveSave()"
+      >
         <div class="modal-header text-center">
           <h5 class="modal-title">Asignar carpeta</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <Tree id="my-tree-id" ref="my-tre-2" :custom-options="myCustomOptions2" :custom-styles="myCustomStyles2"
-            :nodes="treeDisplayData2"></Tree>
+          <Tree
+            id="my-tree-id"
+            ref="my-tre-2"
+            :custom-options="myCustomOptions2"
+            :custom-styles="myCustomStyles2"
+            :nodes="treeDisplayData2"
+          ></Tree>
 
           <hr />
-          <ul style="
+          <ul
+            style="
               padding: 0px;
               list-style: none;
               width: 100%;
@@ -1069,8 +1704,11 @@ if you need break please take notes, i trust
               align-items: center;
               flex-direction: column;
               align-content: flex-start;
-            " v-if="documentMoveTemp">
-            <li style="
+            "
+            v-if="documentMoveTemp"
+          >
+            <li
+              style="
                 width: 100%;
                 display: flex;
                 justify-content: flex-start;
@@ -1078,8 +1716,12 @@ if you need break please take notes, i trust
                 flex-direction: column;
                 align-content: flex-start;
                 margin-bottom: 5px;
-              " v-for="(item, index) in documentMoveTemp.data.categories">
-              <a href="#" style="
+              "
+              v-for="(item, index) in documentMoveTemp.data.categories"
+            >
+              <a
+                href="#"
+                style="
                   font-size: 12px;
                   padding: 5px;
                   background: rgb(234, 234, 234);
@@ -1090,9 +1732,14 @@ if you need break please take notes, i trust
                   flex-direction: row;
                   padding-left: 10px;
                   padding-right: 10px;
-                ">{{ item.text }}
-                <a href="#" style="margin-left: 10px" @click="removeFolderInModal(index, item.id)"><i
-                    class="fas fa-times"></i></a>
+                "
+                >{{ item.text }}
+                <a
+                  href="#"
+                  style="margin-left: 10px"
+                  @click="removeFolderInModal(index, item.id)"
+                  ><i class="fas fa-times"></i
+                ></a>
               </a>
             </li>
           </ul>
@@ -1110,10 +1757,6 @@ if you need break please take notes, i trust
 <style>
 @import "@/assets/platform.css";
 
-
-
-
-
 .input-field {
   height: 30px !important;
   min-height: 30px !important;
@@ -1128,7 +1771,6 @@ if you need break please take notes, i trust
   font-weight: 500 !important;
   border-radius: 0 !important;
 }
-
 
 .activeFolder {
   color: #2b44ff !important;
@@ -1148,14 +1790,14 @@ if you need break please take notes, i trust
   color: #9d9d9d;
 }
 
-.nav-list>li>a {
+.nav-list > li > a {
   color: #c4c4c4;
   font-size: 14px;
   padding-left: 13px !important;
   border-bottom: 1px solid #585858;
 }
 
-.nav-list>li>a:hover {
+.nav-list > li > a:hover {
   background-color: #444444;
 }
 
@@ -1179,7 +1821,7 @@ if you need break please take notes, i trust
   font-size: 12px;
 }
 
-.folder-menu li:hover>.icon-add {
+.folder-menu li:hover > .icon-add {
   opacity: 1;
 }
 
@@ -1210,7 +1852,7 @@ if you need break please take notes, i trust
   font-size: 12px;
 }
 
-.folder-menu-child li:hover>.icon-add {
+.folder-menu-child li:hover > .icon-add {
   opacity: 1;
 }
 
@@ -1230,7 +1872,7 @@ input[type="checkbox"] {
 }
 
 .show-checkbox {
-  display: flex
+  display: flex;
 }
 
 .expanded_icon {
@@ -1339,7 +1981,7 @@ input[type="checkbox"] {
 }
 
 .textHover span {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 1px;
@@ -1349,13 +1991,11 @@ input[type="checkbox"] {
   overflow: hidden;
   padding: 0;
 
-
-
   /* CSS3 Transition: */
-  -webkit-transition: 0.50s;
+  -webkit-transition: 0.5s;
   /* Future proofing (these do not work yet): */
-  -moz-transition: 0.50s;
-  transition: 0.50s;
+  -moz-transition: 0.5s;
+  transition: 0.5s;
 }
 
 .textHover:hover span {
@@ -1387,12 +2027,12 @@ input[type="checkbox"] {
   -moz-user-select: none;
   user-select: none;
   -moz-box-sizing: border-box;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 .noUi-target {
   position: relative;
-  direction: ltr
+  direction: ltr;
 }
 
 .noUi-base {
@@ -1408,45 +2048,45 @@ input[type="checkbox"] {
   right: 0;
   top: 0;
   left: 0;
-  bottom: 0
+  bottom: 0;
 }
 
 .noUi-origin {
   position: absolute;
   height: 0;
-  width: 0
+  width: 0;
 }
 
 .noUi-handle {
   position: relative;
-  z-index: 1
+  z-index: 1;
 }
 
 .noUi-state-tap .noUi-connect,
 .noUi-state-tap .noUi-origin {
-  -webkit-transition: top .3s, right .3s, bottom .3s, left .3s;
-  transition: top .3s, right .3s, bottom .3s, left .3s
+  -webkit-transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
+  transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
 }
 
 .noUi-state-drag * {
-  cursor: inherit !important
+  cursor: inherit !important;
 }
 
 .noUi-base,
 .noUi-handle {
   -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0)
+  transform: translate3d(0, 0, 0);
 }
 
 .noUi-horizontal {
-  height: 10px
+  height: 10px;
 }
 
 .noUi-horizontal .noUi-handle {
   width: 10px;
   height: 24px;
   left: -5px;
-  top: -4px
+  top: -4px;
 }
 
 .noUi-target {
@@ -1457,24 +2097,24 @@ input[type="checkbox"] {
 .noUi-connect {
   background: rgba(87, 149, 224, 0.25);
   -webkit-transition: background 450ms;
-  transition: background 450ms
+  transition: background 450ms;
 }
 
 .noUi-draggable {
-  cursor: w-resize
+  cursor: w-resize;
 }
 
 .noUi-handle {
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
   border-radius: 3px;
-  background: #FFF;
+  background: #fff;
   cursor: ew-resize;
   display: none;
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB
+  box-shadow: inset 0 0 1px #fff, inset 0 1px 7px #ebebeb, 0 3px 6px -3px #bbb;
 }
 
 .noUi-active {
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB
+  box-shadow: inset 0 0 1px #fff, inset 0 1px 7px #ddd, 0 3px 6px -3px #bbb;
 }
 
 .noUi-handle:after,
@@ -1484,34 +2124,34 @@ input[type="checkbox"] {
   position: absolute;
   height: 10px;
   width: 1px;
-  background: #E8E7E6;
+  background: #e8e7e6;
   left: 2px;
-  top: 6px
+  top: 6px;
 }
 
 .noUi-handle:after {
-  left: 5px
+  left: 5px;
 }
 
 [disabled] .noUi-connect {
-  background: #B8B8B8
+  background: #b8b8b8;
 }
 
 [disabled] .noUi-handle,
 [disabled].noUi-handle,
 [disabled].noUi-target {
-  cursor: not-allowed
+  cursor: not-allowed;
 }
 
 .noUi-pips,
 .noUi-pips * {
   -moz-box-sizing: border-box;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 .noUi-pips {
   position: absolute;
-  color: #999
+  color: #999;
 }
 
 .noUi-value {
@@ -1527,13 +2167,13 @@ input[type="checkbox"] {
 
 .noUi-marker {
   position: absolute;
-  background: #CCC;
+  background: #ccc;
   bottom: 0;
 }
 
 .noUi-marker-large,
 .noUi-marker-sub {
-  background: #AAA
+  background: #aaa;
 }
 
 .noUi-pips-horizontal {
@@ -1541,7 +2181,7 @@ input[type="checkbox"] {
   height: 25px;
   bottom: 0;
   left: 0;
-  width: 100%
+  width: 100%;
 }
 
 .noUi-value-horizontal {
@@ -1553,33 +2193,33 @@ input[type="checkbox"] {
 .noUi-marker-horizontal.noUi-marker {
   margin-left: -1px;
   width: 1px;
-  height: 4px
+  height: 4px;
 }
 
 .noUi-marker-horizontal.noUi-marker-sub {
-  height: 5px
+  height: 5px;
 }
 
 .noUi-marker-horizontal.noUi-marker-large {
-  height: 8px
+  height: 8px;
 }
 
 .noUi-tooltip {
   display: block;
   position: absolute;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
   border-radius: 3px;
   background: #fff;
   color: #000;
   padding: 5px;
-  text-align: center
+  text-align: center;
 }
 
 .noUi-horizontal .noUi-tooltip {
   -webkit-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
   left: 50%;
-  bottom: 120%
+  bottom: 120%;
 }
 
 .document-editor {
@@ -1596,7 +2236,7 @@ input[type="checkbox"] {
   /* Make sure the toolbar container is always above the editable. */
   z-index: 1;
   /* Create the illusion of the toolbar floating over the editable. */
-  box-shadow: 0 0 5px hsla(0, 0%, 0%, .2);
+  box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.2);
   /* Use the CKEditor CSS variables to keep the UI consistent. */
   border-bottom: 1px solid var(--ck-color-toolbar-border);
 }
@@ -1615,7 +2255,8 @@ input[type="checkbox"] {
   overflow-y: scroll;
 }
 
-.document-editor__editable-container .document-editor__editable.ck-editor__editable {
+.document-editor__editable-container
+  .document-editor__editable.ck-editor__editable {
   /* Set the dimensions of the "page". */
   width: 15.8cm;
   min-height: 21cm;
@@ -1625,13 +2266,15 @@ input[type="checkbox"] {
   border-radius: var(--ck-border-radius);
   background: white;
   /* The "page" should cast a slight shadow (3D illusion). */
-  box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
+  box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
   /* Center the "page". */
   margin: 0 auto;
 }
 
 /* Override the page's width in the "Examples" section which is wider. */
-.main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
+.main__content-wide
+  .document-editor__editable-container
+  .document-editor__editable.ck-editor__editable {
   width: 18cm;
 }
 
@@ -1643,14 +2286,24 @@ input[type="checkbox"] {
 
 /* Adjust the headings dropdown to host some larger heading styles. */
 .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-  line-height: calc(1.7 * var(--ck-line-height-base) * var(--ck-font-size-base));
+  line-height: calc(
+    1.7 * var(--ck-line-height-base) * var(--ck-font-size-base)
+  );
   min-width: 6em;
 }
 
 /* Scale down all heading previews because they are way too big to be presented in the UI.
   Preserve the relative scale, though. */
-.document-editor .ck-heading-dropdown .ck-list .ck-heading_heading1 .ck-button__label,
-.document-editor .ck-heading-dropdown .ck-list .ck-heading_heading2 .ck-button__label {
+.document-editor
+  .ck-heading-dropdown
+  .ck-list
+  .ck-heading_heading1
+  .ck-button__label,
+.document-editor
+  .ck-heading-dropdown
+  .ck-list
+  .ck-heading_heading2
+  .ck-button__label {
   transform: scale(0.8);
   transform-origin: left;
 }
@@ -1664,8 +2317,8 @@ input[type="checkbox"] {
 
 .document-editor .ck-content h2 {
   line-height: 1.37em;
-  padding-top: .342em;
-  margin-bottom: .142em;
+  padding-top: 0.342em;
+  margin-bottom: 0.142em;
 }
 
 /* Set the styles for "Heading 2". */
@@ -1676,15 +2329,18 @@ input[type="checkbox"] {
   color: hsl(203, 100%, 50%);
 }
 
-.document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
+.document-editor
+  .ck-heading-dropdown
+  .ck-heading_heading2.ck-on
+  .ck-button__label {
   color: var(--ck-color-list-button-on-text);
 }
 
 /* Set the styles for "Heading 2". */
 .document-editor .ck-content h3 {
   line-height: 1.86em;
-  padding-top: .171em;
-  margin-bottom: .357em;
+  padding-top: 0.171em;
+  margin-bottom: 0.357em;
 }
 
 /* Set the styles for "Heading 3". */
@@ -1696,8 +2352,8 @@ input[type="checkbox"] {
 
 .document-editor .ck-content h4 {
   line-height: 1.24em;
-  padding-top: .286em;
-  margin-bottom: .952em;
+  padding-top: 0.286em;
+  margin-bottom: 0.952em;
 }
 
 /* Make the block quoted text serif with some additional spacing. */
@@ -1708,15 +2364,17 @@ input[type="checkbox"] {
 }
 
 @media only screen and (max-width: 960px) {
-
   /* Because on mobile 2cm paddings are to big. */
-  .document-editor__editable-container .document-editor__editable.ck-editor__editable {
+  .document-editor__editable-container
+    .document-editor__editable.ck-editor__editable {
     padding: 1.5em;
   }
 }
 
 @media only screen and (max-width: 1200px) {
-  .main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
+  .main__content-wide
+    .document-editor__editable-container
+    .document-editor__editable.ck-editor__editable {
     width: 100%;
   }
 }
@@ -1739,24 +2397,26 @@ input[type="checkbox"] {
   }
 
   /* Keep "page" look based on viewport width. */
-  .main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
+  .main__content-wide
+    .document-editor__editable-container
+    .document-editor__editable.ck-editor__editable {
     width: 60%;
   }
 }
 
-.document-editor__editable-container .document-editor__editable.ck-editor__editable {
+.document-editor__editable-container
+  .document-editor__editable.ck-editor__editable {
   width: 600px;
   min-height: 21cm;
   padding: 1cm 2cm 2cm;
   border: 1px hsl(0, 0%, 82.7%) solid;
   border-radius: var(--ck-border-radius);
   background: white;
-  box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
+  box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
   margin: 0 auto;
 }
 
 #cke_ruler_wrap {
-
   margin: 0 auto;
   display: block;
 }
@@ -1764,7 +2424,7 @@ input[type="checkbox"] {
 .ql-toolbar.ql-snow {
   border: none;
   border-top: 1px solid #d1d5db;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   border-bottom: 1px solid #d1d5db;
   text-align: center;
   margin-left: 0;
@@ -1773,18 +2433,18 @@ input[type="checkbox"] {
 .ql-container .ql-snow {
   border-top: 1px solid #d1d5db;
   border: none;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
   text-align: center;
 }
 </style>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted } from "vue";
 import columnLeft from "@/components/platform/left.vue";
 import RichTextEditor from "@/components/platform/RichTextEditor.vue";
 import navBar from "@/components/platform/navbar.vue";
-import DocumentDropdown from '@/components/platform/DocumentDropdown.vue'
+import DocumentDropdown from "@/components/platform/DocumentDropdown.vue";
 import Tree from "vuejs-tree";
 import buttonShare from "@/components/platform/share-button-writting-private.vue";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -1792,8 +2452,8 @@ import NewTagModal from "@/components/platform/new-tags-suggest.vue";
 import { Quill, QuillEditor } from "@vueup/vue-quill";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import noUiSlider from "nouislider"
+import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import noUiSlider from "nouislider";
 
 const rectWidth = 160;
 const rectHeight = 200;
@@ -1803,7 +2463,7 @@ Quill.register(quillTable.TableCell);
 Quill.register(quillTable.TableRow);
 Quill.register(quillTable.Table);
 Quill.register(quillTable.Contain);
-Quill.register('modules/table', quillTable.TableModule);
+Quill.register("modules/table", quillTable.TableModule);
 
 // What about the private share, and when it send mail , set shared-with userid ? its working?
 // whatahoookk
@@ -1825,32 +2485,36 @@ Quill.register('modules/table', quillTable.TableModule);
 // y
 // for now, if we safe this file, the page will be broken. I will try to migare it from option api (below) to composition api (current with setup beside script)
 </script>
- 
 
 <script>
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
 export default {
   components: {
     RichTextEditor,
-    QuillEditor
+    QuillEditor,
   },
   data() {
     return {
       readWrite: null,
       onlyRead: null,
-      activeItem: 'folders',
+      activeItem: "folders",
       showCol: true,
-      version: '1.00',
+      version: "1.00",
       auth: localStorage.getItem("auth"),
       authId: localStorage.getItem("authId"),
       endpointSearch: window.ENDPOINT + "/writings/search",
       endpoint: window.ENDPOINT + "/writings/get/folders",
       endpointTags: window.ENDPOINT + "/writings/get/tags",
       endpointDocuments: window.ENDPOINT + "/writings/get/folders/documents",
+      endpointPrivateTaggedDocuments:
+        window.ENDPOINT + "/private/get/tags/documents",
       endpointTaggedDocuments: window.ENDPOINT + "/writings/get/tags/documents",
       endpointDocument: window.ENDPOINT + "/writings/get/document",
       endpointGet: window.ENDPOINT + "/writings/get/documents",
       endpointTextPreview: window.ENDPOINT + "/writings/fields/preview",
+      endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
+      endpointOrganizePrivateTags:
+        window.ENDPOINT + "/private/save/tags/organize",
       endpointSaveFolders: window.ENDPOINT + "/writings/save/folders",
       endpointMoveSave: window.ENDPOINT + "/writings/save/folders/organize",
       endpointDeleteDocument: window.ENDPOINT + "/writings/delete/documents",
@@ -1860,7 +2524,8 @@ export default {
       items: [],
       itemsTags: [],
       tags: [],
-      newTagName: '',
+      tagSelected: [],
+      newTagName: "",
       documents: [],
       documentsSearch: [],
       documentsSearchTags: [],
@@ -1934,107 +2599,99 @@ export default {
       startY: 0,
       lines: {
         h: [100, 200],
-        v: [100, 200]
+        v: [100, 200],
       },
       thick: 20,
       isShowRuler: true,
-      isShowReferLine: true
+      isShowReferLine: true,
     };
   },
   created() {
-
-
     const maxRows = 10;
     const maxCols = 5;
     const tableOptions = [];
     for (let r = 1; r <= maxRows; r++) {
       for (let c = 1; c <= maxCols; c++) {
-        tableOptions.push('newtable_' + r + '_' + c);
+        tableOptions.push("newtable_" + r + "_" + c);
       }
     }
 
-
-    const noToolbar = []
+    const noToolbar = [];
 
     this.toolbarOptions = [
-      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-      ['blockquote', 'code-block'],
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
 
-      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-      [{ 'direction': 'rtl' }],                         // text direction
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
 
-      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-      [{ 'font': [] }],
-      [{ 'align': [] }],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
 
-      ['image', 'video'],
-      [{ table: tableOptions }, { table: 'append-row' }, { table: 'append-col' }],
+      ["image", "video"],
+      [
+        { table: tableOptions },
+        { table: "append-row" },
+        { table: "append-col" },
+      ],
 
-
-      ['clean']                                         // remove formatting button
+      ["clean"], // remove formatting button
     ];
 
-
-
     setTimeout(() => {
-
-
-      this.quill = new Quill('#editor-full', {
-        theme: 'snow',
-        placeholder: 'Inicializando la aplicacion',
+      this.quill = new Quill("#editor-full", {
+        theme: "snow",
+        placeholder: "Inicializando la aplicacion",
         modules: {
           table: true,
           toolbar: this.toolbarOptions,
           // imageDropAndPaste: {
           //   handler: this.imageHandler
           // },
-        }
+        },
       });
 
-      var q = this.quill
-      q.on('text-change', function (delta, source) {
-        console.log('Editor contents have changed', delta);
+      var q = this.quill;
+      q.on("text-change", function (delta, source) {
+        console.log("Editor contents have changed", delta);
       });
 
       q.insertText(this.contentDocument);
-      console.log(q.getText());   // Should output "Hello World Bilbo!\nSome initial bold text";
-      console.log(this.quill + 'textchange')
+      console.log(q.getText()); // Should output "Hello World Bilbo!\nSome initial bold text";
+      console.log(this.quill + "textchange");
       // const content = this.quill.setText('aaa')
-
     }, 300);
 
-
     document.addEventListener(this.openmodalcomplete, () => {
-
-      this.quill = new Quill('#editor-modal', {
-        theme: 'snow',
-        placeholder: 'Inicializando la aplicacion',
+      this.quill = new Quill("#editor-modal", {
+        theme: "snow",
+        placeholder: "Inicializando la aplicacion",
         modules: {
           table: true,
           toolbar: this.toolbarOptions,
           // imageDropAndPaste: {
           //   handler: this.imageHandler
           // },
-        }
+        },
       });
 
-      var qm = this.quill
-      qm.on('text-change', function (delta, source) {
-        console.log('Editor contents have changed', delta);
+      var qm = this.quill;
+      qm.on("text-change", function (delta, source) {
+        console.log("Editor contents have changed", delta);
       });
 
       qm.insertText(this.contentDocument);
-      console.log(qm.getText());   // Should output "Hello World Bilbo!\nSome initial bold text";
-      console.log(this.quill + 'editormodal')
+      console.log(qm.getText()); // Should output "Hello World Bilbo!\nSome initial bold text";
+      console.log(this.quill + "editormodal");
       // const content = this.quill.setText('aaa')
-
-    })
+    });
 
     document.addEventListener("click", () => {
       this.showContextMenu = false;
@@ -2051,8 +2708,9 @@ export default {
   },
   mounted() {
     this.loadAllDocuments();
-    console.log('mounted load')
+    console.log("mounted load");
     this.loadTags();
+    this.getTags();
     this.loadFolders();
     this.loadFoldersTree2();
 
@@ -2063,33 +2721,31 @@ export default {
       step: 0.25, // accuracy of sliders
       sliders: {
         left: 2, // left slider value
-        right: 19 // right slider value (21-19 = 2)
+        right: 19, // right slider value (21-19 = 2)
       },
       padding: {
         top: 20, // top 'canvas' padding (px)
-        bottom: 20 // bottom 'canvas' padding (px)
-      }
+        bottom: 20, // bottom 'canvas' padding (px)
+      },
     };
-    var range = document.getElementById('cke_ruler_wrap');
+    var range = document.getElementById("cke_ruler_wrap");
     // setPadding([configs.sliders.left, configs.sliders.right]);
     noUiSlider.create(range, {
       start: [test.sliders.left, test.sliders.right],
       margin: 2,
       connect: [false, false, false],
-      behaviour: 'drag',
+      behaviour: "drag",
       step: test.step,
       range: {
-        'min': 0,
-        'max': test.values
+        min: 0,
+        max: test.values,
       },
       pips: {
-        mode: 'count',
+        mode: "count",
         values: test.values,
-        density: 2
-      }
+        density: 2,
+      },
     });
-
-
 
     if (this.$route.query.id) {
       this.activeDocumentId = this.$route.query.id;
@@ -2097,7 +2753,6 @@ export default {
     }
   },
   computed: {
-
     searchTagsInResults() {
       return this.documentsSearchTags.filter((item) => {
         if (this.tagsSelectedTags.length > 0) {
@@ -2124,11 +2779,25 @@ export default {
       }
       return this.documents;
     },
+    filteredResourcesPrivateTags() {
+      if (this.searchTarget.target) {
+        this.searchDocuments();
+        return this.tags.filter((item) => {
+          return item.data.name
+            .toLowerCase()
+            .startsWith(this.searchTarget.target.toLowerCase());
+        });
+      } else {
+        return this.tags;
+      }
+    },
     filteredResourcesTags() {
       if (this.searchTarget.target) {
         this.searchDocuments();
         return this.itemsTags.filter((item) => {
-          return item.data.title.toLowerCase().startsWith(this.searchTarget.target.toLowerCase());
+          return item.data.title
+            .toLowerCase()
+            .startsWith(this.searchTarget.target.toLowerCase());
         });
       } else {
         return this.itemsTags;
@@ -2437,7 +3106,7 @@ export default {
         cols: {
           active: {
             style: {
-              "display": "hidden"
+              display: "hidden",
             },
           },
         },
@@ -2515,29 +3184,27 @@ export default {
           auth: this.auth,
         }),
       };
-      this.$Progress.start()
+      this.$Progress.start();
       fetch(window.ENDPOINT + "/writings/get/documents", requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          this.documents = data
-          this.$Progress.finish()
+          this.documents = data;
+          this.$Progress.finish();
         });
     },
     goEditPrivate(escrito) {
-
-      localStorage.setItem('editDocument', JSON.stringify(escrito));
-      console.log(escrito)
+      localStorage.setItem("editDocument", JSON.stringify(escrito));
+      console.log(escrito);
 
       this.$router.push({
-        name: 'autowriting-edit',
-        params: { id: escrito._id }
+        name: "autowriting-edit",
+        params: { id: escrito._id },
       });
-
     },
 
     saveShare(value, activeDocumentId) {
       console.log(this.data);
-      console.log(activeDocumentId)
+      console.log(activeDocumentId);
       if (value == 1) {
         this.saveLoadingShare = true;
         this.saveLoadingNtShareDisabled = true;
@@ -2568,24 +3235,24 @@ export default {
       }
     },
     isActive(menuItem) {
-      return this.activeItem === menuItem
+      return this.activeItem === menuItem;
     },
     setActive(menuItem) {
-      this.activeItem = menuItem
+      this.activeItem = menuItem;
     },
     setReadWrite(value) {
-      this.readWrite = true
-      this.onlyRead = null
+      this.readWrite = true;
+      this.onlyRead = null;
     },
     setOnlyRead(value) {
-      this.readWrite = null
-      this.onlyRead = true
+      this.readWrite = null;
+      this.onlyRead = true;
     },
     isHideCol(col) {
-      return this.showCol === col
+      return this.showCol === col;
     },
     setHidecol(col) {
-      this.showCol = col
+      this.showCol = col;
     },
     removeTag(index) {
       this.tagSelected.splice(index, 1);
@@ -2617,42 +3284,43 @@ export default {
             this.itemsTags = [];
           } else {
             this.itemsTags = data;
-            console.log('soytags')
+            console.log("soytags");
           }
         });
     },
 
-    compartirPrivado(email) { //function to fetch baack
+    compartirPrivado(email) {
+      //function to fetch baack
 
-      const user = JSON.parse(localStorage.getItem('user'))
+      const user = JSON.parse(localStorage.getItem("user"));
 
-      console.log(user)
+      console.log(user);
       const requestOptions = {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email,
           documentId: this.document._id,
           firstName: user.profile.firstname,
           lastName: user.profile.lastname,
-        })
+        }),
       };
-      fetch(window.ENDPOINT + "/writings/share/private", requestOptions).then(response => response.json()).then((data) => {
-        this.$toast.success(
-          "Se envio por email.",
-          {
-            position: "bottom-right"
-          }
-        )
-      })
+      fetch(window.ENDPOINT + "/writings/share/private", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$toast.success("Se envio por email.", {
+            position: "bottom-right",
+          });
+        });
     },
-    openCompartirPrivada() { // open private share mode 
-      $('#compartir-privada').modal('show');
+    openCompartirPrivada() {
+      // open private share mode
+      $("#compartir-privada").modal("show");
     },
-    hacerPublico(row) {  // Public the writing. if you have to public this, its important complete all values for the comunity
-
+    hacerPublico(row) {
+      // Public the writing. if you have to public this, its important complete all values for the comunity
 
       this.selectedIdDocument = row._id;
       const requestOptions = {
@@ -2674,10 +3342,31 @@ export default {
         });
     },
     openFullScreen() {
-      $('.ModalFullScreen').modal('show')
+      $(".ModalFullScreen").modal("show");
     },
     openModalAddTags() {
-      $('#ModalAddTags').modal('show')
+      $("#ModalAddTags").modal("show");
+    },
+    getTags() {
+      this.$Progress.start();
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            type: "writing",
+          },
+        }),
+      };
+      fetch(this.endpointGetPrivateTags, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$Progress.finish();
+          this.tags = data;
+        });
     },
     createNewTag(name) {
       this.$Progress.start();
@@ -2690,15 +3379,42 @@ export default {
           auth: this.auth,
           data: {
             name,
-            type: 'writing'
-          }
+            type: "writing",
+          },
         }),
       };
       fetch(this.endpointSavePrivateTags, requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          this.newTagName = ''
+          this.newTagName = "";
           this.$Progress.finish();
+          this.$toast.success("Crear con éxito nuevas etiquetas", {
+            position: "bottom-right",
+          });
+          $("#ModalAddTags").modal("hide");
+        });
+    },
+    insertDocumentTags(documentId, tags) {
+      this.$Progress.start();
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            name: tags.map((tag) => tag.data.name),
+            documentId,
+            type: "writing",
+          },
+        }),
+      };
+      fetch(this.endpointOrganizePrivateTags, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$Progress.finish();
+          this.tagSelected = [];
           this.$toast.success("Crear con éxito nuevas etiquetas", {
             position: "bottom-right",
           });
@@ -2727,11 +3443,10 @@ export default {
       $("#newTagSuggest").modal("show");
     },
     autoSaveFull() {
-
-      const content = document.querySelector('#editor2-full').innerHTML;
+      const content = document.querySelector("#editor2-full").innerHTML;
 
       this.document.data.content = content;
-      document.querySelector('#editor2-full').innerHTML = content;
+      document.querySelector("#editor2-full").innerHTML = content;
       const requestOptions = {
         method: "POST",
         headers: {
@@ -2741,22 +3456,17 @@ export default {
           auth: this.auth,
           id: this.document._id,
           data: {
-            content: content
+            content: content,
           },
         }),
       };
       fetch(window.ENDPOINT + "/writings/edit/auto", requestOptions)
         .then((response) => response.json())
-        .then((data) => {
-
-        });
-
+        .then((data) => {});
     },
 
-
-
     autoSave() {
-      const content = document.querySelector('#editor-full').innerHTML;
+      const content = document.querySelector("#editor-full").innerHTML;
       this.document.data.content = content;
 
       const requestOptions = {
@@ -2768,16 +3478,13 @@ export default {
           auth: this.auth,
           id: this.document._id,
           data: {
-            content: content
+            content: content,
           },
         }),
       };
       fetch(window.ENDPOINT + "/writings/edit/auto", requestOptions)
         .then((response) => response.json())
-        .then((data) => {
-
-        });
-
+        .then((data) => {});
     },
 
     saveEditMode(id, index) {
@@ -2962,12 +3669,12 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.documentModal.data.content = data.content;
-          console.log(data.content)
+          console.log(data.content);
         });
     },
     openmodalcomplete() {
       $("#exampleModalLong").modal("show");
-      console.log(this.documentModal.data.fields)
+      console.log(this.documentModal.data.fields);
       this.previewText();
     },
     // getPrice(prices,currency) {
@@ -3181,22 +3888,20 @@ export default {
 
           if (data.error == true) {
           } else {
-
             if (!data.data.version) {
-              this.version = '1.00';
+              this.version = "1.00";
             }
 
             if (data.data.complete == 0) {
-
               this.editor_enabled = false;
               if (data.data.form_complete) {
-                this.documentModal = data
+                this.documentModal = data;
                 this.contentDocument = data.content;
                 this.loadingDocument = false;
                 this.$Progress.finish();
 
                 if (data.data.version) {
-                  this.version = '2.00';
+                  this.version = "2.00";
                 }
 
                 this.openmodalcomplete();
@@ -3250,26 +3955,59 @@ export default {
               this.contentDocument = data.data.content;
               this.loadingDocument = false;
 
-              let toolbar = this.quill.getModule('toolbar');
-              toolbar.container.style.display = 'none';
+              let toolbar = this.quill.getModule("toolbar");
+              toolbar.container.style.display = "none";
 
               this.$Progress.finish();
             } else {
               this.editor_enabled = true;
               this.document = data;
-              let toolbar = this.quill.getModule('toolbar');
-              toolbar.container.style.display = 'block';
+              let toolbar = this.quill.getModule("toolbar");
+              toolbar.container.style.display = "block";
               this.contentDocument = data.data.content;
               this.loadingDocument = false;
-              console.log(this.quill + 'Holaquill')
+              console.log(this.quill + "Holaquill");
               this.$Progress.finish();
             }
-
-
           }
         });
     },
 
+    getDocumentsByPrivateTag(idtag, tag) {
+      this.$Progress.start();
+      this.tagsSelectedTags.push({ title: tag, id: idtag });
+      this.loadingTags = true;
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            name: this.tagsSelectedTags.map((tag) => tag.title),
+            type: "writing",
+          },
+        }),
+      };
+      fetch(this.endpointPrivateTaggedDocuments, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.empty) {
+            this.loadingTags = false;
+            this.documents = [];
+            this.$Progress.finish();
+            return;
+          }
+
+          if (data.error == true) {
+          } else {
+            this.documents = data;
+            this.loadingTags = false;
+            this.$Progress.finish();
+          }
+        });
+    },
     getDocumentsByTag(idtag, tag) {
       this.$Progress.start();
       this.tagsSelectedTags.push({ title: tag, id: idtag });
@@ -3281,7 +4019,7 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          tags: this.tagsSelectedTags,
+          tags: this.tagsSelectedTags
         }),
       };
       fetch(this.endpointTaggedDocuments, requestOptions)
@@ -3596,7 +4334,6 @@ export default {
 
       $("#staticBackdrop4").modal("hide");
 
-
       this.deleteForlderRequest(this.temp.node.id);
       // this.saveFolders(true);
     },
@@ -3619,7 +4356,7 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          id: id
+          id: id,
         }),
       };
       fetch(window.ENDPOINT + "/writings/delete/folders", requestOptions)
@@ -3628,7 +4365,6 @@ export default {
           this.$Progress.finish();
         });
     },
-
 
     saveFolders(deletefolder = false) {
       this.$Progress.start();

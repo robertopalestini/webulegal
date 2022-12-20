@@ -57,7 +57,7 @@
               flex-direction: column;
             ">
             <a href="/">
-              <img src="@/assets/landing/logo.png" alt="" style="max-width: 150px" /></a>
+              <img src="@/assets/Logocompleto.svg" alt="" style="max-width: 170px; margin-top: -3vh" /></a>
           </div>
           <div class="col col-sm-8 col-md-7 ">
             <ul id="otroModo" class="menu_items">
@@ -447,7 +447,7 @@ export default {
           const btn_menu2 = document.querySelector(".btn_menu2");
           btn_menu2.classList.toggle("btn_menu_none");
         });
-      }    
+      }
       const link3 = document.querySelector(".link3");
       if (link3) {
         link3.addEventListener("click", () => {

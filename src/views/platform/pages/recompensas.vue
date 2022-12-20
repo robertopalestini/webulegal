@@ -37,7 +37,7 @@
               <div class="col-md-12" style="display: flex; align-items:center; justify-content: center;">
                 <div class="col-md-4 text-center iconos card shadow"
                   style="margin:1vw;display: flex; align-items:center; justify-content: center;padding-top:20px;padding-bottom:20px;">
-                  <img src="../../../assets/pedidos-ya-logo.png" class="fas fa-book-open"
+                  <img src="../../../assets/pedidos-ya-isologo.png" class="fas fa-book-open"
                     style="max-width:19vw;margin-bottom:3vh">
                   <h5>Orden de compra por $1000</h5>
                   <p style="margin-top:-1vh">100 Puntos</p>
