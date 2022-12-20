@@ -1867,61 +1867,28 @@ input[type="checkbox"] {
 
 <script setup>
 
-import Editor from '@tinymce/tinymce-vue'
 
-
-import { onMounted } from "vue";
 import columnLeft from "@/components/platform/left.vue";
-import RichTextEditor from "@/components/platform/RichTextEditor.vue";
 import navBar from "@/components/platform/navbar.vue";
 import DocumentDropdown from "@/components/platform/DocumentDropdown.vue";
 import Tree from "vuejs-tree";
 import buttonShare from "@/components/platform/share-button-writting-private.vue";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import NewTagModal from "@/components/platform/new-tags-suggest.vue";
-import { Quill, QuillEditor } from "@vueup/vue-quill";
-import QuillImageDropAndPaste from "quill-image-drop-and-paste";
-import quillTable from "quill-table";
-import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
-import noUiSlider from "nouislider";
+
 
 const rectWidth = 160;
 const rectHeight = 200;
 
-Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
-Quill.register(quillTable.TableCell);
-Quill.register(quillTable.TableRow);
-Quill.register(quillTable.Table);
-Quill.register(quillTable.Contain);
-Quill.register("modules/table", quillTable.TableModule);
-
-// What about the private share, and when it send mail , set shared-with userid ? its working?
-// whatahoookk
-// idid, using pinia, gettin all documents, then save in state document[], so there we have the array of documents we get in the first request
-// there is a lot to change though. Take a look into stores/writings.js
-// currently im hating this base we got, but this will be areson to recontractor me/us again when PO watch old-new versions
-// im going to push branch in github so there he will be diffs
-// now im going to continue to clean all cards as i can in trello,
-// Sure, I think share in private is complete yesterday (?)
-// I am not sure though. I will try to share with you. What is your user email?
-// mine is robertoadrianpalestini@yahoo.com.arm
-// , open for a meet?
-// after this
-// ok i think its okey if u are focus
-// Already shared, please check your email
-// got email, and i have the link in <a> lets open
-// okey, atm the link with https://webulegal.com/platform/document/638e9d5903e1c2280e8c697a hass baseurl from webu, im handling the url just 1 time, i preffer to dont touch this
-// sure
-// y
-// for now, if we safe this file, the page will be broken. I will try to migare it from option api (below) to composition api (current with setup beside script)
 </script>
 
 <script>
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
+import Editor from '@tinymce/tinymce-vue';
+
 export default {
   components: {
     RichTextEditor,
-    QuillEditor,
     'editor': Editor
   },
   data() {
@@ -3306,8 +3273,7 @@ export default {
             }
           }
 
-console.log(this.editor)    
-          this.editor.execCommand("textarea_id", "mceInsertContent", false, contentDocument);
+          console.log(this.editor)
 
 
         });

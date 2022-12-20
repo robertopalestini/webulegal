@@ -112,24 +112,14 @@
                       Todos los documentos</a>
                     <hr />
 
-                    <a
-                      v-if="tagsSelected.length > 0"
-                      href="#"
-                      style="font-size: 13px; font-weight: 600; text "
-                    >
-                      Filtros:</a
-                    >
-                    <div
-                      class="col-12 text-center"
-                      v-if="tagsSelected.length > 0"
-                      style="
+                    <a v-if="tagsSelected.length > 0" href="#" style="font-size: 13px; font-weight: 600; text ">
+                      Filtros:</a>
+                    <div class="col-12 text-center" v-if="tagsSelected.length > 0" style="
                         padding-top: 8.5px;
                         padding-bottom: 8.5px;
                         border-bottom: 1px solid #e5e5e5;
-                      "
-                    >
-                      <ul
-                        style="
+                      ">
+                      <ul style="
                           padding: 0px;
                           list-style: none;
                           width: 100%;
@@ -138,10 +128,8 @@
                           align-items: center;
                           flex-direction: column;
                           align-content: flex-start;
-                        "
-                      >
-                        <li
-                          style="
+                        ">
+                        <li style="
                             width: 100%;
                             display: flex;
                             justify-content: flex-start;
@@ -149,13 +137,8 @@
                             flex-direction: column;
                             align-content: flex-start;
                             margin-bottom: 5px;
-                          "
-                          v-for="(tagSelected, index) in tagsSelected"
-                          :key="index"
-                        >
-                          <a
-                            href="#"
-                            style="
+                          " v-for="(tagSelected, index) in tagsSelected" :key="index">
+                          <a href="#" style="
                               font-size: 12px;
                               padding: 5px;
                               background: rgb(234, 234, 234);
@@ -166,26 +149,16 @@
                               flex-direction: row;
                               padding-left: 10px;
                               padding-right: 10px;
-                            "
-                            >{{ tagSelected.text }}
-                            <a
-                              href="#"
-                              style="margin-left: 10px"
-                              @click="removeFilterTag(index, tagSelected.text)"
-                              ><i class="fas fa-times"></i
-                            ></a>
+                            ">{{ tagSelected.text }}
+                            <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.text)"><i
+                                class="fas fa-times"></i></a>
                           </a>
                         </li>
                       </ul>
                     </div>
 
-                    <div
-                      class="col-12 text-left"
-                      style="padding: 0"
-                      v-if="tagsSelectedTags.length > 0"
-                    >
-                      <ul
-                        style="
+                    <div class="col-12 text-left" style="padding: 0" v-if="tagsSelectedTags.length > 0">
+                      <ul style="
                           padding: 0px;
                           list-style: none;
                           width: 100%;
@@ -204,13 +177,8 @@
                             align-content: flex-start;
 
                             margin-bottom: 3px;
-                          "
-                          v-for="(tagSelectedTags, index) in tagsSelectedTags"
-                          :key="index"
-                        >
-                          <a
-                            href="#"
-                            style="
+                          " v-for="(tagSelectedTags, index) in tagsSelectedTags" :key="index">
+                          <a href="#" style="
                               font-size: 12px;
                               padding-top: 5px;
                               padding-bottom: 5px;
@@ -251,10 +219,7 @@
                           line-height: 15px;
                           margin-bottom: 15px;
                           margin-top: 10px;
-                        "
-                        v-for="(item, index) in filteredResourcesTags"
-                        :key="index"
-                        @click.prevent="
+                        " v-for="(item, index) in filteredResourcesTags" :key="index" @click.prevent="
                           getDocumentsByTag(item._id, item.data.title)
                         ">
                         <a href="#" style="
@@ -267,44 +232,29 @@
                       </li>
                     </ul>
                     <hr />
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600; text "
-                    >
-                      Etiquetas Privadas:</a
-                    >
-                    <ul
-                      style="
+                    <a href="#" style="font-size: 13px; font-weight: 600; text ">
+                      Etiquetas Privadas:</a>
+                    <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                      v-if="itemsTagsPrivate.length > 0"
-                    >
-                      <li
-                        style="
+                      " v-if="itemsTagsPrivate.length > 0">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
                           line-height: 15px;
                           margin-bottom: 15px;
-                        "
-                        v-for="(item, index) in filteredResourcesPrivateTags"
-                        :key="index"
-                        @click.prevent="
+                        " v-for="(item, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
                           getDocumentsByTagPrivate(item._id, item.data.name)
-                        "
-                      >
-                        <a
-                          href="#"
-                          style="
+                        ">
+                        <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
-                          "
-                        >
+                          ">
                           {{ item.data.name }}
                         </a>
                       </li>
@@ -468,20 +418,19 @@
 
               <div>
                 <div class="editor-wrapper" style="overflow:hidden;">
-                  <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                    v-bind:initial-value="contentDocument" :init="{
-                      lenguage: 'es_ES',
-                      branding: false,
-                      height: '91vh',
-                      menubar: true,
-                      powerpaste_allow_local_images: true,
-                      powerpaste_keep_unsupported_src: true,
-                      smart_paste: true,
-                      powerpaste_html_import: 'prompt',
-                      powerpaste_word_import: 'clean',
-                      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                      toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                    }" />
+                  <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq" :init="{
+                    lenguage: 'es_ES',
+                    branding: false,
+                    height: '91vh',
+                    menubar: true,
+                    powerpaste_allow_local_images: true,
+                    powerpaste_keep_unsupported_src: true,
+                    smart_paste: true,
+                    powerpaste_html_import: 'prompt',
+                    powerpaste_word_import: 'clean',
+                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+                  }" />
 
 
 
@@ -1071,7 +1020,6 @@ input[type="radio"] {
 </style>
 
 <script setup>
-import Editor from '@tinymce/tinymce-vue'
 
 
 import columnLeft from "@/components/platform/left.vue";
@@ -1083,6 +1031,7 @@ import buttonShare from "@/components/platform/share-button-document-private.vue
 <script>
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import Editor from '@tinymce/tinymce-vue'
 
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
 import DocumentDropdown from "../../../components/platform/DocumentDropdown.vue";
@@ -1106,8 +1055,7 @@ export default {
       endpointMoveSave: window.ENDPOINT + "/library/save/folders/organize",
       endpointDeleteDocument: window.ENDPOINT + "/library/delete/documents",
       endpointSavePrivateTags: window.ENDPOINT + "/private/save/tags",
-      endpointOrganizePrivateTags:
-        window.ENDPOINT + "/private/save/tags/organize",
+      endpointOrganizePrivateTags: window.ENDPOINT + "/private/save/tags/organize",
       endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
 
       endpointSave: window.ENDPOINT + "/library/folders/edit",
