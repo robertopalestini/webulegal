@@ -526,7 +526,7 @@ if you need break please take notes, i trust
               <div>
                 <div class="editor-wrapper" style="overflow:hidden;">
                   <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                    :model-value="contentDocument" :init="{
+                    :modelValue="contentDocument" :init="{
                       lenguage: 'es_ES',
                       branding: false,
                       height: '91vh',
@@ -941,7 +941,7 @@ if you need break please take notes, i trust
             <div>
               <div class="editor-wrapper" style="overflow:hidden;">
                 <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                  v-html="contentDocument" :init="{
+                  :modelValue="contentDocument" :init="{
                     lenguage: 'es_ES',
                     branding: false,
                     height: '91vh',
@@ -2050,38 +2050,7 @@ export default {
     this.loadFolders();
     this.loadFoldersTree2();
 
-    var width = 600;
-    var leftLine;
-    var test = {
-      values: 21, // segment number of the ruler
-      step: 0.25, // accuracy of sliders
-      sliders: {
-        left: 2, // left slider value
-        right: 19, // right slider value (21-19 = 2)
-      },
-      padding: {
-        top: 20, // top 'canvas' padding (px)
-        bottom: 20, // bottom 'canvas' padding (px)
-      },
-    };
-    var range = document.getElementById("cke_ruler_wrap");
-    // setPadding([configs.sliders.left, configs.sliders.right]);
-    noUiSlider.create(range, {
-      start: [test.sliders.left, test.sliders.right],
-      margin: 2,
-      connect: [false, false, false],
-      behaviour: "drag",
-      step: test.step,
-      range: {
-        min: 0,
-        max: test.values,
-      },
-      pips: {
-        mode: "count",
-        values: test.values,
-        density: 2,
-      },
-    });
+
 
     if (this.$route.query.id) {
       this.activeDocumentId = this.$route.query.id;
