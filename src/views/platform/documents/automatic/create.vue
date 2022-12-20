@@ -164,21 +164,20 @@ startText();
 
                             <div>
                                 <div class="editor-wrapper" style="overflow:hidden;">
-                                    <editor api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq" :init="{
-                                        lenguage: 'es_ES',
-                                        branding: false,
-                                        height: '91vh',
-                                        menubar: true,
-                                        powerpaste_allow_local_images: true,
-                                        powerpaste_keep_unsupported_src: true,
-                                        smart_paste: true,
-                                        powerpaste_html_import: 'prompt',
-                                        powerpaste_word_import: 'clean',
-                                        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                                        toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                                    }" initial-value="Escribí o pegá acá el modelo a automatizar" />
-
-
+                                    <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                                        v-html="editDocument" :init="{
+                                            lenguage: 'es_ES',
+                                            branding: false,
+                                            height: '91vh',
+                                            menubar: true,
+                                            powerpaste_allow_local_images: true,
+                                            powerpaste_keep_unsupported_src: true,
+                                            smart_paste: true,
+                                            powerpaste_html_import: 'prompt',
+                                            powerpaste_word_import: 'clean',
+                                            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                                            toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+                                        }" initial-value='Escribí o pegá acá el modelo a automatizar' />
 
 
 
@@ -1205,18 +1204,18 @@ export default {
 
             this.categories_view = false;
 
-            setTimeout(() => {
-                document
-                    .querySelector("#editor")
-                    .addEventListener('overflow', this.onAddPage());
-            }, 300);
+            // setTimeout(() => {
+            //     document
+            //         .querySelector("#editor")
+            //         .addEventListener('overflow', this.onAddPage());
+            // }, 300);
 
 
 
             setTimeout(() => {
                 ["mouseup", "keyup", "selectionchange"].forEach((e) => {
                     document
-                        .querySelector("#editor")
+                        .querySelector("#crearEscrito")
                         .addEventListener(e, this.getSelectionOnField);
                 });
             }, 300);
@@ -1225,38 +1224,11 @@ export default {
 
         startText() {
 
-            // this.onAddPage()
+
             this.onReadyCK()
-            //     this.quill = new Quill('#editor', {
-            //         theme: 'snow',
-            //         placeholder: 'Edit text',
-            //         modules: {
-            //             // table: true,
-            //             toolbar: this.toolbarOptions,
-            //             // imageDropAndPaste: {
-            //             //     handler: this.imageHandler
-            //             // },
-            //         }
-            //     });
-
-            setTimeout(() => {
-                ["mouseup", "keyup", "selectionchange"].forEach((e) => {
 
 
 
-                    document
-                        .querySelector(".document-editor__toolbar")
-                        .addEventListener("paste", (e) => {
-                            e.preventDefault();
-                            var contentOnBlur = (e.originalEvent || e).clipboardData.getData('text/html') || prompt('Paste something..');
-                            // contentOnBlur = contentOnBlur.replace(/(<([^>]+)>)/ig,''); 
-                            contentOnBlur = striptags(contentOnBlur, ['span', 'table', 'tbody', 'tr', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'b', 'em', 'strong', 'br', 'u', 'strike', 'p']);
-                            document.execCommand('insertHtml', false, contentOnBlur.replace(/[\s;]background-color:[^;]+(?=;)|^background-color:[^;]+;/g, '').replace(/[\s;]color:[^;]+(?=;)|^color:[^;]+;/g, ''));
-                        })
-
-
-                });
-            }, 300);
         },
     }
 } 
