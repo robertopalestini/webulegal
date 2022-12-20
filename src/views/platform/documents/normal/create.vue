@@ -18,20 +18,27 @@
                 <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
               </a>
             </div>
-            <div class="text-left">
-              <div id="editor" contenteditable="true" v-html="contentText" style="
-                  height: calc(80vh);
-                  overflow: hidden;
-                  overflow-y: scroll;
-                  width: calc(100vw - 110px);
-                  padding-top: ;
-                  text-align: left;
-                  padding-right: 0;
-                  padding-left: 5px;
-                  min-height: calc(65vh);
-                "></div>
-            </div>
 
+            <div>
+              <div class="editor-wrapper" style="overflow:hidden;">
+                <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                  v-html="editDocument" :init="{
+                    lenguage: 'es_ES',
+                    branding: false,
+                    height: '91vh',
+                    menubar: true,
+                    powerpaste_allow_local_images: true,
+                    powerpaste_keep_unsupported_src: true,
+                    smart_paste: true,
+                    powerpaste_html_import: 'prompt',
+                    powerpaste_word_import: 'clean',
+                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+                  }" initial-value='Escribí o pegá acá el modelo a automatizar' />
+
+
+              </div>
+            </div>
             <!-- <div id="cke_ruler_wrap"></div> -->
 
             <div class="col-12" style="position: relative; margin-top:15px" v-if="editor_view">
@@ -233,6 +240,8 @@ iframe {
 import columnLeft from "@/components/platform/left.vue";
 import navBar from "@/components/platform/navbar.vue";
 import { Editable } from "@livingdocs/editable.js/src/core";
+import Editor from '@tinymce/tinymce-vue'
+
 </script>
 
 <script>
@@ -260,11 +269,10 @@ Quill.register("modules/table", quillTable.TableModule);
 export default {
   components: {
     QuillEditor,
+    'editor': Editor
   },
   data() {
     return {
-      editor: null,
-
       data: {},
       auth: localStorage.getItem("auth"),
       endpointUpload: window.ENDPOINT + "/upload",
