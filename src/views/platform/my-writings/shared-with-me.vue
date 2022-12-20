@@ -4,167 +4,99 @@
   <main>
     <div class="container-fluid">
       <div class="row">
-        <div
-          class="col-md-2"
-          style="
+        <div class="col-md-2" style="
             height: calc(100vh - 70px);
             overflow: hidden;
             overflow-y: auto;
             padding: 0;
-          "
-        >
+          ">
           <columnLeft />
         </div>
-        <div
-          class="col-md-10"
-          style="
+        <div class="col-md-10" style="
             height: calc(100vh - 70px);
             border: 1px solid #e2e2e2;
             position: relative;
-          "
-        >
+          ">
           <!-- ======================================= -->
 
           <div class="row">
-            <div
-              class="col-md-3"
-              style="
+            <div class="col-md-3" style="
                 position: relative;
                 overflow: hidden;
                 overflow-y: auto;
                 padding-right: 0px;
                 padding-left: 0px;
                 height: calc(100vh - 70px);
-              "
-            >
+              ">
               <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    @click.prevent="setActive('folders')"
-                    :class="{ active: isActive('folders') }"
-                    >Carpetas</a
-                  >
+                  <a class="nav-link" @click.prevent="setActive('folders')"
+                    :class="{ active: isActive('folders') }">Carpetas</a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    @click.prevent="setActive('tags')"
-                    :class="{ active: isActive('tags') }"
-                    >Etiquetas</a
-                  >
+                  <a class="nav-link" @click.prevent="setActive('tags')"
+                    :class="{ active: isActive('tags') }">Etiquetas</a>
                 </li>
               </ul>
               <div class="tab-content py-3" id="myTabContent">
-                <div
-                  class="tab-pane fade"
-                  :class="{ 'active show': isActive('folders') }"
-                  id="folders"
-                >
-                  <div
-                    class="col-12 text-center"
-                    style="
+                <div class="tab-pane fade" :class="{ 'active show': isActive('folders') }" id="folders">
+                  <div class="col-12 text-center" style="
                       padding-top: 8.5px;
                       padding-bottom: 8.5px;
                       border-bottom: 1px solid #e5e5e5;
-                    "
-                  >
-                    <input
-                      type="text"
-                      class="form-control type-input-3"
-                      v-model="searchTargetFolders.target"
-                      @keyup="search()"
-                      placeholder="Buscar..."
-                    />
+                    ">
+                    <input type="text" class="form-control type-input-3" v-model="searchTargetFolders.target"
+                      @keyup="search()" placeholder="Buscar..." />
                   </div>
-                  <div
-                    class="col-12"
-                    style="padding-top: 10px; padding-bottom: 0"
-                  >
-                    <div
-                      class="spinner-border spinner-border-sm"
-                      role="status"
-                      v-if="loadingFolders"
-                    >
+                  <div class="col-12" style="padding-top: 10px; padding-bottom: 0">
+                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
                       <span class="sr-only">Loading...</span>
                     </div>
-                    <ul
-                      style="
+                    <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                      v-if="items.length > 0"
-                    >
-                      <li
-                        style="
+                      " v-if="items.length > 0">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
-                        "
-                        v-for="(item, index) in filteredResources"
-                        :key="index"
-                        @click.prevent="getDocumentsByTag(item.id, item.text)"
-                      >
+                        " v-for="(item, index) in filteredResources" :key="index"
+                        @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-                          item.text
+                            item.text
                         }}</a>
                       </li>
                     </ul>
                   </div>
 
-                  <div
-                    class="col-12"
-                    style="padding-top: 10px; padding-bottom: 10px"
-                  >
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="openCreateFolderRootModal()"
-                    >
+                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openCreateFolderRootModal()">
                       <img src="@/assets/admin-add.png" style="width: 20px" />
-                      Nueva carpeta raiz</a
-                    >
+                      Nueva carpeta raiz</a>
 
                     <hr />
 
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="loadAllDocuments()"
-                    >
-                      Todos los documentos</a
-                    >
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
+                      Todos los documentos</a>
 
                     <hr />
 
-                    <Tree
-                      id="my-tree-id"
-                      ref="my-tree"
-                      :custom-options="myCustomOptions"
-                      :custom-styles="myCustomStyles"
-                      :nodes="treeDisplayData"
-                    ></Tree>
+                    <Tree id="my-tree-id" ref="my-tree" :custom-options="myCustomOptions"
+                      :custom-styles="myCustomStyles" :nodes="treeDisplayData"></Tree>
 
-                    <span
-                      style="font-size: 12px; font-weight: 500"
-                      v-if="treeDisplayData.length == 0"
-                      >No se encontraron carpetas.</span
-                    >
+                    <span style="font-size: 12px; font-weight: 500" v-if="treeDisplayData.length == 0">No se encontraron
+                      carpetas.</span>
                   </div>
 
-                  <div
-                    class="col-12 text-center"
-                    style="
+                  <div class="col-12 text-center" style="
                       padding-top: 8.5px;
                       padding-bottom: 8.5px;
                       border-bottom: 1px solid #e5e5e5;
-                    "
-                  >
-                    <ul
-                      style="
+                    ">
+                    <ul style="
                         padding: 0px;
                         list-style: none;
                         width: 100%;
@@ -173,10 +105,8 @@
                         align-items: center;
                         flex-direction: column;
                         align-content: flex-start;
-                      "
-                    >
-                      <li
-                        style="
+                      ">
+                      <li style="
                           width: 100%;
                           display: flex;
                           justify-content: flex-start;
@@ -184,13 +114,8 @@
                           flex-direction: column;
                           align-content: flex-start;
                           margin-bottom: 5px;
-                        "
-                        v-for="(tagSelected, index) in tagsSelected"
-                        :key="index"
-                      >
-                        <a
-                          href="#"
-                          style="
+                        " v-for="(tagSelected, index) in tagsSelected" :key="index">
+                        <a href="#" style="
                             font-size: 12px;
                             padding: 5px;
                             background: rgb(234, 234, 234);
@@ -201,84 +126,43 @@
                             flex-direction: row;
                             padding-left: 10px;
                             padding-right: 10px;
-                          "
-                          >{{ tagSelected.text }}
-                          <a
-                            href="#"
-                            style="margin-left: 10px"
-                            @click="removeFilterTag(index, tagSelected.text)"
-                            ><i class="fas fa-times"></i
-                          ></a>
+                          ">{{ tagSelected.text }}
+                          <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.text)"><i
+                              class="fas fa-times"></i></a>
                         </a>
                       </li>
                     </ul>
                   </div>
                 </div>
-                <div
-                  class="tab-pane fade"
-                  :class="{ 'active show': isActive('tags') }"
-                  id="tags"
-                >
-                  <div
-                    class="col-12 text-center"
-                    style="
+                <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
+                  <div class="col-12 text-center" style="
                       padding-top: 8.5px;
                       padding-bottom: 8.5px;
                       border-bottom: 1px solid #e5e5e5;
-                    "
-                  >
-                    <input
-                      type="text"
-                      class="form-control type-input-3"
-                      v-model="searchTarget.target"
-                      placeholder="Buscar etiqueta.."
-                    />
+                    ">
+                    <input type="text" class="form-control type-input-3" v-model="searchTarget.target"
+                      placeholder="Buscar etiqueta.." />
                   </div>
-                  <div
-                    class="col-12 text-center"
-                    style="
+                  <div class="col-12 text-center" style="
                       padding-top: 8.5px;
                       padding-bottom: 8.5px;
                       border-bottom: 1px solid #e5e5e5;
-                    "
-                  >
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="openCreateTagModal()"
-                    >
+                    ">
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openCreateTagModal()">
                       <img src="@/assets/admin-add.png" style="width: 20px" />
-                      Nueva etiqueta</a
-                    >
+                      Nueva etiqueta</a>
                   </div>
-                  <div
-                    class="col-12"
-                    style="padding-top: 10px; padding-bottom: 10px"
-                  >
-                    <div
-                      class="spinner-border spinner-border-sm"
-                      role="status"
-                      v-if="loadingFolders"
-                    >
+                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
                       <span class="sr-only">Loading...</span>
                     </div>
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="loadAllDocuments()"
-                    >
-                      Todos los documentos</a
-                    >
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
+                      Todos los documentos</a>
                     <hr />
 
-                    <div
-                      class="col-12 text-left"
-                      style="padding: 0"
-                      v-if="tagsSelected.length > 0"
-                    >
+                    <div class="col-12 text-left" style="padding: 0" v-if="tagsSelected.length > 0">
                       <p style="font-size: 13px; font-weight: 600">Filtros :</p>
-                      <ul
-                        style="
+                      <ul style="
                           padding: 0px;
                           list-style: none;
                           width: 100%;
@@ -287,10 +171,8 @@
                           align-items: center;
                           flex-direction: column;
                           align-content: flex-start;
-                        "
-                      >
-                        <li
-                          style="
+                        ">
+                        <li style="
                             width: 100%;
                             display: flex;
                             justify-content: flex-start;
@@ -298,13 +180,8 @@
                             flex-direction: column;
                             align-content: flex-start;
                             margin-bottom: 5px;
-                          "
-                          v-for="(tagSelected, index) in tagsSelected"
-                          :key="index"
-                        >
-                          <a
-                            href="#"
-                            style="
+                          " v-for="(tagSelected, index) in tagsSelected" :key="index">
+                          <a href="#" style="
                               font-size: 12px;
                               padding-top: 5px;
                               padding-bottom: 5px;
@@ -317,52 +194,58 @@
                               font-weight: 600;
                               padding-left: 10px;
                               padding-right: 10px;
-                            "
-                            >{{ tagSelected.text }}
-                            <a
-                              href="#"
-                              style="margin-left: 10px"
-                              @click="removeFilterTag(index, tagSelected.text)"
-                              ><i class="fas fa-times"></i
-                            ></a>
+                            ">{{ tagSelected.text }}
+                            <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.text)"><i
+                                class="fas fa-times"></i></a>
                           </a>
                         </li>
                       </ul>
                       <hr />
                     </div>
-
-                    <ul
-                      style="
+                    <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                    >
-                      <li
-                        style="
+                      ">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
                           line-height: 15px;
                           margin-bottom: 15px;
-                        "
-                        v-for="(item, index) in filteredResourcesTags"
-                        :key="index"
-                        @click.prevent="
-                          getDocumentsByTag(item._id, item.data.name)
-                        "
-                      >
-                        <a
-                          href="#"
-                          style="
+                        " v-for="(item, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
+                          getDocumentsByPrivate(item._id, item.data.name)
+                        ">
+                        <a href="#" style="
+                            color: black;
+                            font-weight: 600; 
+                            font-size: 12px;
+                          ">{{ item.data.name }}</a>
+                      </li>
+                    </ul>
+                    <ul style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                      ">
+                      <li style="
+                          padding: 0;
+                          margin: 0; 
+                          width: 100%;
+                          list-style: none;
+                          line-height: 15px;
+                          margin-bottom: 15px;
+                          " v-for="(item, index) in filteredResourcesTags" :key="index" @click.prevent="
+                            getDocumentsByTag(item._id, item.data.title)
+                          ">
+                        <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
-                          "
-                          >{{ item.data.name }}</a
-                        >
+                          ">{{ item.data.title }}</a>
                       </li>
                     </ul>
                   </div>
@@ -370,9 +253,7 @@
               </div>
             </div>
 
-            <div
-              class="col-md-3"
-              style="
+            <div class="col-md-3" style="
                 border-left: 1px solid #e6e6e6;
                 border-right: 1px solid #e6e6e6;
                 padding: 0;
@@ -380,8 +261,7 @@
                 overflow: hidden;
                 overflow-y: auto;
                 position: relative;
-              "
-            >
+              ">
               <!-- <div class="col-12" style="background:#e0dfdf;padding:15px;">
                                         <b style="color:#858484;font-size:16px">Lorem ipsum dolor sit amet</b>
                                         <p style="color:#858484;font-size:13px">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -389,56 +269,29 @@
                                     </div>
                                      -->
 
-              <div
-                class="spinner-border spinner-border-sm"
-                role="status"
-                v-if="loadingDocuments"
-                style="position: absolute"
-              >
+              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocuments"
+                style="position: absolute">
                 <span class="sr-only">Loading...</span>
               </div>
 
-              <div
-                class="col-12"
-                style="
+              <div class="col-12" style="
                   padding: 15px;
                   border-bottom: 1px solid #e6e6e6;
                   cursor: pointer;
                   position: relative;
-                "
-                v-for="(document, index) in fixerEditMode"
-                :key="index"
-                @click="getDocument(document._id)"
+                " v-for="(document, index) in fixerEditMode" :key="index" @click="getDocument(document._id)"
                 v-bind:class="{
                   activeDocument: document._id === activeDocumentId,
-                }"
-                @contextmenu.prevent="openContextmenu($event, document, index)"
-              >
-                <div
-                  class="col-12"
-                  style="padding: 0"
-                  v-if="document._ext.edit_title == false"
-                >
-                  <span class="edit-mode"
-                    >{{ document.data.title }}
-                    <img
-                      src="@/assets/boligrafo.png"
-                      @click.prevent="document._ext.edit_title = true"
-                    />
+                }" @contextmenu.prevent="openContextmenu($event, document, index)">
+                <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
+                  <span class="edit-mode">{{ document.data.title }}
+                    <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
                   </span>
                 </div>
 
-                <form
-                  @submit.prevent="saveEditMode(document._id, index)"
-                  class="col-12"
-                  style="padding: 0; display: flex; margin-bottom: 10px"
-                  v-if="document._ext.edit_title"
-                >
-                  <input
-                    type="text"
-                    class="form-control col-12"
-                    v-model="document.data.title"
-                    style="
+                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12"
+                  style="padding: 0; display: flex; margin-bottom: 10px" v-if="document._ext.edit_title">
+                  <input type="text" class="form-control col-12" v-model="document.data.title" style="
                       font-size: 13px;
                       border-radius: 30px;
                       height: 30px;
@@ -446,42 +299,25 @@
                       max-height: 30px;
                       background: white;
                       font-weight: 700;
-                    "
-                  />
+                    " />
                   <button type="submit" hidden="true"></button>
                 </form>
 
                 <a href="" v-tooltip="'Editar descripción'">
-                  <p
-                    class="edit-mode"
-                    style="color: #525252; font-size: 12px"
-                    v-if="!document._ext.edit_description"
-                  >
+                  <p class="edit-mode" style="color: #525252; font-size: 12px" v-if="!document._ext.edit_description">
                     {{ document.data.description }}
-                    <img
-                      src="@/assets/boligrafo.png"
-                      @click.prevent="document._ext.edit_description = true"
-                    />
+                    <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_description = true" />
                   </p>
                 </a>
 
-                <form
-                  @submit.prevent="saveEditMode(document._id, index)"
-                  class="col-12"
-                  style="
+                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12" style="
                     padding: 0px;
                     display: flex;
                     flex-direction: row;
                     flex-wrap: wrap;
                     margin-bottom: 10px;
-                  "
-                  v-if="document._ext.edit_description"
-                >
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="document.data.description"
-                    style="
+                  " v-if="document._ext.edit_description">
+                  <input type="text" class="form-control" v-model="document.data.description" style="
                       font-size: 12px;
                       border-radius: 8px;
                       height: fit-content;
@@ -489,48 +325,32 @@
                       max-height: fit-content;
                       background: white;
                       margin-bottom: 5px;
-                    "
-                  />
+                    " />
                   <button type="submit" hidden="true"></button>
                 </form>
 
                 <div style="position:absolute:top:0:right:0;height:100%">
                   <a v-tooltip="'Documento privado'">
-                    <img
-                      src="@/assets/cerrar-con-llave.svg"
-                      style="height: 20px; width: 20px"
-                      v-if="document.data.share == 0"
-                    />
+                    <img src="@/assets/cerrar-con-llave.svg" style="height: 20px; width: 20px"
+                      v-if="document.data.share == 0" />
                     <span></span>
                   </a>
                   <a v-tooltip="'Documento publico'">
-                    <img
-                      src="@/assets/candado-abierto(2).png"
-                      style="height: 20px; width: 20px"
-                      v-if="document.data.share == 1"
-                    />
+                    <img src="@/assets/candado-abierto(2).png" style="height: 20px; width: 20px"
+                      v-if="document.data.share == 1" />
                   </a>
 
-                  <img
-                    v-tooltip="'Automatizado'"
-                    src="@/assets/automatizado.svg"
-                    style="height: 20px; width: 20px"
-                    v-if="document.data.complete == 1"
-                  />
+                  <img v-tooltip="'Automatizado'" src="@/assets/automatizado.svg" style="height: 20px; width: 20px"
+                    v-if="document.data.complete == 1" />
 
                   <span v-tooltip="'Modelo'" v-if="document.data.complete == 0">
-                    <img
-                      src="@/assets/a-automatizar.svg"
-                      style="height: 20px; width: 20px; cursor: pointer"
-                      v-if="document.data.form_complete"
-                    />
+                    <img src="@/assets/a-automatizar.svg" style="height: 20px; width: 20px; cursor: pointer"
+                      v-if="document.data.form_complete" />
                   </span>
                 </div>
               </div>
             </div>
-            <div
-              class="col-md-6 scroll-size-medium"
-              style="
+            <div class="col-md-6 scroll-size-medium" style="
                 border-left: 1px solid #e6e6e6;
                 border-right: 1px solid #e6e6e6;
                 padding: 0;
@@ -538,14 +358,9 @@
                 overflow: hidden;
                 overflow-y: auto;
                 position: relative;
-              "
-            >
-              <div
-                class="spinner-border spinner-border-sm"
-                role="status"
-                v-if="loadingDocument"
-                style="position: absolute"
-              >
+              ">
+              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
+                style="position: absolute">
                 <span class="sr-only">Loading...</span>
               </div>
               <div class="col-12" v-if="document" style="padding: 10px">
@@ -555,119 +370,59 @@
                   </div>
                   <div class="col-md-4 text-right">
                     <span v-if="document.data.complete == 0">
-                      <a
-                        href="#"
-                        style="margin: 5px"
-                        v-tooltip="'Expandir'"
-                        v-if="document.data.form_complete"
-                        @click="getDocumentModal(document._id)"
-                      >
-                        <img
-                          src="@/assets/expandir.svg"
-                          style="width: 14px; height: 14px; margin-right: 5px"
-                        />
+                      <a href="#" style="margin: 5px" v-tooltip="'Expandir'" v-if="document.data.form_complete"
+                        @click="getDocumentModal(document._id)">
+                        <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                       </a>
                     </span>
 
-                    <a
-                      href="#"
-                      style="margin: 5px"
-                      v-tooltip="'Expandir'"
-                      v-if="document.data.complete == 1"
-                      @click="openFullScreen()"
-                    >
-                      <img
-                        src="@/assets/expandir.svg"
-                        style="width: 14px; height: 14px; margin-right: 5px"
-                      />
+                    <a href="#" style="margin: 5px" v-tooltip="'Expandir'" v-if="document.data.complete == 1"
+                      @click="openFullScreen()">
+                      <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                     </a>
 
                     <component :is="document.data.complete == 1">
-                      <div
-                        class="dropdown"
-                        style="margin: 5px; display: inline"
-                      >
-                        <button
-                          class="btn btn-light dropdown-toggle"
-                          type="button"
-                          id="dropdownMenuButton"
-                          data-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <img
-                            src="@/assets/descargar.svg"
-                            style="width: 14px; height: 14px; margin-right: 5px"
-                          />
+                      <div class="dropdown" style="margin: 5px; display: inline">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-expanded="false">
+                          <img src="@/assets/descargar.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                         </button>
-                        <div
-                          class="dropdown-menu"
-                          aria-labelledby="dropdownMenuButton"
-                        >
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="exportWord()"
-                            >Documento Word</a
-                          >
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="exportPDF()"
-                            >Documento PDF</a
-                          >
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
+                          <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
                         </div>
                       </div>
                     </component>
 
-                    <buttonShare
-                      v-bind:id="document.data.id_share_comuniy"
-                      v-if="document.data.share == 1"
-                    />
+                    <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
                     <div style="display: inline-block">
-                      <DocumentDropdown
-                        :document="document"
-                        @go-edit-document-private="
-                          goEditDocumentPrivate(document)
-                        "
-                        @open-modal-move-document="openModalMoveDocument()"
-                        @open-modal-add-tags="openModalAddTags()"
-                        @save-share="hacerPublico(document)"
-                        @delete-document="deleteDocument(activeDocumentId)"
-                        @open-compartir-privada="openCompartirPrivada()"
-                      />
+                      <DocumentDropdown :document="document" @go-edit-document-private="
+                        goEditDocumentPrivate(document)
+                      " @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
+                        @save-share="hacerPublico(document)" @delete-document="deleteDocument(activeDocumentId)"
+                        @open-compartir-privada="openCompartirPrivada()" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div
-                v-if="document.data.complete === 0 && !loadingDocument"
-                v-html="'Para completar este escrito hacé click aca.'"
-                id="editor-full"
-                contenteditable="false"
-                style="
+              <div v-if="document.data.complete === 0 && !loadingDocument"
+                v-html="'Para completar este escrito hacé click aca.'" id="editor-full" contenteditable="false" style="
                   width: 100%;
                   padding: 20px;
                   overflow: hidden;
                   height: calc(100vh - 206px);
                   overflow-y: auto;
                   color: black;
-                "
-              ></div>
-              <div
-                v-else-if="!loadingDocument"
-                id="editor-full2"
-                v-html="contentDocument"
-                contenteditable="true"
-                style="
+                "></div>
+              <div v-else-if="!loadingDocument" id="editor-full2" v-html="contentDocument" contenteditable="true" style="
                   width: 100%;
                   padding: 20px;
                   overflow: hidden;
                   height: calc(100vh - 206px);
                   overflow-y: auto;
                   color: black;
-                "
-              ></div>
+                "></div>
             </div>
           </div>
 
@@ -678,14 +433,8 @@
   </main>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModalLong"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-body">
@@ -694,37 +443,18 @@
               <b>{{ document.data.title }}</b>
               <p>{{ document.data.description }}</p>
 
-              <p
-                style="padding: 0; margin: 0; margin-top: 8px; font-size: 14px"
-              >
+              <p style="padding: 0; margin: 0; margin-top: 8px; font-size: 14px">
                 Para crear el documento, completa el siguiente cuestionario
               </p>
             </div>
 
-            <div
-              class="col-4"
-              style="position: relative; position: sticky; top: 0"
-            >
+            <div class="col-4" style="position: relative; position: sticky; top: 0">
               <div class="col-12 view-writing-fields-content">
-                <div
-                  class="col-12"
-                  style="padding: 0; min-height: 300px"
-                  v-if="version == '1.00'"
-                >
-                  <div
-                    class="form-group"
-                    v-for="(field, index) in documentModal.data.fields"
-                    :key="index"
-                    style="text-align: left; padding: 10px"
-                  >
-                    <label
-                      style="font-size: 13px; color: black; font-weight: 600"
-                      >{{ field.replace }}</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control input-field"
-                      style="
+                <div class="col-12" style="padding: 0; min-height: 300px" v-if="version == '1.00'">
+                  <div class="form-group" v-for="(field, index) in documentModal.data.fields" :key="index"
+                    style="text-align: left; padding: 10px">
+                    <label style="font-size: 13px; color: black; font-weight: 600">{{ field.replace }}</label>
+                    <input type="text" class="form-control input-field" style="
                         height: 30px !important;
                         min-height: 30px !important;
                         border-top: none !important;
@@ -737,35 +467,15 @@
                         color: black !important;
                         font-weight: 500 !important;
                         border-radius: 0 !important;
-                      "
-                      v-model="field.user.input"
-                      @keyup="previewText(index)"
-                    />
+                      " v-model="field.user.input" @keyup="previewText(index)" />
                   </div>
                 </div>
 
-                <div
-                  class="col-12"
-                  style="padding: 0; min-height: 380px"
-                  v-if="version == '2.00'"
-                >
-                  <div
-                    v-for="(field, index) in documentModal.data.fields"
-                    :key="index"
-                  >
-                    <div
-                      class="form-group"
-                      style="text-align: left; padding: 10px"
-                      v-if="field.existent == false"
-                    >
-                      <label
-                        style="font-size: 13px; color: black; font-weight: 600"
-                        >{{ field.replace }}</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control input-field"
-                        style="
+                <div class="col-12" style="padding: 0; min-height: 380px" v-if="version == '2.00'">
+                  <div v-for="(field, index) in documentModal.data.fields" :key="index">
+                    <div class="form-group" style="text-align: left; padding: 10px" v-if="field.existent == false">
+                      <label style="font-size: 13px; color: black; font-weight: 600">{{ field.replace }}</label>
+                      <input type="text" class="form-control input-field" style="
                           height: 30px !important;
                           min-height: 30px !important;
                           border-top: none !important;
@@ -778,21 +488,14 @@
                           color: black !important;
                           font-weight: 500 !important;
                           border-radius: 0 !important;
-                        "
-                        v-model="field.user.input"
-                        @keyup="previewText(index)"
-                      />
+                        " v-model="field.user.input" @keyup="previewText(index)" />
                     </div>
                   </div>
                 </div>
 
                 <div class="col-12 text-center">
-                  <button
-                    type="submit"
-                    class="btn btn-primary"
-                    style="width: 120px; position: relative"
-                    @click="createDocument()"
-                  >
+                  <button type="submit" class="btn btn-primary" style="width: 120px; position: relative"
+                    @click="createDocument()">
                     Crear
                   </button>
                 </div>
@@ -801,11 +504,7 @@
             <div class="col-8">
               <div class="col-12 view-writing-content">
                 <div class="col-12 header">Previsualizacion del documento</div>
-                <div
-                  class="col-12 content"
-                  v-html="documentModal.data.content"
-                  style="color: black"
-                ></div>
+                <div class="col-12 content" v-html="documentModal.data.content" style="color: black"></div>
               </div>
             </div>
           </div>
@@ -814,10 +513,7 @@
     </div>
   </div>
 
-  <div
-    class="box"
-    @contextmenu="onContextMenu($event)"
-    style="
+  <div class="box" @contextmenu="onContextMenu($event)" style="
       position: fixed;
       z-index: 1000;
       background: rgb(248 248 248);
@@ -826,109 +522,66 @@
       padding: 10px;
       border: 1px solid rgb(226, 226, 226) !important;
       border-radius: 6px;
-    "
-    :style="{ top: selected.clientY, left: selected.clientX }"
-  >
+    " :style="{ top: selected.clientY, left: selected.clientX }">
     <ul style="padding: 0; margin: 0; list-style: none">
-      <li
-        style="
+      <li style="
           padding: 0;
           margin: 0;
           list-style: none;
           padding-top: 6px;
           padding-bottom: 6px;
           border-bottom: 1px solid rgb(225 225 225 / 48%);
-        "
-      >
-        <a
-          href="#"
-          style="font-size: 11px; font-weight: 600; color: black"
-          @click="openModalMoveDocument()"
-          >Mover</a
-        >
+        ">
+        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="openModalMoveDocument()">Mover</a>
       </li>
-      <li
-        style="
+      <li style="
           padding: 0;
           margin: 0;
           list-style: none;
           padding-top: 6px;
           padding-bottom: 6px;
-        "
-      >
-        <a
-          href="#"
-          style="font-size: 11px; font-weight: 600; color: black"
-          @click="deleteDocument()"
-          >Eliminar</a
-        >
+        ">
+        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="deleteDocument()">Eliminar</a>
       </li>
     </ul>
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="compartir-privada"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="report-contentTitle"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="compartir-privada" tabindex="-1" role="dialog" aria-labelledby="report-contentTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div
-        class="modal-content"
-        style="border-radius: 10px; border: none; height: 50vh"
-      >
-        <div
-          class="modal-header text-center"
-          style="
+      <div class="modal-content" style="border-radius: 10px; border: none; height: 50vh">
+        <div class="modal-header text-center" style="
             background: #dedcdc;
             color: #454545;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
-          "
-        >
-          <h5
-            class="modal-title"
-            style="
+          ">
+          <h5 class="modal-title" style="
               font-size: 15px;
               font-weight: 600;
               text-align: center !important;
               display: block !important;
               width: 100%;
-            "
-          >
+            ">
             Compartir en forma privada
           </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div
-            class="col-md-12"
-            style="
+          <div class="col-md-12" style="
               background: #f2f2f2;
               color: #141414;
               font-weight: 600;
               text-align: left;
               padding: 20px;
               margin-bottom: 10px;
-            "
-          >
+            ">
             Escribí el mail de registro del usuario al que querés dar acceso
 
-            <input
-              type="text"
-              class="modal-text"
-              v-model="valEmail"
-              style="
+            <input type="text" class="modal-text" v-model="valEmail" style="
                 height: 30px;
                 min-height: 33px;
                 border-radius: 30px;
@@ -936,12 +589,9 @@
                 border: 1px solid rgb(199, 199, 199);
                 background: rgb(231, 231, 231);
                 margin-top: 15px;
-              "
-            />
+              " />
           </div>
-          <div
-            class="col-md-12"
-            style="
+          <div class="col-md-12" style="
               margin-left: 1vw;
               display: flex;
               justify-content: center;
@@ -949,12 +599,8 @@
               color: #141414;
               font-weight: 600;
               text-align: left;
-            "
-          >
-            <input
-              type="radio"
-              class="show-checkbox"
-              style="
+            ">
+            <input type="radio" class="show-checkbox" style="
                 height: 30px;
                 min-height: 33px;
                 border-radius: 30px;
@@ -962,14 +608,10 @@
                 border: 1px solid rgb(199, 199, 199);
                 background: rgb(231, 231, 231);
                 margin-right: 0.5vw;
-              "
-            />
+              " />
             <label style="margin-top: 1vh">Solo Lectura</label>
 
-            <input
-              type="radio"
-              class="show-checkbox"
-              style="
+            <input type="radio" class="show-checkbox" style="
                 height: 30px;
                 min-height: 33px;
                 border-radius: 30px;
@@ -978,18 +620,13 @@
                 background: rgb(231, 231, 231);
                 margin-right: 0.5vw;
                 margin-left: 4vw;
-              "
-            />
+              " />
             <label style="margin-top: 1vh">Lectura y Edición</label>
           </div>
 
           <div class="col-12 text-center">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="width: 120px; position: relative; margin-top: 3vh"
-              @click="compartirPrivado(valEmail)"
-            >
+            <button type="submit" class="btn btn-primary" style="width: 120px; position: relative; margin-top: 3vh"
+              @click="compartirPrivado(valEmail)">
               Compartir
             </button>
           </div>
@@ -999,50 +636,22 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div
-        class="modal-content"
-        style="border-radius: 10px; border: none; height: 20vh"
-      >
-        <form
-          class="modal-content"
-          @submit.prevent="createFolderRoot()"
-          style="border-radius: 10px; border: none"
-        >
+      <div class="modal-content" style="border-radius: 10px; border: none; height: 20vh">
+        <form class="modal-content" @submit.prevent="createFolderRoot()" style="border-radius: 10px; border: none">
           <div class="modal-header text-center">
             <h5 class="modal-title">Nueva carpeta</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <input
-              type="text"
-              class="form-control type-input-2"
-              v-model="nameNewFolder.title"
-              required="true"
-            />
+            <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
           </div>
           <div class="modal-footer" style="border: none">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="font-size: 15px"
-            >
+            <button type="submit" class="btn btn-primary" style="font-size: 15px">
               Crear carpeta
             </button>
           </div>
@@ -1052,46 +661,22 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop2"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div
-        class="modal-content"
-        style="border-radius: 10px; border: none; height: 20vh"
-      >
+      <div class="modal-content" style="border-radius: 10px; border: none; height: 20vh">
         <form class="modal-content" @submit.prevent="createFolder()">
           <div class="modal-header text-center">
             <h5 class="modal-title">Nueva carpeta</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <input
-              type="text"
-              class="form-control type-input-2"
-              v-model="nameNewFolder.title"
-              required="true"
-            />
+            <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
           </div>
           <div class="modal-footer" style="border: none">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="font-size: 15px"
-            >
+            <button type="submit" class="btn btn-primary" style="font-size: 15px">
               Guardar
             </button>
           </div>
@@ -1101,36 +686,14 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop4"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog modal-dialog-centered modal-sm"
-      style="height: 5vw"
-    >
-      <div
-        class="modal-content"
-        style="border-radius: 10px; border: none; height: 20vh"
-      >
-        <form
-          class="modal-content"
-          @submit.prevent="modalDeleteFolder()"
-          style="border-radius: 10px; border: none"
-        >
+  <div class="modal fade" id="staticBackdrop4" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" style="height: 5vw">
+      <div class="modal-content" style="border-radius: 10px; border: none; height: 20vh">
+        <form class="modal-content" @submit.prevent="modalDeleteFolder()" style="border-radius: 10px; border: none">
           <div class="modal-header text-center">
             <h5 class="modal-title">Eliminar carpeta</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -1138,11 +701,7 @@
             Esta accion no se puede deshacer
           </div>
           <div class="modal-footer" style="border: none">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="font-size: 15px"
-            >
+            <button type="submit" class="btn btn-primary" style="font-size: 15px">
               Eliminar
             </button>
           </div>
@@ -1152,124 +711,64 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade ModalFullScreen"
-    id="ModalFullScreen"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true"
-  >
+  <div class="modal fade ModalFullScreen" id="ModalFullScreen" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header text-center">
           <h5 class="modal-title">{{ document.data.title }}</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="row justify-content-center">
-            <div
-              class="col-12"
-              v-if="document.data.title"
-              style="padding: 10px"
-            >
+            <div class="col-12" v-if="document.data.title" style="padding: 10px">
               <div class="row">
                 <div class="col-md-8">
                   <b></b>
                 </div>
                 <div class="col-md-4 text-right">
                   <span v-if="document.data.complete == 0">
-                    <a
-                      href="#"
-                      class="textHover"
-                      style="margin: 5px"
-                      v-if="document.data.form_complete"
-                      @click="getDocumentModal(document._id)"
-                    >
-                      <img
-                        src="@/assets/expandir.svg"
-                        style="width: 14px; height: 14px; margin-right: 5px"
-                      />
+                    <a href="#" class="textHover" style="margin: 5px" v-if="document.data.form_complete"
+                      @click="getDocumentModal(document._id)">
+                      <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                       <span>Expandir</span>
                     </a>
                   </span>
 
-                  <a
-                    href="#"
-                    class="textHover"
-                    style="margin: 5px"
-                    v-if="document.data.complete == 1"
-                    @click="openFullScreen()"
-                  >
-                    <img
-                      src="@/assets/expandir.svg"
-                      style="width: 14px; height: 14px; margin-right: 5px"
-                    />
+                  <a href="#" class="textHover" style="margin: 5px" v-if="document.data.complete == 1"
+                    @click="openFullScreen()">
+                    <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                     <span>Expandir</span>
                   </a>
 
                   <component v-if="document.data.complete == 1">
                     <div class="dropdown" style="margin: 5px; display: inline">
-                      <button
-                        class="btn btn-light dropdown-toggle"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <img
-                          src="@/assets/descargar.svg"
-                          style="width: 14px; height: 14px; margin-right: 5px"
-                        />
+                      <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-expanded="false">
+                        <img src="@/assets/descargar.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                       </button>
-                      <div
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                      >
-                        <a
-                          class="dropdown-item"
-                          href="#"
-                          @click.prevent="exportWord()"
-                          >Documento Word</a
-                        >
-                        <a
-                          class="dropdown-item"
-                          href="#"
-                          @click.prevent="exportPDF()"
-                          >Documento PDF</a
-                        >
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
+                        <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
                       </div>
                     </div>
                   </component>
 
-                  <buttonShare
-                    v-bind:id="document.data.id_share_comuniy"
-                    v-if="document.data.share == 1"
-                  />
+                  <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
                 </div>
               </div>
             </div>
 
-            <div
-              id="editor-full3"
-              contenteditable="true"
-              style="
+            <div id="editor-full3" contenteditable="true" style="
                 width: 100%;
                 padding: 20px;
                 overflow: hidden;
                 height: calc(100vh - 206px);
                 overflow-y: auto;
                 color: black;
-              "
-              v-html="contentDocument"
-            ></div>
+              " v-html="contentDocument"></div>
 
             <!-- <div id="editor2-full" contenteditable="true" style="
                     width: 100%;
@@ -1287,42 +786,24 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="ModalAddTags"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="ModalAddTags" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <form
-        class="modal-content"
-        style="border-radius: 10px; border: none"
-        @submit.prevent="
-          !activeDocumentId
-            ? createNewTag(newTagName)
-            : insertDocumentTags(activeDocumentId, tagSelected)
-        "
-      >
+      <form class="modal-content" style="border-radius: 10px; border: none" @submit.prevent="
+        !activeDocumentId
+          ? createNewTag(newTagName)
+          : insertDocumentTags(activeDocumentId, tagSelected)
+      ">
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
 
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body" style="height: 20vh">
           <ul style="margin: 16px 0">
-            <li
-              v-for="(tag, index) in tagSelected"
-              :key="tag._id"
-              style="
+            <li v-for="(tag, index) in tagSelected" :key="tag._id" style="
                 padding: 2px 16px;
                 width: 100%;
                 display: flex;
@@ -1335,34 +816,22 @@
                 font-size: 12px;
                 color: black;
                 font-weight: 500;
-              "
-              @click="selectTag(index)"
-            >
+              " @click="selectTag(index)">
               <p style="margin-bottom: 0; font-size: 14px">
                 {{ tag.data.name }}
               </p>
-              <img
-                src="@/assets/boton-agregar.png"
-                style="width: 20px; height: 20px"
-              />
+              <img src="@/assets/boton-agregar.png" style="width: 20px; height: 20px" />
             </li>
           </ul>
           <div class="col-12" style="padding-top: 0px">
             <h4 style="font-weight: bold; text-align: left; font-size: 17px">
               Asignale al documento como minimo tres etiquetas
             </h4>
-            <input
-              v-model="newTagName"
-              type="text"
-              class="form-control input-search-dashboard"
-              placeholder="Escribe para agregar una etiqueta"
-            />
+            <input v-model="newTagName" type="text" class="form-control input-search-dashboard"
+              placeholder="Escribe para agregar una etiqueta" />
           </div>
           <div v-if="activeDocumentId" style="margin: 16px 0">
-            <div
-              v-for="(tag, index) in tags"
-              :key="tag._id"
-              style="
+            <div v-for="(tag, index) in tags" :key="tag._id" style="
                 padding: 2px 16px;
                 width: 100%;
                 display: flex;
@@ -1375,16 +844,11 @@
                 font-size: 12px;
                 color: black;
                 font-weight: 500;
-              "
-              @click="selectTag(index)"
-            >
+              " @click="selectTag(index)">
               <p style="margin-bottom: 0; font-size: 14px">
                 {{ tag.data.name }}
               </p>
-              <img
-                src="@/assets/boton-agregar.png"
-                style="width: 20px; height: 20px"
-              />
+              <img src="@/assets/boton-agregar.png" style="width: 20px; height: 20px" />
             </div>
           </div>
         </div>
@@ -1398,40 +862,22 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="moveDocumentTofolder"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="moveDocumentTofolder" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" @submit.prevent="selectPathMoveSave()">
         <div class="modal-header text-center">
           <h5 class="modal-title">Asignar carpeta</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <Tree
-            id="my-tree-id"
-            ref="my-tre-2"
-            :custom-options="myCustomOptions2"
-            :custom-styles="myCustomStyles2"
-            :nodes="treeDisplayData2"
-          ></Tree>
+          <Tree id="my-tree-id" ref="my-tre-2" :custom-options="myCustomOptions2" :custom-styles="myCustomStyles2"
+            :nodes="treeDisplayData2"></Tree>
 
           <hr />
-          <ul
-            style="
+          <ul style="
               padding: 0px;
               list-style: none;
               width: 100%;
@@ -1440,11 +886,8 @@
               align-items: center;
               flex-direction: column;
               align-content: flex-start;
-            "
-            v-if="documentMoveTemp"
-          >
-            <li
-              style="
+            " v-if="documentMoveTemp">
+            <li style="
                 width: 100%;
                 display: flex;
                 justify-content: flex-start;
@@ -1452,12 +895,8 @@
                 flex-direction: column;
                 align-content: flex-start;
                 margin-bottom: 5px;
-              "
-              v-for="(item, index) in documentMoveTemp.data.categories"
-            >
-              <a
-                href="#"
-                style="
+              " v-for="(item, index) in documentMoveTemp.data.categories">
+              <a href="#" style="
                   font-size: 12px;
                   padding: 5px;
                   background: rgb(234, 234, 234);
@@ -1468,14 +907,9 @@
                   flex-direction: row;
                   padding-left: 10px;
                   padding-right: 10px;
-                "
-                >{{ item.text }}
-                <a
-                  href="#"
-                  style="margin-left: 10px"
-                  @click="removeFolderInModal(index, item.id)"
-                  ><i class="fas fa-times"></i
-                ></a>
+                ">{{ item.text }}
+                <a href="#" style="margin-left: 10px" @click="removeFolderInModal(index, item.id)"><i
+                    class="fas fa-times"></i></a>
               </a>
             </li>
           </ul>
@@ -1537,14 +971,14 @@
   color: #9d9d9d;
 }
 
-.nav-list > li > a {
+.nav-list>li>a {
   color: #c4c4c4;
   font-size: 14px;
   padding-left: 13px !important;
   border-bottom: 1px solid #585858;
 }
 
-.nav-list > li > a:hover {
+.nav-list>li>a:hover {
   background-color: #444444;
 }
 
@@ -1568,7 +1002,7 @@
   font-size: 12px;
 }
 
-.folder-menu li:hover > .icon-add {
+.folder-menu li:hover>.icon-add {
   opacity: 1;
 }
 
@@ -1599,7 +1033,7 @@
   font-size: 12px;
 }
 
-.folder-menu-child li:hover > .icon-add {
+.folder-menu-child li:hover>.icon-add {
   opacity: 1;
 }
 
@@ -1815,6 +1249,7 @@ export default {
       editor_enabled: false,
       items: [],
       itemsTags: [],
+      itemsTagsPrivate: [],
       newTagName: "",
       tags: [],
       tagSelected: [],
@@ -2010,6 +1445,56 @@ export default {
         };
       }
       return this.documents;
+    },
+    getDocumentsByTagPrivate(idtag, tag) {
+      this.$Progress.start();
+      this.tagsSelected.push({
+        text: tag,
+        id: idtag,
+      });
+      this.loadingDocuments = true;
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          tags: this.tagsSelected,
+          data: {
+            name: this.tagsSelected.map((tag) => tag.text),
+            type: "library",
+          },
+        }),
+      };
+      fetch(this.endpointTaggedPrivateDocuments, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.empty) {
+            this.loadingDocuments = false;
+            this.documents = [];
+            this.$Progress.finish();
+            return;
+          }
+          if (data.error == true) {
+          } else {
+            this.documents = data;
+            this.loadingDocuments = false;
+            this.$Progress.finish();
+          }
+        });
+    },
+    filteredResourcesPrivateTags() {
+      if (this.searchTarget.target) {
+        this.searchDocuments();
+        return this.itemsTagsPrivate.filter((item) => {
+          return item.data.name
+            .toLowerCase()
+            .startsWith(this.searchTarget.target.toLowerCase());
+        });
+      } else {
+        return this.itemsTagsPrivate;
+      }
     },
     filteredResourcesTags() {
       if (this.searchTarget.target) {
@@ -2426,7 +1911,9 @@ export default {
           }
         });
     },
-
+    openModalAddTags() {
+      $("#ModalAddTags").modal("show");
+    },
     compartirPrivado(email) {
       const requestOptions = {
         method: "POST",
@@ -2597,7 +2084,7 @@ export default {
       };
       fetch(window.ENDPOINT + "/writings/edit/auto", requestOptions)
         .then((response) => response.json())
-        .then((data) => {});
+        .then((data) => { });
     },
 
     autoSave() {
@@ -2619,7 +2106,7 @@ export default {
       };
       fetch(window.ENDPOINT + "/writings/edit/auto", requestOptions)
         .then((response) => response.json())
-        .then((data) => {});
+        .then((data) => { });
     },
 
     saveEditMode(id, index) {
@@ -2866,7 +2353,7 @@ export default {
         .then((data) => {
           if (data.empty) {
             this.loadingFolders = false;
-            this.tags = [];
+            this.itemsTagsPrivate = [];
             this.$Progress.finish();
             return;
           }
@@ -2874,7 +2361,7 @@ export default {
           if (data.error == true) {
           } else {
             alphabetizeByProperty("data.title", data);
-            this.tags = [...this.tags, data];
+            this.itemsTagsPrivate = data;
             this.loadingFolders = false;
             this.$Progress.finish();
           }
