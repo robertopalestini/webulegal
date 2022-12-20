@@ -938,7 +938,27 @@ if you need break please take notes, i trust
             <!-- 
             <RichTextEditor /> -->
 
-            <div id="cke_ruler_wrap"></div>
+            <div>
+              <div class="editor-wrapper" style="overflow:hidden;">
+                <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                  v-html="contentDocument" :init="{
+                    lenguage: 'es_ES',
+                    branding: false,
+                    height: '91vh',
+                    menubar: true,
+                    powerpaste_allow_local_images: true,
+                    powerpaste_keep_unsupported_src: true,
+                    smart_paste: true,
+                    powerpaste_html_import: 'prompt',
+                    powerpaste_word_import: 'clean',
+                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+                  }" />
+
+
+              </div>
+            </div>
+            <!-- <div id="cke_ruler_wrap"></div>
 
             <div id="editor-modal" contenteditable="true" style="
                 width: 100%;
@@ -947,7 +967,7 @@ if you need break please take notes, i trust
                 height: calc(90vh);
                 overflow-y: auto;
                 color: black;
-              " v-html="contentDocument"></div>
+              " v-html="contentDocument"></div> -->
           </div>
         </div>
       </div>
