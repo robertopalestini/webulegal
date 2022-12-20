@@ -140,66 +140,48 @@ startText();
                     </div>
 
                     <div class="row" v-if="editor_view">
-                        <div class="col-2 text-left" style="margin-top: 20px">
+                        <!-- <div class="col-2 text-left" style="margin-top: 20px">
                             <a href="@" v-tooltip="'Regresar'" @click.prevent="$router.go(-1)" style="margin-top: -30px"
                                 class="text-left">
                                 <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
                             </a>
-                        </div>
-                        <div class="col-10" style="position: relative ;padding-left:20px; padding-right:0;">
+                        </div> -->
+                        <div class="col-12" style="position: relative ;padding-left:2px; padding-right:2px;">
                             <div style="
                                 position: absolute; 
                                 top: 0;
                                 left: 10px;
                                 right: 0;
                                 bottom: 0;
-                                background: rgb(0, 0, 0, 0.1);
+                                /* background: rgb(0, 0, 0, 0.1); */
                                 z-index: 600; 
                                 " v-if="showEditorLoading">
                                 <div class="spinner-border text-light spinner-border-sm" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
-                            <div id="cke_ruler_wrap"></div>
-                            <div class="document-editor"></div>
+
 
                             <div>
-                                <div class="editor-wrapper" style="margin-left:-190px">
 
-                                    <ckeditor placeholders="Pega" id="editor" :editor="editorCK" v-html="contentText"
-                                        :editorData="contentText" @update:editorData="contentText = $event"
-                                        :select="selectedRange" @update:select="selectedRange = $event"
-                                        @ready="onReadyCK" @overflow="onAddPage" style="                                     
-                                        height: calc(88vh);
-                                        text-align: left;  
-                                        padding-left:10px; 
-                                        padding-right:0; 
-                                        
-                                        ">
-                                    </ckeditor>
+                                <div class="editor-wrapper" style="overflow:hidden;">
+                                    <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                                        v-html="editDocument" :init="{
+                                            lenguage: 'es_ES',
+                                            branding: false,
+                                            height: '91vh',
+                                            menubar: true,
+                                            powerpaste_allow_local_images: true,
+                                            powerpaste_keep_unsupported_src: true,
+                                            smart_paste: true,
+                                            powerpaste_html_import: 'prompt',
+                                            powerpaste_word_import: 'clean',
+                                            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                                            toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+                                        }" initial-value='Escribí o pegá acá el modelo a automatizar' />
 
-
-                                    <!-- <div class="editor-page" v-for="i in pages" :key="i">
-                                        <div class="editor-page-break" v-if="i < pages.length">
-                                            <hr>
-                                            <p>Página {{ i + 1 }}</p>
-                                        </div>
-
-                                        <textarea :value="contentText" :rows="linesDoc" :cols="columnsDoc" />
-                                    </div> -->
-                                </div>
+                         </div>
                             </div>
-                            <!-- <div id="editor" v-html="this.contentText" @selectionChange="" style="
-              height: calc(100vh - 110px);
-              overflow: hidden;
-              overflow-y: scroll;
-             
-              text-align: center;
-              padding-left:0;
-              padding-right:0; 
-            "></div>  -->
-
-
                         </div>
                     </div>
                 </div>
@@ -654,17 +636,16 @@ startText();
   
   
 <script>
-import CKEditor from "@ckeditor/ckeditor5-vue";
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import { ref } from 'vue'
+import Editor from '@tinymce/tinymce-vue'
+
 import RichTextEditor from "@/components/platform/RichTextEditor.vue";
-// import "@vueup/vue-quill/dist/vue-quill.snow.css";
+
 
 import { Quill, QuillEditor } from "@vueup/vue-quill";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
 
-import noUiSlider from "nouislider"
+
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 Quill.register(quillTable.TableCell);
@@ -672,6 +653,11 @@ Quill.register(quillTable.TableRow);
 Quill.register(quillTable.Table);
 Quill.register(quillTable.Contain);
 Quill.register('modules/table', quillTable.TableModule);
+
+
+
+
+
 
 
 function replaceRange(s, start, end, substitute) {
@@ -701,7 +687,7 @@ export default {
     components: {
         RichTextEditor,
         QuillEditor,
-        ckeditor: CKEditor.component
+        'editor': Editor
     },
     data() {
 
@@ -824,7 +810,6 @@ export default {
             range: null,
             editDocument: null,
             selectedRange: null,
-            editorCK: DecoupledEditor,
             editorData: null,
             editorConfig: null,
             linesDoc: 20,
@@ -896,7 +881,7 @@ export default {
 
         onAddPage(editor) {
             this.pages = 0
-            this.original = document.querySelectorAll('#editor')
+            this.original = document.querySelectorAll('.document')
 
 
             for (let index = 0; index <= this.original.keys.length; index++) {
@@ -916,48 +901,26 @@ export default {
 
         onReadyCK(editor) {
 
+            DecoupledDocumentEditor
+                .create(document.querySelector('.document-editor__toolbar'), defaultConfig, defaultPlugings)
+                .then(editor => {
+                    console.log('poraca ando')
+                    console.log(Array.from(editor.ui.componentFactory.names()));
+                    // toolbarContainer.from( editor.ui.componentFactory.names() );
+                    // const toolbarContainer = document.querySelector('#toolbar-container');
 
-            try {
-                CKEDITOR.editorConfig = function (config) {
-                    config.skin = 'bootstrapck';
-                    // Define changes to default configuration here. For example:
-                    // config.language = 'fr';
-                    // config.uiColor = '#AADC6E';
-                    config.toolbar_Full =
-                        [
-                            { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'] },
-                            { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
-                            { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt'] },
-                            {
-                                name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
-                                    'HiddenField']
-                            },
-                            '/',
-                            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
-                            {
-                                name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv',
-                                    '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']
-                            },
-                            { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
-                            { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
-                            '/',
-                            { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-                            { name: 'colors', items: ['TextColor', 'BGColor'] },
-                            { name: 'tools', items: ['Maximize', 'ShowBlocks', '-', 'About'] }
-                        ];
-
-                    config.toolbar_Basic =
-                        [
-                            ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About']
-                        ];
-                };
-
-            }
-            finally {
-                CKEDITOR.replace(document.querySelector('#editor'), {
-                    height: 'calc(88vh)',
+                    // toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+                })
+                .catch(error => {
+                    console.error(error);
                 });
+
+
+
+            this.editorCK = new Editor(document.querySelectorAll('.document-editor__toolbar'), new Editor())
+
             }
+
 
         },
 
@@ -1244,18 +1207,18 @@ export default {
 
             this.categories_view = false;
 
-            setTimeout(() => {
-                document
-                    .querySelector("#editor")
-                    .addEventListener('overflow', this.onAddPage());
-            }, 300);
+            // setTimeout(() => {
+            //     document
+            //         .querySelector("#editor")
+            //         .addEventListener('overflow', this.onAddPage());
+            // }, 300);
 
 
 
             setTimeout(() => {
                 ["mouseup", "keyup", "selectionchange"].forEach((e) => {
                     document
-                        .querySelector("#editor")
+                        .querySelector("#crearEscrito")
                         .addEventListener(e, this.getSelectionOnField);
                 });
             }, 300);
@@ -1264,41 +1227,14 @@ export default {
 
         startText() {
 
-            this.onAddPage()
 
-            //     this.quill = new Quill('#editor', {
-            //         theme: 'snow',
-            //         placeholder: 'Edit text',
-            //         modules: {
-            //             // table: true,
-            //             toolbar: this.toolbarOptions,
-            //             // imageDropAndPaste: {
-            //             //     handler: this.imageHandler
-            //             // },
-            //         }
-            //     });
-
-            setTimeout(() => {
-                ["mouseup", "keyup", "selectionchange"].forEach((e) => {
+            this.onReadyCK()
 
 
 
-                    document
-                        .querySelector("#editor")
-                        .addEventListener("paste", (e) => {
-                            e.preventDefault();
-                            var contentOnBlur = (e.originalEvent || e).clipboardData.getData('text/html') || prompt('Paste something..');
-                            // contentOnBlur = contentOnBlur.replace(/(<([^>]+)>)/ig,''); 
-                            contentOnBlur = striptags(contentOnBlur, ['span', 'table', 'tbody', 'tr', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'b', 'em', 'strong', 'br', 'u', 'strike', 'p']);
-                            document.execCommand('insertHtml', false, contentOnBlur.replace(/[\s;]background-color:[^;]+(?=;)|^background-color:[^;]+;/g, '').replace(/[\s;]color:[^;]+(?=;)|^color:[^;]+;/g, ''));
-                        })
-
-
-                });
-            }, 300);
         },
-    }
-} 
+    }   
+
 </script>
   
 <script setup>

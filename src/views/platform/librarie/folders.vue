@@ -4,221 +4,122 @@
   <main>
     <div class="container-fluid">
       <div class="row">
-        <div
-          class="col-md-2"
-          style="
+        <div class="col-md-2" style="
             height: calc(100vh - 70px);
             overflow: hidden;
             overflow-y: auto;
             padding: 0;
-          "
-        >
+          ">
           <columnLeft />
         </div>
-        <div
-          class="col-md-10"
-          style="
+        <div class="col-md-10" style="
             height: calc(100vh - 70px);
             border: 1px solid #e2e2e2;
             position: relative;
-          "
-        >
+          ">
           <!-- ======================================= -->
           <div class="row">
-            <div
-              class="col-md-3"
-              style="
+            <div class="col-md-3" style="
                 padding-right: 0px;
                 padding-left: 0px;
                 position: relative;
                 overflow: hidden;
                 overflow-y: auto;
                 height: calc(100vh - 70px);
-              "
-            >
+              ">
               <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    @click.prevent="setActive('folders')"
-                    :class="{ active: isActive('folders') }"
-                    >Carpetas</a
-                  >
+                  <a class="nav-link" @click.prevent="setActive('folders')"
+                    :class="{ active: isActive('folders') }">Carpetas</a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    @click.prevent="setActive('tags')"
-                    :class="{ active: isActive('tags') }"
-                    >Etiquetas</a
-                  >
+                  <a class="nav-link" @click.prevent="setActive('tags')"
+                    :class="{ active: isActive('tags') }">Etiquetas</a>
                 </li>
               </ul>
               <div class="tab-content py-3" id="myTabContent">
-                <div
-                  class="tab-pane fade"
-                  :class="{ 'active show': isActive('folders') }"
-                  id="folders"
-                >
-                  <div
-                    class="col-12 text-center"
-                    style="
+                <div class="tab-pane fade" :class="{ 'active show': isActive('folders') }" id="folders">
+                  <div class="col-12 text-center" style="
                       padding-top: 8.5px;
                       padding-bottom: 8.5px;
                       border-bottom: 1px solid #e5e5e5;
-                    "
-                  >
-                    <input
-                      type="text"
-                      class="form-control type-input-3"
-                      v-model="searchTarget.target"
-                      @keyup="search()"
-                      placeholder="Buscar..."
-                    />
+                    ">
+                    <input type="text" class="form-control type-input-3" v-model="searchTarget.target" @keyup="search()"
+                      placeholder="Buscar..." />
                   </div>
-                  <div
-                    class="col-12"
-                    style="padding-top: 10px; padding-bottom: 0"
-                  >
-                    <div
-                      class="spinner-border spinner-border-sm"
-                      role="status"
-                      v-if="loadingFolders"
-                    >
+                  <div class="col-12" style="padding-top: 10px; padding-bottom: 0">
+                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
                       <span class="sr-only">Loading...</span>
                     </div>
-                    <ul
-                      style="
+                    <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                      v-if="items.length > 0"
-                    >
-                      <li
-                        style="
+                      " v-if="items.length > 0">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
-                        "
-                        v-for="item in filteredResources"
-                        :key="index"
-                        @click.prevent="getDocumentsByTag(item.id, item.text)"
-                      >
+                        " v-for="item in filteredResources" :key="index"
+                        @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-                          item.text
+                            item.text
                         }}</a>
                       </li>
                     </ul>
                   </div>
 
-                  <div
-                    class="col-12"
-                    style="padding-top: 10px; padding-bottom: 10px"
-                  >
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="openCreateFolderRootModal()"
-                    >
+                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openCreateFolderRootModal()">
                       <img src="@/assets/admin-add.png" style="width: 20px" />
-                      Nueva carpeta raiz</a
-                    >
+                      Nueva carpeta raiz</a>
 
                     <hr />
 
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="loadAllDocuments()"
-                    >
-                      Todos los documentos</a
-                    >
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
+                      Todos los documentos</a>
 
                     <hr />
 
-                    <Tree
-                      id="my-tree-id"
-                      ref="my-tree"
-                      :custom-options="myCustomOptions"
-                      :custom-styles="myCustomStyles"
-                      :nodes="treeDisplayData"
-                    ></Tree>
+                    <Tree id="my-tree-id" ref="my-tree" :custom-options="myCustomOptions"
+                      :custom-styles="myCustomStyles" :nodes="treeDisplayData"></Tree>
 
-                    <span
-                      style="font-size: 12px; font-weight: 500"
-                      v-if="treeDisplayData.length == 0"
-                      >No se encontraron carpetas.</span
-                    >
+                    <span style="font-size: 12px; font-weight: 500" v-if="treeDisplayData.length == 0">No se encontraron
+                      carpetas.</span>
                   </div>
                 </div>
 
-                <div
-                  class="tab-pane fade"
-                  :class="{ 'active show': isActive('tags') }"
-                  id="tags"
-                >
+                <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
                   <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
                  <a href="#" style="font-size:13px;">Nueva carpeta</a>
                </div>  -->
 
-                  <input
-                    type="text"
-                    class="form-control type-input-3"
-                    v-model="searchTarget.target"
-                    placeholder="Buscar etiqueta.."
-                  />
-                  <div
-                    class="col-12"
-                    style="padding-top: 10px; padding-bottom: 10px"
-                  >
-                    <div
-                      class="spinner-border spinner-border-sm"
-                      role="status"
-                      v-if="loadingTags"
-                    >
+                  <input type="text" class="form-control type-input-3" v-model="searchTarget.target"
+                    placeholder="Buscar etiqueta.." />
+                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingTags">
                       <span class="sr-only">Loading...</span>
                     </div>
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="openCreateTagModal()"
-                    >
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openCreateTagModal()">
                       <img src="@/assets/admin-add.png" style="width: 20px" />
-                      Nueva etiqueta</a
-                    >
+                      Nueva etiqueta</a>
                     <!-- <NewTagModal style="z-index: 1000" /> -->
 
                     <hr />
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600"
-                      @click.prevent="loadAllDocuments()"
-                    >
-                      Todos los documentos</a
-                    >
+                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
+                      Todos los documentos</a>
                     <hr />
 
-                    <a
-                      v-if="tagsSelected.length > 0"
-                      href="#"
-                      style="font-size: 13px; font-weight: 600; text "
-                    >
-                      Filtros:</a
-                    >
-                    <div
-                      class="col-12 text-center"
-                      v-if="tagsSelected.length > 0"
-                      style="
+                    <a v-if="tagsSelected.length > 0" href="#" style="font-size: 13px; font-weight: 600; text ">
+                      Filtros:</a>
+                    <div class="col-12 text-center" v-if="tagsSelected.length > 0" style="
                         padding-top: 8.5px;
                         padding-bottom: 8.5px;
                         border-bottom: 1px solid #e5e5e5;
-                      "
-                    >
-                      <ul
-                        style="
+                      ">
+                      <ul style="
                           padding: 0px;
                           list-style: none;
                           width: 100%;
@@ -227,10 +128,8 @@
                           align-items: center;
                           flex-direction: column;
                           align-content: flex-start;
-                        "
-                      >
-                        <li
-                          style="
+                        ">
+                        <li style="
                             width: 100%;
                             display: flex;
                             justify-content: flex-start;
@@ -238,13 +137,8 @@
                             flex-direction: column;
                             align-content: flex-start;
                             margin-bottom: 5px;
-                          "
-                          v-for="(tagSelected, index) in tagsSelected"
-                          :key="index"
-                        >
-                          <a
-                            href="#"
-                            style="
+                          " v-for="(tagSelected, index) in tagsSelected" :key="index">
+                          <a href="#" style="
                               font-size: 12px;
                               padding: 5px;
                               background: rgb(234, 234, 234);
@@ -255,26 +149,16 @@
                               flex-direction: row;
                               padding-left: 10px;
                               padding-right: 10px;
-                            "
-                            >{{ tagSelected.text }}
-                            <a
-                              href="#"
-                              style="margin-left: 10px"
-                              @click="removeFilterTag(index, tagSelected.text)"
-                              ><i class="fas fa-times"></i
-                            ></a>
+                            ">{{ tagSelected.text }}
+                            <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.text)"><i
+                                class="fas fa-times"></i></a>
                           </a>
                         </li>
                       </ul>
                     </div>
 
-                    <div
-                      class="col-12 text-left"
-                      style="padding: 0"
-                      v-if="tagsSelectedTags.length > 0"
-                    >
-                      <ul
-                        style="
+                    <div class="col-12 text-left" style="padding: 0" v-if="tagsSelectedTags.length > 0">
+                      <ul style="
                           padding: 0px;
                           list-style: none;
                           width: 100%;
@@ -283,24 +167,18 @@
                           align-items: center;
                           flex-direction: column;
                           align-content: flex-start;
-                        "
-                      >
-                        <li
-                          style="
+                        ">
+                        <li style="
                             width: 100%;
                             display: flex;
                             justify-content: flex-start;
                             align-items: flex-start;
                             flex-direction: column;
                             align-content: flex-start;
+
                             margin-bottom: 3px;
-                          "
-                          v-for="(tagSelectedTags, index) in tagsSelectedTags"
-                          :key="index"
-                        >
-                          <a
-                            href="#"
-                            style="
+                          " v-for="(tagSelectedTags, index) in tagsSelectedTags" :key="index">
+                          <a href="#" style="
                               font-size: 12px;
                               padding-top: 5px;
                               padding-bottom: 5px;
@@ -313,16 +191,11 @@
                               font-weight: 600;
                               padding-left: 10px;
                               padding-right: 10px;
-                            "
-                          >
+                            ">
                             {{ tagSelectedTags.title }}
-                            <a
-                              href="#"
-                              style="margin-left: 10px"
-                              @click="
-                                removeFilterTags(index, tagSelectedTags.title)
-                              "
-                            >
+                            <a href="#" style="margin-left: 10px" @click="
+                              removeFilterTags(index, tagSelectedTags.title)
+                            ">
                               <i class="fas fa-times"></i>
                             </a>
                           </a>
@@ -332,17 +205,13 @@
                       <hr />
                     </div>
 
-                    <ul
-                      style="
+                    <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                      v-if="itemsTags.length > 0"
-                    >
-                      <li
-                        style="
+                      " v-if="itemsTags.length > 0">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
@@ -350,65 +219,42 @@
                           line-height: 15px;
                           margin-bottom: 15px;
                           margin-top: 10px;
-                        "
-                        v-for="(item, index) in filteredResourcesTags"
-                        :key="index"
-                        @click.prevent="
+                        " v-for="(item, index) in filteredResourcesTags" :key="index" @click.prevent="
                           getDocumentsByTag(item._id, item.data.title)
-                        "
-                      >
-                        <a
-                          href="#"
-                          style="
+                        ">
+                        <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
-                          "
-                        >
+                          ">
                           {{ item.data.title }}
                         </a>
                       </li>
                     </ul>
-
                     <hr />
-                    <a
-                      href="#"
-                      style="font-size: 13px; font-weight: 600; text "
-                    >
-                      Etiquetas Privadas:</a
-                    >
-                    <ul
-                      style="
+                    <a href="#" style="font-size: 13px; font-weight: 600; text ">
+                      Etiquetas Privadas:</a>
+                    <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      "
-                      v-if="itemsTagsPrivate.length > 0"
-                    >
-                      <li
-                        style="
+                      " v-if="itemsTagsPrivate.length > 0">
+                      <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
                           line-height: 15px;
                           margin-bottom: 15px;
-                        "
-                        v-for="(item, index) in filteredResourcesPrivateTags"
-                        :key="index"
-                        @click.prevent="
+                        " v-for="(item, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
                           getDocumentsByTagPrivate(item._id, item.data.name)
-                        "
-                      >
-                        <a
-                          href="#"
-                          style="
+                        ">
+                        <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
-                          "
-                        >
+                          ">
                           {{ item.data.name }}
                         </a>
                       </li>
@@ -417,13 +263,12 @@
                     <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
                                              <a href="#" style="font-size:13px;">Nueva carpeta</a>
                                            </div>  -->
+
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              class="col-md-3"
-              style="
+            <div class="col-md-3" style="
                 border-left: 1px solid #e6e6e6;
                 border-right: 1px solid #e6e6e6;
                 padding: 0;
@@ -431,8 +276,7 @@
                 overflow: hidden;
                 overflow-y: auto;
                 position: relative;
-              "
-            >
+              ">
               <!-- <div class="col-12" style="background:#e0dfdf;padding:15px;">
                                         <b style="color:#858484;font-size:16px">Lorem ipsum dolor sit amet</b>
                                         <p style="color:#858484;font-size:13px">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -440,56 +284,29 @@
                                     </div>
                                      -->
 
-              <div
-                class="spinner-border spinner-border-sm"
-                role="status"
-                v-if="loadingDocuments"
-                style="position: absolute"
-              >
+              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocuments"
+                style="position: absolute">
                 <span class="sr-only">Loading...</span>
               </div>
 
-              <div
-                class="col-12"
-                style="
+              <div class="col-12" style="
                   padding: 15px;
                   border-bottom: 1px solid #e6e6e6;
                   cursor: pointer;
                   position: relative;
-                "
-                v-for="(document, index) in fixerEditMode"
-                :key="index"
-                @click="getDocument(document._id)"
+                " v-for="(document, index) in fixerEditMode" :key="index" @click="getDocument(document._id)"
                 v-bind:class="{
                   activeDocument: document._id === activeDocumentId,
-                }"
-                @contextmenu.prevent="openContextmenu($event, document, index)"
-              >
-                <div
-                  class="col-12"
-                  style="padding: 0"
-                  v-if="document._ext.edit_title == false"
-                >
-                  <span v-tooltip="'Editar titulo'" class="edit-mode"
-                    >{{ document.data.title }}
-                    <img
-                      src="@/assets/boligrafo.png"
-                      @click.prevent="document._ext.edit_title = true"
-                    />
+                }" @contextmenu.prevent="openContextmenu($event, document, index)">
+                <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
+                  <span v-tooltip="'Editar titulo'" class="edit-mode">{{ document.data.title }}
+                    <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
                   </span>
                 </div>
 
-                <form
-                  @submit.prevent="saveEditMode(document._id, index)"
-                  class="col-12"
-                  style="padding: 0; display: flex; margin-bottom: 10px"
-                  v-if="document._ext.edit_title"
-                >
-                  <input
-                    type="text"
-                    class="form-control col-12"
-                    v-model="document.data.title"
-                    style="
+                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12"
+                  style="padding: 0; display: flex; margin-bottom: 10px" v-if="document._ext.edit_title">
+                  <input type="text" class="form-control col-12" v-model="document.data.title" style="
                       font-size: 13px;
                       border-radius: 30px;
                       height: 30px;
@@ -497,41 +314,24 @@
                       max-height: 30px;
                       background: white;
                       font-weight: 700;
-                    "
-                  />
+                    " />
                   <button type="submit" hidden="true"></button>
                 </form>
 
-                <p
-                  v-tooltip="'Editar descripción'"
-                  class="edit-mode"
-                  style="color: #525252; font-size: 12px"
-                  v-if="!document._ext.edit_description"
-                >
+                <p v-tooltip="'Editar descripción'" class="edit-mode" style="color: #525252; font-size: 12px"
+                  v-if="!document._ext.edit_description">
                   {{ document.data.description }}
-                  <img
-                    src="@/assets/boligrafo.png"
-                    @click.prevent="document._ext.edit_description = true"
-                  />
+                  <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_description = true" />
                 </p>
 
-                <form
-                  @submit.prevent="saveEditMode(document._id, index)"
-                  class="col-12"
-                  style="
+                <form @submit.prevent="saveEditMode(document._id, index)" class="col-12" style="
                     padding: 0px;
                     display: flex;
                     flex-direction: row;
                     flex-wrap: wrap;
                     margin-bottom: 10px;
-                  "
-                  v-if="document._ext.edit_description"
-                >
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="document.data.description"
-                    style="
+                  " v-if="document._ext.edit_description">
+                  <input type="text" class="form-control" v-model="document.data.description" style="
                       font-size: 12px;
                       border-radius: 8px;
                       height: fit-content;
@@ -539,48 +339,29 @@
                       max-height: fit-content;
                       background: white;
                       margin-bottom: 5px;
-                    "
-                  />
+                    " />
                   <button type="submit" hidden="true"></button>
                 </form>
 
                 <div style="position:absolute:top:0:right:0;height:100%">
-                  <img
-                    src="@/assets/cerrar-con-llave.svg"
-                    v-tooltip="'Privado'"
-                    style="height: 20px; width: 20px"
-                    v-if="document.data.share == 0"
-                  />
-                  <img
-                    src="@/assets/candado-abierto(2).png"
-                    v-tooltip="'Publico'"
-                    style="height: 20px; width: 20px"
-                    v-if="document.data.share == 1"
-                  />
+                  <img src="@/assets/cerrar-con-llave.svg" v-tooltip="'Privado'" style="height: 20px; width: 20px"
+                    v-if="document.data.share == 0" />
+                  <img src="@/assets/candado-abierto(2).png" v-tooltip="'Publico'" style="height: 20px; width: 20px"
+                    v-if="document.data.share == 1" />
 
-                  <img
-                    src="@/assets/automatizado.svg"
-                    v-tooltip="'Automatizado'"
-                    style="height: 20px; width: 20px"
-                    v-if="document.data.complete == 1"
-                  />
+                  <img src="@/assets/automatizado.svg" v-tooltip="'Automatizado'" style="height: 20px; width: 20px"
+                    v-if="document.data.complete == 1" />
 
                   <span v-if="document.data.complete == 0">
-                    <img
-                      v-tooltip="'Modelo'"
-                      src="@/assets/a-automatizar.svg"
-                      style="height: 20px; width: 20px; cursor: pointer"
-                      v-if="document.data.form_complete"
-                      @click="getDocumentModal(document._id)"
-                    />
+                    <img v-tooltip="'Modelo'" src="@/assets/a-automatizar.svg"
+                      style="height: 20px; width: 20px; cursor: pointer" v-if="document.data.form_complete"
+                      @click="getDocumentModal(document._id)" />
                   </span>
                 </div>
               </div>
             </div>
 
-            <div
-              class="col-md-6 scroll-size-medium"
-              style="
+            <div class="col-md-6 scroll-size-medium" style="
                 border-left: 1px solid #e6e6e6;
                 border-right: 1px solid #e6e6e6;
                 padding: 0;
@@ -588,110 +369,74 @@
                 overflow: hidden;
                 overflow-y: auto;
                 position: relative;
-              "
-            >
-              <div
-                class="spinner-border spinner-border-sm"
-                role="status"
-                v-if="loadingDocument"
-                style="position: absolute"
-              >
+              ">
+              <div class="spinner-border spinner-border-sm" role="status" v-if="loadingDocument"
+                style="position: absolute">
                 <span class="sr-only">Loading...</span>
               </div>
               <div class="col-12" v-if="document" style="padding: 10px">
                 <div class="row">
                   <div class="col-md-8">
-                    <b>{{ document.data.title }} </b>
+
+                    <b>{{
+                        document.data.title
+                          ? document.data.title
+                          : "Previsualizador de Documentos"
+                    }}
+                    </b>
                   </div>
-                  <div v-if="document.data.title" class="col-md-4 text-right">
-                    <a
-                      href="#"
-                      v-tooltip="'Expandir'"
-                      style="margin: 5px"
-                      @click="openFullScreen()"
-                    >
-                      <img
-                        src="@/assets/expandir.svg"
-                        style="width: 14px; height: 14px; margin-right: 5px"
-                      />
+                  <div class="col-md-4 text-right">
+                    <a href="#" v-tooltip="'Expandir'" style="margin: 5px" @click="openFullScreen()">
+                      <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                     </a>
-                    <div
-                      v-if="document.data.title"
-                      style="display: inline-block"
-                    >
-                      <DocumentDropdown
-                        :document="document"
-                        @go-edit-document-private="
-                          goEditDocumentPrivate(document)
-                        "
-                        @open-modal-move-document="openModalMoveDocument()"
-                        @open-modal-add-tags="openModalAddTags()"
-                        @save-share="saveShare(1, activeDocumentId)"
-                        @delete-document="deleteDocument(activeDocumentId)"
-                        @open-compartir-privada="openCompartirPrivada()"
-                      />
+                    <div style="display: inline-block">
+                      <DocumentDropdown :document="document" @go-edit-document-private="
+                        goEditDocumentPrivate(document)
+                      " @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
+                        @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
+                        @open-compartir-privada="openCompartirPrivada()" />
+
                     </div>
 
                     <component :is="document.data.complete == 1">
-                      <div
-                        class="dropdown"
-                        style="margin: 5px; display: inline"
-                      >
-                        <button
-                          class="btn btn-light dropdown-toggle"
-                          type="button"
-                          id="dropdownMenuButton"
-                          data-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <img
-                            src="@/assets/descargar.svg"
-                            style="width: 14px; height: 14px; margin-right: 5px"
-                          />
+                      <div class="dropdown" style="margin: 5px; display: inline">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-expanded="false">
+                          <img src="@/assets/descargar.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                         </button>
-                        <div
-                          class="dropdown-menu"
-                          aria-labelledby="dropdownMenuButton"
-                        >
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="exportWord()"
-                            >Documento Word</a
-                          >
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="exportPDF()"
-                            >Documento PDF</a
-                          >
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
+                          <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
                         </div>
                       </div>
                     </component>
 
-                    <buttonShare
-                      v-bind:id="document.data.id_share_comuniy"
-                      v-if="document.data.share == 1"
-                    />
+                    <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
                   </div>
                 </div>
               </div>
 
-              <ckeditor
-                id="editor"
-                :editor="editorCK"
-                v-model="contentDocument"
-                v-html="contentDocument"
-                style="
-                  height: calc(100vh - 110px);
-                  overflow: hidden;
-                  overflow-y: scroll;
+              <div>
+                <div class="editor-wrapper" style="overflow:hidden;">
+                  <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq" :init="{
+                    lenguage: 'es_ES',
+                    branding: false,
+                    height: '91vh',
+                    menubar: true,
+                    powerpaste_allow_local_images: true,
+                    powerpaste_keep_unsupported_src: true,
+                    smart_paste: true,
+                    powerpaste_html_import: 'prompt',
+                    powerpaste_word_import: 'clean',
+                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+                  }" />
 
-                  padding-left: 8px;
-                  padding-right: 8px;
-                "
-              >
-              </ckeditor>
+
+
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -706,10 +451,7 @@
     <!-- ======================================= -->
   </main>
 
-  <div
-    class="box"
-    @contextmenu="onContextMenu($event)"
-    style="
+  <div class="box" @contextmenu="onContextMenu($event)" style="
       position: fixed;
       z-index: 1000;
       background: rgb(248 248 248);
@@ -718,80 +460,43 @@
       padding: 10px;
       border: 1px solid rgb(226, 226, 226) !important;
       border-radius: 6px;
-    "
-    :style="{ top: selected.clientY, left: selected.clientX }"
-  >
+    " :style="{ top: selected.clientY, left: selected.clientX }">
     <ul style="padding: 0; margin: 0; list-style: none">
-      <li
-        style="
+      <li style="
           padding: 0;
           margin: 0;
           list-style: none;
           padding-top: 6px;
           padding-bottom: 6px;
           border-bottom: 1px solid rgb(225 225 225 / 48%);
-        "
-      >
-        <a
-          href="#"
-          style="font-size: 11px; font-weight: 600; color: black"
-          @click="openModalMoveDocument()"
-          >Mover</a
-        >
+        ">
+        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="openModalMoveDocument()">Mover</a>
       </li>
-      <li
-        style="
+      <li style="
           padding: 0;
           margin: 0;
           list-style: none;
           padding-top: 6px;
           padding-bottom: 6px;
-        "
-      >
-        <a
-          href="#"
-          style="font-size: 11px; font-weight: 600; color: black"
-          @click="deleteDocument()"
-          >Eliminar</a
-        >
+        ">
+        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="deleteDocument()">Eliminar</a>
       </li>
     </ul>
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-      <form
-        class="modal-content"
-        @submit.prevent="createFolderRoot()"
-        style="border-radius: 10px; border: none"
-      >
+      <form class="modal-content" @submit.prevent="createFolderRoot()" style="border-radius: 10px; border: none">
         <div class="modal-header text-center">
           <h5 class="modal-title">Nueva carpeta</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <input
-            type="text"
-            class="form-control type-input-2"
-            v-model="nameNewFolder.title"
-            required="true"
-          />
+          <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
         </div>
         <div class="modal-footer" style="border: none">
           <button type="submit" class="btn btn-primary" style="font-size: 15px">
@@ -803,35 +508,18 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop2"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="staticBackdrop2" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <form class="modal-content" @submit.prevent="createFolder()">
         <div class="modal-header text-center">
           <h5 class="modal-title">Nueva carpeta</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <input
-            type="text"
-            class="form-control type-input-2"
-            v-model="nameNewFolder.title"
-            required="true"
-          />
+          <input type="text" class="form-control type-input-2" v-model="nameNewFolder.title" required="true" />
         </div>
         <div class="modal-footer" style="border: none">
           <button type="submit" class="btn btn-primary" style="font-size: 15px">
@@ -843,29 +531,13 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop4"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="staticBackdrop4" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-      <form
-        class="modal-content"
-        @submit.prevent="modalDeleteFolder()"
-        style="border-radius: 10px; border: none"
-      >
+      <form class="modal-content" @submit.prevent="modalDeleteFolder()" style="border-radius: 10px; border: none">
         <div class="modal-header text-center">
           <h5 class="modal-title">Eliminar carpeta</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -882,37 +554,20 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="moveDocumentTofolder"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="moveDocumentTofolder" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <form class="modal-content" @submit.prevent="selectPathMoveSave()">
         <div class="modal-header text-center">
           <h5 class="modal-title">Asignar carpeta</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <Tree
-            :custom-options="myCustomOptions2"
-            :custom-styles="myCustomStyles2"
-            :nodes="treeDisplayData2"
-          >
+          <Tree :custom-options="myCustomOptions2" :custom-styles="myCustomStyles2" :nodes="treeDisplayData2">
           </Tree>
 
           <hr />
-          <ul
-            style="
+          <ul style="
               padding: 0px;
               list-style: none;
               width: 100%;
@@ -921,11 +576,8 @@
               align-items: center;
               flex-direction: column;
               align-content: flex-start;
-            "
-            v-if="documentMoveTemp"
-          >
-            <li
-              style="
+            " v-if="documentMoveTemp">
+            <li style="
                 width: 100%;
                 display: flex;
                 justify-content: flex-start;
@@ -933,13 +585,8 @@
                 flex-direction: column;
                 align-content: flex-start;
                 margin-bottom: 5px;
-              "
-              v-for="(item, index) in documentMoveTemp.data.categories"
-              :key="index"
-            >
-              <a
-                href="#"
-                style="
+              " v-for="(item, index) in documentMoveTemp.data.categories" :key="index">
+              <a href="#" style="
                   font-size: 12px;
                   padding: 5px;
                   background: rgb(234, 234, 234);
@@ -950,14 +597,9 @@
                   flex-direction: row;
                   padding-left: 10px;
                   padding-right: 10px;
-                "
-                >{{ item.text }}
-                <a
-                  href="#"
-                  style="margin-left: 10px"
-                  @click="removeFolderInModal(index, item.id)"
-                  ><i class="fas fa-times"></i
-                ></a>
+                ">{{ item.text }}
+                <a href="#" style="margin-left: 10px" @click="removeFolderInModal(index, item.id)"><i
+                    class="fas fa-times"></i></a>
               </a>
             </li>
           </ul>
@@ -972,27 +614,13 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade FullScreenModal"
-    id="FullScreenModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="modelTitleId"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
-      role="document"
-    >
+  <div class="modal fade FullScreenModal" id="FullScreenModal" tabindex="-1" role="dialog"
+    aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header text-right">
           <h5 class="modal-title">WebuLegal</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -1004,51 +632,40 @@
                   <b>{{ document.data.title }}</b>
                 </div>
                 <div class="col-md-4 text-right">
-                  <buttonShare
-                    v-bind:id="document.data.id_share_comuniy"
-                    v-if="document.data.share == 1"
-                  />
+                  <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
 
                   <div style="display: inline-block">
-                    <DocumentDropdown
-                      :document="document"
-                      @go-edit-document-private="
-                        goEditDocumentPrivate(document)
-                      "
-                      @open-modal-move-document="openModalMoveDocument()"
-                      @open-modal-add-tags="openModalAddTags()"
-                      @save-share="saveShare(1, document.data.id)"
-                      @delete-document="deleteDocument(document.data.id)"
-                      @open-compartir-privada="openCompartirPrivada()"
-                    />
+                    <DocumentDropdown :document="document" @go-edit-document-private="
+                      goEditDocumentPrivate(document)
+                    " @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
+                      @save-share="saveShare(1, document.data.id)" @delete-document="deleteDocument(document.data.id)"
+                      @open-compartir-privada="openCompartirPrivada()" />
                   </div>
-                  <a
-                    href="#"
-                    style="margin: 5px"
-                    v-if="document.data.share == 1"
-                    ><img
-                      src="@/assets/cuota.svg"
-                      style="width: 14px; height: 14px; margin-right: 5px"
-                  /></a>
+                  <a href="#" style="margin: 5px" v-if="document.data.share == 1"><img src="@/assets/cuota.svg"
+                      style="width: 14px; height: 14px; margin-right: 5px" /></a>
+                </div>
+              </div>
+              <div>
+                <div class="editor-wrapper" style="overflow:hidden;">
+                  <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                    v-bind:initial-value="contentDocument" :init="{
+                      lenguage: 'es_ES',
+                      branding: false,
+                      height: '91vh',
+                      menubar: true,
+                      powerpaste_allow_local_images: true,
+                      powerpaste_keep_unsupported_src: true,
+                      smart_paste: true,
+                      powerpaste_html_import: 'prompt',
+                      powerpaste_word_import: 'clean',
+                      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                      toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+                    }" />
+
+
                 </div>
               </div>
 
-              <ckeditor
-                id="editor"
-                :editor="editorCK"
-                v-model="document.data.content"
-                v-html="document.data.content"
-                style="
-                  height: calc(80vh);
-
-                  overflow: hidden;
-                  overflow-y: scroll;
-
-                  padding-left: 8px;
-                  padding-right: 8px;
-                "
-              >
-              </ckeditor>
             </div>
           </div>
         </div>
@@ -1057,42 +674,24 @@
   </div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="ModalAddTags"
-    data-backdrop="static"
-    data-keyboard="true"
-    tabindex="-1"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="ModalAddTags" data-backdrop="static" data-keyboard="true" tabindex="-1"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <form
-        class="modal-content"
-        style="border-radius: 10px; border: none"
-        @submit.prevent="
-          !activeDocumentId
-            ? createNewTag(newTagName)
-            : insertDocumentTags(activeDocumentId, tagSelected)
-        "
-      >
+      <form class="modal-content" style="border-radius: 10px; border: none" @submit.prevent="
+        !activeDocumentId
+          ? createNewTag(newTagName)
+          : insertDocumentTags(activeDocumentId, tagSelected)
+      ">
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
 
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body" style="height: 20vh">
           <ul style="margin: 16px 0">
-            <li
-              v-for="(tag, index) in tagSelected"
-              :key="tag._id"
-              style="
+            <li v-for="(tag, index) in tagSelected" :key="tag._id" style="
                 padding: 2px 16px;
                 width: 100%;
                 display: flex;
@@ -1105,34 +704,22 @@
                 font-size: 12px;
                 color: black;
                 font-weight: 500;
-              "
-              @click="selectTag(index)"
-            >
+              " @click="selectTag(index)">
               <p style="margin-bottom: 0; font-size: 14px">
                 {{ tag.data.name }}
               </p>
-              <img
-                src="@/assets/boton-agregar.png"
-                style="width: 20px; height: 20px"
-              />
+              <img src="@/assets/boton-agregar.png" style="width: 20px; height: 20px" />
             </li>
           </ul>
           <div class="col-12" style="padding-top: 0px">
             <h4 style="font-weight: bold; text-align: left; font-size: 17px">
               Asignale al documento como minimo tres etiquetas
             </h4>
-            <input
-              v-model="newTagName"
-              type="text"
-              class="form-control input-search-dashboard"
-              placeholder="Escribe para agregar una etiqueta"
-            />
+            <input v-model="newTagName" type="text" class="form-control input-search-dashboard"
+              placeholder="Escribe para agregar una etiqueta" />
           </div>
           <div v-if="activeDocumentId" style="margin: 16px 0">
-            <div
-              v-for="(tag, index) in tags"
-              :key="tag._id"
-              style="
+            <div v-for="(tag, index) in tags" :key="tag._id" style="
                 padding: 2px 16px;
                 width: 100%;
                 display: flex;
@@ -1145,16 +732,11 @@
                 font-size: 12px;
                 color: black;
                 font-weight: 500;
-              "
-              @click="selectTag(index)"
-            >
+              " @click="selectTag(index)">
               <p style="margin-bottom: 0; font-size: 14px">
                 {{ tag.data.name }}
               </p>
-              <img
-                src="@/assets/boton-agregar.png"
-                style="width: 20px; height: 20px"
-              />
+              <img src="@/assets/boton-agregar.png" style="width: 20px; height: 20px" />
             </div>
           </div>
         </div>
@@ -1167,8 +749,7 @@
     </div>
   </div>
 
-  <div
-    style="
+  <div style="
       display: flex;
       top: 0px;
       left: 0px;
@@ -1178,11 +759,8 @@
       align-content: center;
       justify-content: center;
       align-items: center;
-    "
-    v-if="popshared"
-  >
-    <div
-      style="
+    " v-if="popshared">
+    <div style="
         color: rgb(52, 52, 52);
         width: 355px;
         right: 180px;
@@ -1191,66 +769,39 @@
         font-weight: 600;
         background: #e7e7e7;
         padding: 10px;
-      "
-    >
-      <button
-        type="button"
-        class="close"
-        data-dismiss="modal"
-        aria-label="Close"
-        @click="popshared = false"
-      >
+      ">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="popshared = false">
         <span aria-hidden="true">×</span>
       </button>
 
       El escrito automatizado se guardara en tu carpeta privada "Mis escritos".
       ¿Queres compartirlo con la comunidad legal?
       <div class="col-12 text-right" style="display: flex">
-        <button
-          class="btn btn-primary"
-          style="margin: 5px"
-          @click="saveShare(1)"
-          :disabled="saveLoadingShareDisabled"
-        >
+        <button class="btn btn-primary" style="margin: 5px" @click="saveShare(1)" :disabled="saveLoadingShareDisabled">
           <span v-if="!saveLoadingShare">Si</span>
-          <div
-            class="spinner-border spinner-border-sm"
-            role="status"
-            v-if="saveLoadingShare"
-            style="
+          <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingShare" style="
               height: 10px;
               margin: 0px;
               padding: 0px;
               width: 10px !important;
               color: white;
               margin-top: -10px !important;
-            "
-          >
+            ">
             <span class="sr-only">Loading...</span>
           </div>
         </button>
 
-        <button
-          href="#"
-          class="btn btn-primary"
-          style="margin: 5px"
-          @click="saveShare(0)"
-          :disabled="saveLoadingNtShareDisabled"
-        >
+        <button href="#" class="btn btn-primary" style="margin: 5px" @click="saveShare(0)"
+          :disabled="saveLoadingNtShareDisabled">
           <span v-if="!saveLoadingNtShare">No</span>
-          <div
-            class="spinner-border spinner-border-sm"
-            role="status"
-            v-if="saveLoadingNtShare"
-            style="
+          <div class="spinner-border spinner-border-sm" role="status" v-if="saveLoadingNtShare" style="
               height: 10px;
               margin: 0px;
               padding: 0px;
               width: 10px !important;
               color: white;
               margin-top: -10px !important;
-            "
-          >
+            ">
             <span class="sr-only">Loading...</span>
           </div>
         </button>
@@ -1280,14 +831,14 @@
   color: #9d9d9d;
 }
 
-.nav-list > li > a {
+.nav-list>li>a {
   color: #c4c4c4;
   font-size: 14px;
   padding-left: 13px !important;
   border-bottom: 1px solid #585858;
 }
 
-.nav-list > li > a:hover {
+.nav-list>li>a:hover {
   background-color: #444444;
 }
 
@@ -1311,7 +862,7 @@
   font-size: 12px;
 }
 
-.folder-menu li:hover > .icon-add {
+.folder-menu li:hover>.icon-add {
   opacity: 1;
 }
 
@@ -1342,7 +893,7 @@
   font-size: 12px;
 }
 
-.folder-menu-child li:hover > .icon-add {
+.folder-menu-child li:hover>.icon-add {
   opacity: 1;
 }
 
@@ -1469,6 +1020,8 @@ input[type="radio"] {
 </style>
 
 <script setup>
+
+
 import columnLeft from "@/components/platform/left.vue";
 import navBar from "@/components/platform/navbar.vue";
 import Tree from "vuejs-tree";
@@ -1476,17 +1029,14 @@ import buttonShare from "@/components/platform/share-button-document-private.vue
 </script>
 
 <script>
-import CKEditor from "@ckeditor/ckeditor5-vue";
-import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
-
+import Editor from '@tinymce/tinymce-vue';
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
 import DocumentDropdown from "../../../components/platform/DocumentDropdown.vue";
 
 export default {
   components: {
-    ckeditor: CKEditor.component,
-    // DecoupledBuild,
     DocumentDropdown,
+    'editor': Editor
   },
   data() {
     return {
@@ -1500,10 +1050,8 @@ export default {
       endpointMoveSave: window.ENDPOINT + "/library/save/folders/organize",
       endpointDeleteDocument: window.ENDPOINT + "/library/delete/documents",
       endpointSavePrivateTags: window.ENDPOINT + "/private/save/tags",
-      endpointOrganizePrivateTags:
-        window.ENDPOINT + "/private/save/tags/organize",
+      endpointOrganizePrivateTags: window.ENDPOINT + "/private/save/tags/organize",
       endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
-
       endpointSave: window.ENDPOINT + "/library/folders/edit",
       editor_enabled: false,
       items: [],
@@ -1513,8 +1061,7 @@ export default {
       tagsSelected: [],
       endpointTags: window.ENDPOINT + "/library/get/tags",
       endpointTaggedDocuments: window.ENDPOINT + "/library/get/tags/documents",
-      endpointTaggedPrivateDocuments:
-        window.ENDPOINT + "/private/get/tags/documents",
+      endpointTaggedPrivateDocuments: window.ENDPOINT + "/private/get/tags/documents",
       itemsTags: [],
       itemsTagsPrivate: [],
       tags: [],
@@ -1578,7 +1125,6 @@ export default {
       documentMoveTemp: false,
       activeItem: "folders",
       editDocument: null,
-      editorCK: DecoupledEditor,
     };
   },
   created() {
@@ -1879,12 +1425,12 @@ export default {
   methods: {
     onReadyCK(editor) {
       // Insert the toolbar before the editable area.
-      editor.ui
-        .getEditableElement()
-        .parentElement.insertBefore(
-          editor.ui.view.toolbar.element,
-          editor.ui.getEditableElement()
-        );
+      // editor.ui
+      //   .getEditableElement()
+      //   .parentElement.insertBefore(
+      //     editor.ui.view.toolbar.element,
+      //     editor.ui.getEditableElement()
+      //   );
     },
     goEditDocumentPrivate(doc) {
       localStorage.setItem("editDocumentPrivate", JSON.stringify(doc));
