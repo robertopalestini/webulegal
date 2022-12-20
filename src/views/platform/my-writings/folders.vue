@@ -373,10 +373,10 @@ if you need break please take notes, i trust
                           line-height: 15px;
                           margin-bottom: 15px;
                         "
-                        v-for="(tag, index) in filteredResourcesTags"
+                        v-for="(tag, index) in filteredResourcesPrivateTags"
                         :key="index"
                         @click.prevent="
-                          getDocumentsByTag(tag._id, tag.data.name)
+                          getDocumentsByPrivateTag(tag._id, tag.data.name)
                         "
                       >
                         <a
@@ -387,6 +387,41 @@ if you need break please take notes, i trust
                             font-size: 12px;
                           "
                           >{{ tag.data.name }}</a
+                        >
+                      </li>
+                    </ul>
+                    <ul
+                      style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                      "
+                      v-if="itemsTags.length > 0"
+                    >
+                      <li
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          width: 100%;
+                          list-style: none;
+                          line-height: 15px;
+                          margin-bottom: 15px;
+                        "
+                        v-for="(tag, index) in filteredResourcesTags"
+                        :key="index"
+                        @click.prevent="
+                          getDocumentsByTag(tag._id, tag.data.title)
+                        "
+                      >
+                        <a
+                          href="#"
+                          style="
+                            color: black;
+                            font-weight: 600;
+                            font-size: 12px;
+                          "
+                          >{{ tag.data.title }}</a
                         >
                       </li>
                     </ul>
@@ -2471,7 +2506,9 @@ export default {
       endpoint: window.ENDPOINT + "/writings/get/folders",
       endpointTags: window.ENDPOINT + "/writings/get/tags",
       endpointDocuments: window.ENDPOINT + "/writings/get/folders/documents",
-      endpointTaggedDocuments: window.ENDPOINT + "/private/get/tags/documents",
+      endpointPrivateTaggedDocuments:
+        window.ENDPOINT + "/private/get/tags/documents",
+      endpointTaggedDocuments: window.ENDPOINT + "/writings/get/tags/documents",
       endpointDocument: window.ENDPOINT + "/writings/get/document",
       endpointGet: window.ENDPOINT + "/writings/get/documents",
       endpointTextPreview: window.ENDPOINT + "/writings/fields/preview",
@@ -2742,7 +2779,7 @@ export default {
       }
       return this.documents;
     },
-    filteredResourcesTags() {
+    filteredResourcesPrivateTags() {
       if (this.searchTarget.target) {
         this.searchDocuments();
         return this.tags.filter((item) => {
@@ -2752,6 +2789,18 @@ export default {
         });
       } else {
         return this.tags;
+      }
+    },
+    filteredResourcesTags() {
+      if (this.searchTarget.target) {
+        this.searchDocuments();
+        return this.itemsTags.filter((item) => {
+          return item.data.title
+            .toLowerCase()
+            .startsWith(this.searchTarget.target.toLowerCase());
+        });
+      } else {
+        return this.itemsTags;
       }
     },
     filteredResources() {
@@ -3924,7 +3973,7 @@ export default {
         });
     },
 
-    getDocumentsByTag(idtag, tag) {
+    getDocumentsByPrivateTag(idtag, tag) {
       this.$Progress.start();
       this.tagsSelectedTags.push({ title: tag, id: idtag });
       this.loadingTags = true;
@@ -3939,6 +3988,38 @@ export default {
             name: this.tagsSelectedTags.map((tag) => tag.title),
             type: "writing",
           },
+        }),
+      };
+      fetch(this.endpointPrivateTaggedDocuments, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.empty) {
+            this.loadingTags = false;
+            this.documents = [];
+            this.$Progress.finish();
+            return;
+          }
+
+          if (data.error == true) {
+          } else {
+            this.documents = data;
+            this.loadingTags = false;
+            this.$Progress.finish();
+          }
+        });
+    },
+    getDocumentsByTag(idtag, tag) {
+      this.$Progress.start();
+      this.tagsSelectedTags.push({ title: tag, id: idtag });
+      this.loadingTags = true;
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          tags: this.tagsSelectedTags
         }),
       };
       fetch(this.endpointTaggedDocuments, requestOptions)

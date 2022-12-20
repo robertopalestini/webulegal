@@ -201,111 +201,16 @@
                     >
                     <hr />
 
-                    <div
-                      class="col-12 text-left"
-                      style="padding: 0"
-                      v-if="tagsSelectedTags.length > 0"
+                    <a
+                      v-if="tagsSelected.length > 0"
+                      href="#"
+                      style="font-size: 13px; font-weight: 600; text "
                     >
-                      <p style="font-size: 13px; font-weight: 600">Filtros :</p>
-                      <ul
-                        style="
-                          padding: 0px;
-                          list-style: none;
-                          width: 100%;
-                          display: flex;
-                          justify-content: flex-start;
-                          align-items: center;
-                          flex-direction: column;
-                          align-content: flex-start;
-                        "
-                      >
-                        <li
-                          style="
-                            width: 100%;
-                            display: flex;
-                            justify-content: flex-start;
-                            align-items: flex-start;
-                            flex-direction: column;
-                            align-content: flex-start;
-                            margin-bottom: 5px;
-                          "
-                          v-for="(tag, index) in tags"
-                          :key="index"
-                        >
-                          <a
-                            href="#"
-                            style="
-                              font-size: 12px;
-                              padding-top: 5px;
-                              padding-bottom: 5px;
-                              background: rgb(206, 206, 206);
-                              border-radius: 30px;
-                              display: flex;
-                              place-content: flex-start;
-                              align-items: center;
-                              flex-direction: row;
-                              font-weight: 600;
-                              padding-left: 10px;
-                              padding-right: 10px;
-                            "
-                          >
-                            {{ tag.data.name }}
-                            <a
-                              href="#"
-                              style="margin-left: 10px"
-                              @click="removeFilterTags(index, tag.data.name)"
-                            >
-                              <i class="fas fa-times"></i>
-                            </a>
-                          </a>
-                        </li>
-                      </ul>
-                      <hr />
-                    </div>
-
-                    <ul
-                      style="
-                        padding: 0;
-                        margin: 0;
-                        width: 100%;
-                        list-style: none;
-                      "
-                      v-if="tags.length > 0"
+                      Filtros:</a
                     >
-                      <li
-                        style="
-                          padding: 0;
-                          margin: 0;
-                          width: 100%;
-                          list-style: none;
-                          line-height: 15px;
-                          margin-bottom: 15px;
-                        "
-                        v-for="(item, index) in filteredResourcesTags"
-                        :key="index"
-                        @click.prevent="
-                          getDocumentsByTag(item._id, item.data.name)
-                        "
-                      >
-                        <a
-                          href="#"
-                          style="
-                            color: black;
-                            font-weight: 600;
-                            font-size: 12px;
-                          "
-                        >
-                          {{ item.data.name }}
-                        </a>
-                      </li>
-                    </ul>
-
-                    <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
-                                             <a href="#" style="font-size:13px;">Nueva carpeta</a>
-                                           </div>  -->
-
                     <div
                       class="col-12 text-center"
+                      v-if="tagsSelected.length > 0"
                       style="
                         padding-top: 8.5px;
                         padding-bottom: 8.5px;
@@ -362,6 +267,156 @@
                         </li>
                       </ul>
                     </div>
+
+                    <div
+                      class="col-12 text-left"
+                      style="padding: 0"
+                      v-if="tagsSelectedTags.length > 0"
+                    >
+                      <ul
+                        style="
+                          padding: 0px;
+                          list-style: none;
+                          width: 100%;
+                          display: flex;
+                          justify-content: flex-start;
+                          align-items: center;
+                          flex-direction: column;
+                          align-content: flex-start;
+                        "
+                      >
+                        <li
+                          style="
+                            width: 100%;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            flex-direction: column;
+                            align-content: flex-start;
+                            margin-bottom: 3px;
+                          "
+                          v-for="(tagSelectedTags, index) in tagsSelectedTags"
+                          :key="index"
+                        >
+                          <a
+                            href="#"
+                            style="
+                              font-size: 12px;
+                              padding-top: 5px;
+                              padding-bottom: 5px;
+                              background: rgb(206, 206, 206);
+                              border-radius: 30px;
+                              display: flex;
+                              place-content: flex-start;
+                              align-items: center;
+                              flex-direction: row;
+                              font-weight: 600;
+                              padding-left: 10px;
+                              padding-right: 10px;
+                            "
+                          >
+                            {{ tagSelectedTags.title }}
+                            <a
+                              href="#"
+                              style="margin-left: 10px"
+                              @click="
+                                removeFilterTags(index, tagSelectedTags.title)
+                              "
+                            >
+                              <i class="fas fa-times"></i>
+                            </a>
+                          </a>
+                        </li>
+                      </ul>
+
+                      <hr />
+                    </div>
+
+                    <ul
+                      style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                      "
+                      v-if="itemsTags.length > 0"
+                    >
+                      <li
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          width: 100%;
+                          list-style: none;
+                          line-height: 15px;
+                          margin-bottom: 15px;
+                          margin-top: 10px;
+                        "
+                        v-for="(item, index) in filteredResourcesTags"
+                        :key="index"
+                        @click.prevent="
+                          getDocumentsByTag(item._id, item.data.title)
+                        "
+                      >
+                        <a
+                          href="#"
+                          style="
+                            color: black;
+                            font-weight: 600;
+                            font-size: 12px;
+                          "
+                        >
+                          {{ item.data.title }}
+                        </a>
+                      </li>
+                    </ul>
+
+                    <hr />
+                    <a
+                      href="#"
+                      style="font-size: 13px; font-weight: 600; text "
+                    >
+                      Etiquetas Privadas:</a
+                    >
+                    <ul
+                      style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                      "
+                      v-if="itemsTagsPrivate.length > 0"
+                    >
+                      <li
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          width: 100%;
+                          list-style: none;
+                          line-height: 15px;
+                          margin-bottom: 15px;
+                        "
+                        v-for="(item, index) in filteredResourcesPrivateTags"
+                        :key="index"
+                        @click.prevent="
+                          getDocumentsByTagPrivate(item._id, item.data.name)
+                        "
+                      >
+                        <a
+                          href="#"
+                          style="
+                            color: black;
+                            font-weight: 600;
+                            font-size: 12px;
+                          "
+                        >
+                          {{ item.data.name }}
+                        </a>
+                      </li>
+                    </ul>
+
+                    <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
+                                             <a href="#" style="font-size:13px;">Nueva carpeta</a>
+                                           </div>  -->
                   </div>
                 </div>
               </div>
@@ -546,15 +601,9 @@
               <div class="col-12" v-if="document" style="padding: 10px">
                 <div class="row">
                   <div class="col-md-8">
-                    <b
-                      >{{
-                        document.data.title
-                          ? document.data.title
-                          : "Previsualizador de Documentos"
-                      }}
-                    </b>
+                    <b>{{ document.data.title }} </b>
                   </div>
-                  <div class="col-md-4 text-right">
+                  <div v-if="document.data.title" class="col-md-4 text-right">
                     <a
                       href="#"
                       v-tooltip="'Expandir'"
@@ -566,7 +615,10 @@
                         style="width: 14px; height: 14px; margin-right: 5px"
                       />
                     </a>
-                    <div style="display: inline-block">
+                    <div
+                      v-if="document.data.title"
+                      style="display: inline-block"
+                    >
                       <DocumentDropdown
                         :document="document"
                         @go-edit-document-private="
@@ -628,7 +680,6 @@
               <ckeditor
                 id="editor"
                 :editor="editorCK"
-                @ready="onReadyCK"
                 v-model="contentDocument"
                 v-html="contentDocument"
                 style="
@@ -985,7 +1036,6 @@
               <ckeditor
                 id="editor"
                 :editor="editorCK"
-                @ready="onReadyCK"
                 v-model="document.data.content"
                 v-html="document.data.content"
                 style="
@@ -1453,6 +1503,7 @@ export default {
       endpointOrganizePrivateTags:
         window.ENDPOINT + "/private/save/tags/organize",
       endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
+
       endpointSave: window.ENDPOINT + "/library/folders/edit",
       editor_enabled: false,
       items: [],
@@ -1461,8 +1512,11 @@ export default {
       loadingDocument: false,
       tagsSelected: [],
       endpointTags: window.ENDPOINT + "/library/get/tags",
-      endpointTaggedDocuments: window.ENDPOINT + "/private/get/tags/documents",
+      endpointTaggedDocuments: window.ENDPOINT + "/library/get/tags/documents",
+      endpointTaggedPrivateDocuments:
+        window.ENDPOINT + "/private/get/tags/documents",
       itemsTags: [],
+      itemsTagsPrivate: [],
       tags: [],
       tagSelected: [],
       newTagName: "",
@@ -1563,16 +1617,28 @@ export default {
       }
       return this.documents;
     },
-    filteredResourcesTags() {
+    filteredResourcesPrivateTags() {
       if (this.searchTarget.target) {
         this.searchDocuments();
-        return this.tags.filter((item) => {
+        return this.itemsTagsPrivate.filter((item) => {
           return item.data.name
             .toLowerCase()
             .startsWith(this.searchTarget.target.toLowerCase());
         });
       } else {
-        return this.tags;
+        return this.itemsTagsPrivate;
+      }
+    },
+    filteredResourcesTags() {
+      if (this.searchTarget.target) {
+        this.searchDocuments();
+        return this.itemsTags.filter((item) => {
+          return item.data.title
+            .toLowerCase()
+            .startsWith(this.searchTarget.target.toLowerCase());
+        });
+      } else {
+        return this.itemsTags;
       }
     },
     filteredResources() {
@@ -1829,9 +1895,6 @@ export default {
         params: { id: doc._id },
       });
     },
-    openModalAddTags() {
-      $("#ModalAddTags").modal("show");
-    },
 
     saveShare(value, activeDocumentId) {
       console.log(this.data);
@@ -1852,13 +1915,15 @@ export default {
         setTimeout(() => {
           this.$router.push({
             name: "librarie",
-            query: {
+            params: {
               id: activeDocumentId,
             },
           });
-        }, 1000);
+        }, 700);
 
-        // this.$toast.success("Archivo creado", { position: "bottom-right" })
+        this.$toast.success("El documento ahora es publico", {
+          position: "bottom-right",
+        });
 
         // setTimeout(() => {
         //      this.$router.push({ name: 'my-writings-view-automatic-document', params: { id: this.data.id }})
@@ -1944,6 +2009,7 @@ export default {
       fetch(this.endpointGetPrivateTags, requestOptions)
         .then((response) => response.json())
         .then((data) => {
+          this.itemsTagsPrivate = data;
           this.$Progress.finish();
           this.tags = data;
         });
@@ -2190,6 +2256,9 @@ export default {
         .then((data) => {
           this.documentModal.data.content = data.content;
         });
+    },
+    openModalAddTags() {
+      $("#ModalAddTags").modal("show");
     },
     openmodalcomplete() {
       $("#exampleModalLong").modal("show");
@@ -2467,6 +2536,44 @@ export default {
           }
         });
     },
+    getDocumentsByTagPrivate(idtag, tag) {
+      this.$Progress.start();
+      this.tagsSelected.push({
+        text: tag,
+        id: idtag,
+      });
+      this.loadingDocuments = true;
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          tags: this.tagsSelected,
+          data: {
+            name: this.tagsSelected.map((tag) => tag.text),
+            type: "library",
+          },
+        }),
+      };
+      fetch(this.endpointTaggedPrivateDocuments, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.empty) {
+            this.loadingDocuments = false;
+            this.documents = [];
+            this.$Progress.finish();
+            return;
+          }
+          if (data.error == true) {
+          } else {
+            this.documents = data;
+            this.loadingDocuments = false;
+            this.$Progress.finish();
+          }
+        });
+    },
     getDocumentsByTag(idtag, tag) {
       this.$Progress.start();
       this.tagsSelected.push({
@@ -2481,10 +2588,7 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          data: {
-            name: this.tagsSelected.map((tag) => tag.text),
-            type: "library",
-          },
+          tags: this.tagsSelected,
         }),
       };
       fetch(this.endpointTaggedDocuments, requestOptions)
