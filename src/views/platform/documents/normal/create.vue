@@ -18,6 +18,7 @@
                 <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
               </a>
             </div>
+
             <div>
               <div class="editor-wrapper" style="overflow:hidden;">
                 <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
@@ -36,12 +37,11 @@
                   }" initial-value='Escribí o pegá acá el modelo a automatizar' />
 
 
-
               </div>
             </div>
             <!-- <div id="cke_ruler_wrap"></div> -->
 
-            <div class="col-12" style="position: relative" v-if="editor_view">
+            <div class="col-12" style="position: relative; margin-top:15px" v-if="editor_view">
               <div class="text-center">
                 <button type="submit" class="btn btn-primary" style="width: 120px; position: relative" disabled="true"
                   v-if="shopsavepop">
@@ -379,7 +379,10 @@ export default {
           },
         },
       });
+      this.changeButtonForQuill()
     }, 1000);
+
+
 
     // document
     //   .querySelector("#editor3")
@@ -580,6 +583,29 @@ export default {
 
       this.categories_view = false;
     },
+    changeButtonForQuill() {
+      const se = document.querySelectorAll('.ql-attachment')
+      se.innerHTML(`<button type="submit" class="btn btn-primary" style="width:200px;position:relative;z-index:1000; "
+                        @click="openAddField()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"
+                            fill="#FFFFFF">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg> Nuevo campo
+                    </button>`)
+      se.removeChild()
+      se.insertNode((`<button type="submit" class="btn btn-primary" style="width:200px;position:relative;z-index:1000; "
+                        @click="openAddField()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"
+                            fill="#FFFFFF">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg> Nuevo campo
+                    </button>`))
+
+
+
+    }
   },
 };
 </script>

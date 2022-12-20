@@ -163,6 +163,7 @@ startText();
 
 
                             <div>
+
                                 <div class="editor-wrapper" style="overflow:hidden;">
                                     <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
                                         v-html="editDocument" :init="{
@@ -179,9 +180,7 @@ startText();
                                             toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
                                         }" initial-value='Escribí o pegá acá el modelo a automatizar' />
 
-
-
-                                </div>
+                         </div>
                             </div>
                         </div>
                     </div>
@@ -917,7 +916,11 @@ export default {
                 });
 
 
+
             this.editorCK = new Editor(document.querySelectorAll('.document-editor__toolbar'), new Editor())
+
+            }
+
 
         },
 

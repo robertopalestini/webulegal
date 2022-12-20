@@ -77,7 +77,7 @@ const openCompartirPrivada = () => {
   </div>
 
 
-  <div v-if="document.data.complete == 1">
+  <div v-else-if="document.data.complete == 1">
     <div class="dropdown" style="margin: 5px; display: inline">
       <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
         <img src="@/assets/menu.svg" style="width: 14px; height: 14px; margin-right: 5px;" />
@@ -103,7 +103,7 @@ const openCompartirPrivada = () => {
     </div>
   </div>
 
-  <div v-if="document.data.type == 'document' && document.data.complete != 1">
+  <div v-else="document.data.type == 'document' && document.data.complete != 1">
     <div class="dropdown" style="margin: 5px; display: inline">
       <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
         <img src="@/assets/menu.svg" v-tooltip="'Menu'" style="width: 14px; height: 14px; margin-right: 5px;" />

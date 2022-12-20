@@ -206,8 +206,10 @@ if you need break please take notes, i trust
                             flex-direction: column;
                             align-content: flex-start;
                             margin-bottom: 5px;
+
                           " v-for="(tagSelectedTags, index) in tagsSelectedTags">
                           <a href="#" style="
+
                               font-size: 12px;
                               padding-top: 5px;
                               padding-bottom: 5px;
@@ -235,22 +237,67 @@ if you need break please take notes, i trust
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      " v-if="itemsTags.length > 0">
-                      <li style="
+                      "
+                      v-if="tags.length > 0"
+                    >
+                      <li
+                        style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
                           line-height: 15px;
                           margin-bottom: 15px;
-                        " v-for="item in filteredResourcesTags" :key="index" @click.prevent="
-                          getDocumentsByTag(item._id, item.data.title)
-                        ">
-                        <a href="#" style="
+                        "
+                        v-for="(tag, index) in filteredResourcesPrivateTags"
+                        :key="index"
+                        @click.prevent="
+                          getDocumentsByPrivateTag(tag._id, tag.data.name)
+                        "
+                      >
+                        <a
+                          href="#"
+                          style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
-                          ">{{ item.data.title }}</a>
+                          "
+                          >{{ tag.data.name }}</a
+                        >
+                      </li>
+                    </ul>
+                    <ul
+                      style="
+                        padding: 0;
+                        margin: 0;
+                        width: 100%;
+                        list-style: none;
+                      "
+                      v-if="itemsTags.length > 0"
+                    >
+                      <li
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          width: 100%;
+                          list-style: none;
+                          line-height: 15px;
+                          margin-bottom: 15px;"
+                        v-for="(tag, index) in filteredResourcesTags"
+                        :key="index"
+                        @click.prevent="
+                          getDocumentsByTag(tag._id, tag.data.title)
+                        "
+                      >
+                        <a
+                          href="#"
+                          style="
+                            color: black;
+                            font-weight: 600;
+                            font-size: 12px;
+                          "
+                          >{{ tag.data.title }}</a
+                        >
                       </li>
                     </ul>
                   </div>
@@ -395,11 +442,13 @@ if you need break please take notes, i trust
                       <span>Expandir</span>
                     </a>
 
+
                     <component v-if="document.data.complete == 1">
                       <div class="dropdown" style="margin: 5px; display: inline">
                         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
                           data-toggle="dropdown" aria-expanded="false">
                           <img src="@/assets/descargar.svg" style="width: 14px; height: 14px; margin-right: 5px" />
+
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
@@ -1910,10 +1959,15 @@ export default {
       endpoint: window.ENDPOINT + "/writings/get/folders",
       endpointTags: window.ENDPOINT + "/writings/get/tags",
       endpointDocuments: window.ENDPOINT + "/writings/get/folders/documents",
+      endpointPrivateTaggedDocuments:
+        window.ENDPOINT + "/private/get/tags/documents",
       endpointTaggedDocuments: window.ENDPOINT + "/writings/get/tags/documents",
       endpointDocument: window.ENDPOINT + "/writings/get/document",
       endpointGet: window.ENDPOINT + "/writings/get/documents",
       endpointTextPreview: window.ENDPOINT + "/writings/fields/preview",
+      endpointGetPrivateTags: window.ENDPOINT + "/private/get/tags",
+      endpointOrganizePrivateTags:
+        window.ENDPOINT + "/private/save/tags/organize",
       endpointSaveFolders: window.ENDPOINT + "/writings/save/folders",
       endpointMoveSave: window.ENDPOINT + "/writings/save/folders/organize",
       endpointDeleteDocument: window.ENDPOINT + "/writings/delete/documents",
@@ -1923,6 +1977,7 @@ export default {
       items: [],
       itemsTags: [],
       tags: [],
+      tagSelected: [],
       newTagName: "",
       documents: [],
       documentsSearch: [],
@@ -2047,6 +2102,7 @@ export default {
     this.loadAllDocuments();
     console.log("mounted load");
     this.loadTags();
+    this.getTags();
     this.loadFolders();
     this.loadFoldersTree2();
 
@@ -2083,6 +2139,18 @@ export default {
         };
       }
       return this.documents;
+    },
+    filteredResourcesPrivateTags() {
+      if (this.searchTarget.target) {
+        this.searchDocuments();
+        return this.tags.filter((item) => {
+          return item.data.name
+            .toLowerCase()
+            .startsWith(this.searchTarget.target.toLowerCase());
+        });
+      } else {
+        return this.tags;
+      }
     },
     filteredResourcesTags() {
       if (this.searchTarget.target) {
@@ -2640,6 +2708,27 @@ export default {
     openModalAddTags() {
       $("#ModalAddTags").modal("show");
     },
+    getTags() {
+      this.$Progress.start();
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            type: "writing",
+          },
+        }),
+      };
+      fetch(this.endpointGetPrivateTags, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$Progress.finish();
+          this.tags = data;
+        });
+    },
     createNewTag(name) {
       this.$Progress.start();
       const requestOptions = {
@@ -2678,7 +2767,7 @@ export default {
           data: {
             name: tags.map((tag) => tag.data.name),
             documentId,
-            type: "library",
+            type: "writing",
           },
         }),
       };
@@ -3241,6 +3330,41 @@ export default {
         });
     },
 
+    getDocumentsByPrivateTag(idtag, tag) {
+      this.$Progress.start();
+      this.tagsSelectedTags.push({ title: tag, id: idtag });
+      this.loadingTags = true;
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: this.auth,
+          data: {
+            name: this.tagsSelectedTags.map((tag) => tag.title),
+            type: "writing",
+          },
+        }),
+      };
+      fetch(this.endpointPrivateTaggedDocuments, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.empty) {
+            this.loadingTags = false;
+            this.documents = [];
+            this.$Progress.finish();
+            return;
+          }
+
+          if (data.error == true) {
+          } else {
+            this.documents = data;
+            this.loadingTags = false;
+            this.$Progress.finish();
+          }
+        });
+    },
     getDocumentsByTag(idtag, tag) {
       this.$Progress.start();
       this.tagsSelectedTags.push({ title: tag, id: idtag });
@@ -3252,7 +3376,7 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          tags: this.tagsSelectedTags,
+          tags: this.tagsSelectedTags
         }),
       };
       fetch(this.endpointTaggedDocuments, requestOptions)

@@ -10,7 +10,8 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-2 text-center">
-          <a href="/"><img src="@/assets/logo-transparent.png" class="img-fluid" style="max-width:120px" /></a>
+          <a href="/"><img src="@/assets/Logocompleto.svg" class="img-fluid"
+              style="max-width:200px;margin-top:25px" /></a>
         </div>
         <div class="col-md-9 text-right" style="    display: flex;
     align-content: center;

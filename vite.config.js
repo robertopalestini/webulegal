@@ -16,12 +16,8 @@ export default defineConfig({
         '@': fileURLToPath(new URL('./src', import.meta.url))
       },
           
-    }, 
-  }
-
-)
-
-  // transpileDependencies: [
+    }
+  })
   //   /ckeditor5-[^/\\]+[/\\]src[/\\].+\.js$/,
   // ],
   // configureWebpack: {
@@ -61,4 +57,3 @@ export default defineConfig({
       // * clear all loaders for existing 'svg' rule:
       //
       // svgRule.uses.clear();
-  
