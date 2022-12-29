@@ -1230,7 +1230,7 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { Quill, QuillEditor } from "@vueup/vue-quill";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
-import Editor from '@tinymce/tinymce-vue';
+import Editor from '@/tinymce/tinymce-vue';
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 Quill.register(quillTable.TableCell);

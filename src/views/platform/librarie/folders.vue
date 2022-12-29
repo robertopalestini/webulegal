@@ -65,8 +65,8 @@
                         " v-for="item in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-    item.text
-}}</a>
+                          item.text
+                          }}</a>
                       </li>
                     </ul>
                   </div>
@@ -379,10 +379,10 @@
                   <div class="col-md-8">
 
                     <b>{{
-    document.data.title
-      ? document.data.title
-      : "Previsualizador de Documentos"
-}}
+                      document.data.title
+                      ? document.data.title
+                      : "Previsualizador de Documentos"
+                      }}
                     </b>
                   </div>
                   <div class="col-md-4 text-right">
@@ -1093,7 +1093,7 @@ import buttonShare from "@/components/platform/share-button-document-private.vue
 </script>
 
 <script>
-import Editor from '@tinymce/tinymce-vue';
+import Editor from '@/tinymce/tinymce-vue';
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
 import DocumentDropdown from "../../../components/platform/DocumentDropdown.vue";
 

@@ -92,8 +92,8 @@ if you need break please take notes, i trust
                         " v-for="item in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-    item.text
-}}</a>
+                          item.text
+                          }}</a>
                       </li>
                     </ul>
                   </div>
@@ -1853,7 +1853,7 @@ const rectHeight = 200;
 
 <script>
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
-import Editor from '@tinymce/tinymce-vue';
+import Editor from '@/tinymce/tinymce-vue';
 
 export default {
   components: {
