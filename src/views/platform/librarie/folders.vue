@@ -418,7 +418,8 @@
 
               <div>
                 <div class="editor-wrapper" style="overflow:hidden;">
-                  <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq" :init="{
+                  <editor id="crearEscrito" @keyup="autoSaveFull()"
+                    api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq" :init="{
   lenguage: 'es_ES',
   branding: false,
   height: '91vh',

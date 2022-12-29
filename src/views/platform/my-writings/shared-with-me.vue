@@ -66,8 +66,8 @@
                         " v-for="(item, index) in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-                            item.text
-                        }}</a>
+    item.text
+}}</a>
                       </li>
                     </ul>
                   </div>
@@ -216,8 +216,8 @@
                           line-height: 15px;
                           margin-bottom: 15px;
                         " v-for="(item, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
-                          getDocumentsByPrivate(item._id, item.data.name)
-                        ">
+  getDocumentsByPrivate(item._id, item.data.name)
+">
                         <a href="#" style="
                             color: black;
                             font-weight: 600; 
@@ -239,8 +239,8 @@
                           line-height: 15px;
                           margin-bottom: 15px;
                           " v-for="(item, index) in filteredResourcesTags" :key="index" @click.prevent="
-                            getDocumentsByTag(item._id, item.data.title)
-                          ">
+  getDocumentsByTag(item._id, item.data.title)
+">
                         <a href="#" style="
                             color: black;
                             font-weight: 600;
@@ -281,8 +281,8 @@
                   position: relative;
                 " v-for="(document, index) in fixerEditMode" :key="index" @click="getDocument(document._id)"
                 v-bind:class="{
-                  activeDocument: document._id === activeDocumentId,
-                }" @contextmenu.prevent="openContextmenu($event, document, index)">
+  activeDocument: document._id === activeDocumentId,
+}" @contextmenu.prevent="openContextmenu($event, document, index)">
                 <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
                   <span class="edit-mode">{{ document.data.title }}
                     <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
@@ -397,8 +397,8 @@
                     <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
                     <div style="display: inline-block">
                       <DocumentDropdown :document="document" @go-edit-document-private="
-                        goEditDocumentPrivate(document)
-                      " @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
+  goEditDocumentPrivate(document)
+" @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
                         @save-share="hacerPublico(document)" @delete-document="deleteDocument(activeDocumentId)"
                         @open-compartir-privada="openCompartirPrivada()" />
                     </div>
@@ -406,7 +406,21 @@
                 </div>
               </div>
 
-              <div v-if="document.data.complete === 0 && !loadingDocument"
+              <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                :modelValue="contentDocument" :init="{
+  lenguage: 'es_ES',
+  branding: false,
+  height: '91vh',
+  menubar: true,
+  powerpaste_allow_local_images: true,
+  powerpaste_keep_unsupported_src: true,
+  smart_paste: true,
+  powerpaste_html_import: 'prompt',
+  powerpaste_word_import: 'clean',
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| localfile link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" />
+              <!-- <div v-if="document.data.complete === 0 && !loadingDocument"
                 v-html="'Para completar este escrito hacé click aca.'" id="editor-full" contenteditable="false" style="
                   width: 100%;
                   padding: 20px;
@@ -422,7 +436,7 @@
                   height: calc(100vh - 206px);
                   overflow-y: auto;
                   color: black;
-                "></div>
+                "></div> -->
             </div>
           </div>
 
@@ -760,7 +774,7 @@
                 </div>
               </div>
             </div>
-<!-- 
+            <!-- 
             <div id="editor-full3" contenteditable="true" style="
                 width: 100%;
                 padding: 20px;
@@ -770,7 +784,24 @@
                 color: black;
               " v-html="contentDocument"></div>
 -->
-          <div id="editor2-full" contenteditable="true" style="
+
+            <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+              :modelValue="contentDocument" :init="{
+  lenguage: 'es_ES',
+  branding: false,
+  height: '91vh',
+  menubar: true,
+  powerpaste_allow_local_images: true,
+  powerpaste_keep_unsupported_src: true,
+  smart_paste: true,
+  powerpaste_html_import: 'prompt',
+  powerpaste_word_import: 'clean',
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| localfile link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" />
+
+
+            <!-- <div id="editor2-full" contenteditable="true" style="
                     width: 100%;
                     padding: 20px;
                     overflow: hidden;
@@ -778,7 +809,7 @@
                     overflow-y: auto;
                     color:black;
                     margin-bottom: 0;
-                  " v-html="contentDocument" @keyup="autoSaveFull()"></div> 
+                  " v-html="contentDocument" ></div>  -->
           </div>
         </div>
       </div>
@@ -790,10 +821,10 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" style="border-radius: 10px; border: none" @submit.prevent="
-        !activeDocumentId
-          ? createNewTag(newTagName)
-          : insertDocumentTags(activeDocumentId, tagSelected)
-      ">
+  !activeDocumentId
+    ? createNewTag(newTagName)
+    : insertDocumentTags(activeDocumentId, tagSelected)
+">
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
 
@@ -1199,6 +1230,7 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { Quill, QuillEditor } from "@vueup/vue-quill";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
+import Editor from '@tinymce/tinymce-vue';
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 Quill.register(quillTable.TableCell);
@@ -1216,6 +1248,7 @@ export default {
     RichTextEditor,
     DocumentDropdown,
     QuillEditor,
+    'editor': Editor,
   },
   data() {
     return {
@@ -2555,6 +2588,7 @@ export default {
               if (data.data.form_complete) {
                 this.documentModal = data;
                 this.contentDocument = data.data.content;
+
                 this.loadingDocument = false;
                 this.$Progress.finish();
 
@@ -2611,12 +2645,14 @@ export default {
               this.editor_enabled = false;
               this.document = data;
               this.contentDocument = data.data.content;
+              window.tinymce.activeEditor.setContent(this.contentDocument)
               this.loadingDocument = false;
               this.$Progress.finish();
             } else {
               this.editor_enabled = true;
               this.document = data;
               this.contentDocument = data.data.content;
+              window.tinymce.activeEditor.setContent(this.contentDocument)
               this.loadingDocument = false;
               this.$Progress.finish();
             }

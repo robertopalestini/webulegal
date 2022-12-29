@@ -8,12 +8,12 @@
  " v-if="user">
 
     <div class="container-fluid">
-      <div class="row text-center">
+      <div class="row">
+        <div class="col-md-2 text-center">
 
-
-        <a style="margin:auto" href="/"><img src="@/assets/Logocompleto.svg" class="img-fluid"
-            style="width:160px;margin-top:25px" /></a>
-
+          <a style="margin-top:50px" href="/"><img src="@/assets/Logocompleto.svg" class="img-fluid"
+              style="max-width:140px;margin-top:25px" /></a>
+        </div>
         <div class="col-md-9 text-right" style="    display: flex;
     align-content: center;
     justify-content: center;
@@ -53,20 +53,17 @@
 
           </ul>
         </div>
-        <!-- <div v-if="isDashboard == false" class="col-md-1 text-right">
-        </div> -->
-
-        <div class="col-md-1 text-right" style="margin-top: 1.78%;">
-          <a href="#" v-tooltip="'Perfil'">
-
-            <img
-              :src="'https://ui-avatars.com/api/?background=000000&color=fff&name=' + user.profile.firstname + user.profile.lastname"
-              style="height:30px;border-radius:100%;margin-right:10px" @click="open_dropdown_user()" />
 
 
+        <div class="col-md-1 text-right">
 
-            <transition name="slide">
-              <div style="
+          <img
+            :src="'https://ui-avatars.com/api/?background=000000&color=fff&name=' + user.profile.firstname + user.profile.lastname"
+            style="height:30px;border-radius:100%;margin-right:10px;margin-top:17px" @click="open_dropdown_user()" />
+
+
+          <transition name="slide">
+            <div style="
  width:270px;
  height:auto;
  background:red;
@@ -80,44 +77,44 @@
  padding-top:20px;
      left: -200px;
  " v-if="dropdown_user" v-click-outside="onClickOutside">
-                <div class="col-md-12 text-center" style="margin-bottom:10px">
-                  <img
-                    :src="'https://ui-avatars.com/api/?background=000000&color=fff&name=' + user.profile.firstname + user.profile.lastname"
-                    style="height:50px;border-radius:100%" />
-                </div>
-                <div class="col-md-12" style="text-align:center;margin-top:20px;margin-bottom:20px;">
-                  <h5 style="text-align:center;font-size:15px;margin:0;">{{ user.profile.firstname }}
-                    {{ user.profile.lastname }} </h5>
-                  <span class="text-muted" style="font-size:12px">{{ user.email }}</span>
-                </div>
-
-                <div class="col-md-12" style="text-align:center;margin-top:20px;margin-bottom:20px;">
-                  <h2 style="text-align:center;margin:0;font-weight: 600;font-size:22px">{{ user.points }}</h2>
-                  <span class="text-muted" style="text-transform:uppercase;font-size:12px">puntos</span>
-                </div>
-
-
-                <div class="col-md-12" style="text-align:center;margin-top:20px;margin-bottom:20px;">
-                  <RouterLink to="/change/points" style="font-size:12px">Canjear</RouterLink>
-                </div>
-
-
-                <div class="col-md-12"
-                  style="text-align:center;padding-top:15px;padding-bottom:15px;text-align:center;border-top: 1px solid #d0cece;">
-                  <RouterLink to="/platform/account"
-                    style="font-size:14px;font-weight:600;background:transparent !important">Mi cuenta</RouterLink>
-                </div>
-
-
-                <div class="col-md-12"
-                  style="text-align:center;padding-top:15px;padding-bottom:15px;text-align:center;border-top: 1px solid #d0cece;">
-                  <a href="#" @click.prevent="logout()" style="font-size:14px;font-weight:600">Cerrar sesion</a>
-                </div>
-
-
+              <div class="col-md-12 text-center" style="margin-bottom:10px">
+                <img
+                  :src="'https://ui-avatars.com/api/?background=000000&color=fff&name=' + user.profile.firstname + user.profile.lastname"
+                  style="height:50px;border-radius:100%" />
               </div>
-            </transition>
-          </a>
+              <div class="col-md-12" style="text-align:center;margin-top:20px;margin-bottom:20px;">
+                <h5 style="text-align:center;font-size:15px;margin:0;">{{ user.profile.firstname }}
+                  {{ user.profile.lastname }} </h5>
+                <span class="text-muted" style="font-size:12px">{{ user.email }}</span>
+              </div>
+
+              <div class="col-md-12" style="text-align:center;margin-top:20px;margin-bottom:20px;">
+                <h2 style="text-align:center;margin:0;font-weight: 600;font-size:22px">{{ user.points }}</h2>
+                <span class="text-muted" style="text-transform:uppercase;font-size:12px">puntos</span>
+              </div>
+
+
+              <div class="col-md-12" style="text-align:center;margin-top:20px;margin-bottom:20px;">
+                <RouterLink to="/change/points" style="font-size:12px">Canjear</RouterLink>
+              </div>
+
+
+              <div class="col-md-12"
+                style="text-align:center;padding-top:15px;padding-bottom:15px;text-align:center;border-top: 1px solid #d0cece;">
+                <RouterLink to="/platform/account"
+                  style="font-size:14px;font-weight:600;background:transparent !important">Mi cuenta</RouterLink>
+              </div>
+
+
+              <div class="col-md-12"
+                style="text-align:center;padding-top:15px;padding-bottom:15px;text-align:center;border-top: 1px solid #d0cece;">
+                <a href="#" @click.prevent="logout()" style="font-size:14px;font-weight:600">Cerrar sesion</a>
+              </div>
+
+
+            </div>
+          </transition>
+
         </div>
       </div>
     </div>
@@ -249,14 +246,10 @@ export default {
 
   methods: {
     checkDashboard() {
-      if (window.location.pathname.includes('platform/dashboard')) {
-        this.isDashboard = true
-      }
-      else {
-        this.isDashboard = false
-      }
+      if (window.location.pathname == 'platform/dashboard') this.isDashboard = true
+      else this.isDashboard = false
 
-      console.log(window.location.pathname)
+      console.log(this.isDashboard)
 
     },
 
