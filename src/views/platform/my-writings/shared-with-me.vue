@@ -66,8 +66,8 @@
                         " v-for="(item, index) in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-    item.text
-}}</a>
+                          item.text
+                          }}</a>
                       </li>
                     </ul>
                   </div>
@@ -928,7 +928,7 @@
                 margin-bottom: 5px;
               " v-for="(item, index) in documentMoveTemp.data.categories">
               <a href="#" style="
-                  font-size: 12px;
+                font-size: 12px;
                   padding: 5px;
                   background: rgb(234, 234, 234);
                   border-radius: 30px;
@@ -1151,7 +1151,7 @@ input[type="checkbox"] {
   width: 40px;
   height: 40px;
   display: block;
-  margin-left: 5px;
+  rgin-left: 5px;
 }
 
 .button-move-tree {
@@ -1230,7 +1230,7 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { Quill, QuillEditor } from "@vueup/vue-quill";
 import QuillImageDropAndPaste from "quill-image-drop-and-paste";
 import quillTable from "quill-table";
-import Editor from '@/tinymce/tinymce-vue';
+import Editor from '@tinymce/tinymce-vue';
 
 Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
 Quill.register(quillTable.TableCell);

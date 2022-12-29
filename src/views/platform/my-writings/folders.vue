@@ -1853,7 +1853,7 @@ const rectHeight = 200;
 
 <script>
 import { alphabetizeByProperty } from "@writetome51/alphabetize-by-property";
-import Editor from '@/tinymce/tinymce-vue';
+import Editor from '@tinymce/tinymce-vue';
 
 export default {
   components: {

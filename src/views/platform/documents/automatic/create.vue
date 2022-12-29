@@ -446,7 +446,7 @@ editor_view = false;
 <script>
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import striptags from 'striptags';
-import Editor from '@/tinymce/tinymce-vue';
+import Editor from '@tinymce/tinymce-vue';
 
 function eliminarDiacriticosEs(texto) {
     return texto
