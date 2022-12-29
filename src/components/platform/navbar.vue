@@ -8,11 +8,12 @@
  " v-if="user">
 
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-2 text-center">
-          <a href="/"><img src="@/assets/Logocompleto.svg" class="img-fluid"
-              style="max-width:200px;margin-top:25px" /></a>
-        </div>
+      <div class="row text-center">
+
+
+        <a style="margin:auto" href="/"><img src="@/assets/Logocompleto.svg" class="img-fluid"
+            style="width:160px;margin-top:25px" /></a>
+
         <div class="col-md-9 text-right" style="    display: flex;
     align-content: center;
     justify-content: center;
@@ -52,9 +53,10 @@
 
           </ul>
         </div>
+        <!-- <div v-if="isDashboard == false" class="col-md-1 text-right">
+        </div> -->
 
-
-        <div class="col-md-1 text-right">
+        <div class="col-md-1 text-right" style="margin-top: 1.78%;">
           <a href="#" v-tooltip="'Perfil'">
 
             <img
@@ -163,7 +165,7 @@
 
         </div>
         <!--      <div class="modal-footer" style="border:none"> 
-        <button type="submit" class="btn btn-primary" style="font-size:15px">Guardar</button>
+       <button type="submit" class="btn btn-primary" style="font-size:15px">Guardar</button>
       </div> -->
       </div>
     </div>
@@ -196,7 +198,6 @@
 
   /* CSS3 Transition: */
   -webkit-transition: 0.50s;
-  /* Future proofing (these do not work yet): */
   -moz-transition: 0.50s;
   transition: 0.50s;
 }
@@ -227,7 +228,8 @@ export default {
       },
       tmpEvent: null,
       amount: 0,
-      link: ''
+      link: '',
+      isDashboard: false,
     }
   },
   created() {
@@ -236,7 +238,7 @@ export default {
   mounted() {
     this.auth();
     this.checkSuscription();
-
+    this.checkDashboard();
 
   },
 
@@ -246,7 +248,17 @@ export default {
 
 
   methods: {
+    checkDashboard() {
+      if (window.location.pathname.includes('platform/dashboard')) {
+        this.isDashboard = true
+      }
+      else {
+        this.isDashboard = false
+      }
 
+      console.log(window.location.pathname)
+
+    },
 
     openModal() {
       $('#suscriptionModal').modal('show')
@@ -287,6 +299,9 @@ export default {
         this.userId = data.id
       })
       localStorage.setItem('userIdValue', this.userId)
+
+
+
     },
     logout() {
       localStorage.removeItem('auth');

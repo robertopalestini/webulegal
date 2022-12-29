@@ -1,7 +1,5 @@
  
 <template>
-    <div style="width: 1px !important; height: 100vh !important;background:black;position:fixed;top:0;bottom:0;z-index:3000"
-        class="line-ranger"></div>
     <navBar />
     <main>
         <div class="container-fluid">
@@ -14,13 +12,10 @@
             ">
                     <columnLeft />
                 </div>
-
                 <div class="col-md-8 text-center create-doc-writing" style="padding-top: 0">
-
-                    <div class="row" style="height: calc(100vh - 120px)" v-if="help_view">
+                    <div class="row" style="height: 100%" v-if="help_view">
                         <div class="col-12 text-left" style="margin-top: 20px">
-                            <a href="@" v-tooltip="'Regresar'" @click.prevent="$router.go(-1)" style="margin-top: -40px"
-                                class="text-left">
+                            <a href="@" @click.prevent="$router.go(-1)" style="margin-top: 40px">
                                 <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
                             </a>
                         </div>
@@ -32,9 +27,9 @@
                   justify-content: center;
                   align-items: center;
                 ">
-                            <div class="row justify-content-center" style="margin-top:-350px">
+                            <div class="row justify-content-center">
                                 <div class="col-12" style="padding-top: 30px; padding-bottom: 30px">
-                                    <h4 style="font-weight: bold; margin-bottom: 60px">
+                                    <h4 style="font-weight: bold">
                                         Instrucciones para automatizar escritos
                                     </h4>
                                 </div>
@@ -67,6 +62,18 @@
                                         </p>
                                     </div>
                                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
                                 <div class="col-md-3">
                                     <div class="col-12" style="
                         display: flex;
@@ -122,7 +129,7 @@
                                         </div>
                                         <p style="color: black; font-weight: 600; font-size: 14px">
                                             Asignale el campo que corresponda con el dato a completar.
-                                            Por ej. "Nombre", "DNI", etc.
+                                            Por ej. "Nombre", "DNI" , etc.
                                         </p>
                                     </div>
                                 </div>
@@ -132,7 +139,7 @@
 help_view = false;
 startText();
                                     ">
-                                        Siguiente
+                                        Siguiente <i class="fas fa-long-arrow-alt-right"></i>
                                     </button>
                                 </div>
                             </div>
@@ -140,60 +147,64 @@ startText();
                     </div>
 
                     <div class="row" v-if="editor_view">
-                        <!-- <div class="col-2 text-left" style="margin-top: 20px">
-                            <a href="@" v-tooltip="'Regresar'" @click.prevent="$router.go(-1)" style="margin-top: -30px"
-                                class="text-left">
+                        <div class="col-12 text-right">
+                            <a href="@" @click.prevent="
+    help_view = true;
+editor_view = false;
+                            " style="position: absolute; z-index: 1000; margin-top: 20px">
                                 <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
                             </a>
-                        </div> -->
-                        <div class="col-12" style="position: relative ;padding-left:2px; padding-right:2px;">
+                        </div>
+
+                        <div class="col-12" style="position: relative; padding: 0">
                             <div style="
-                                position: absolute; 
-                                top: 0;
-                                left: 10px;
-                                right: 0;
-                                bottom: 0;
-                                /* background: rgb(0, 0, 0, 0.1); */
-                                z-index: 600; 
-                                " v-if="showEditorLoading">
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgb(0, 0, 0, 0.1);
+                    z-index: 600;
+                  " v-if="showEditorLoading">
                                 <div class="spinner-border text-light spinner-border-sm" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
+                            <div id="editparent" style="
+                    text-align: left;
+                    position: sticky;
+                    background: #fbfbfb;
+                    top: 0;
+                  ">
 
-
-                            <div>
-
-                                <div class="editor-wrapper" style="overflow:hidden;">
-                                    <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                                        v-html="editDocument" :init="{
-                                            lenguage: 'es_ES',
-                                            branding: false,
-                                            height: '91vh',
-                                            menubar: true,
-                                            powerpaste_allow_local_images: true,
-                                            powerpaste_keep_unsupported_src: true,
-                                            smart_paste: true,
-                                            powerpaste_html_import: 'prompt',
-                                            powerpaste_word_import: 'clean',
-                                            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                                            toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                                        }" initial-value='Escribí o pegá acá el modelo a automatizar' />
-
-                         </div>
                             </div>
+                            <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                                :modelValue="contentText" :init="{
+    lenguage: 'es_ES',
+    branding: false,
+    height: '91vh',
+    menubar: true,
+    powerpaste_allow_local_images: true,
+    powerpaste_keep_unsupported_src: true,
+    smart_paste: true,
+    powerpaste_html_import: 'prompt',
+    powerpaste_word_import: 'clean',
+    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" initial-value='Escribí o pegá acá el modelo a automatizar' />
+
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-2" style="
-                    height: calc(100vh - 70px);
-                    overflow: hidden;
-                    overflow-y: scroll;
-                    text-align: center;
-                    padding-left:10px;
-                    padding-right:10px; 
-                    " v-if="editor_view">
+              height: calc(100vh - 70px);
+              overflow: hidden;
+              overflow-y: scroll;
+              padding: 0;
+              text-align: center;
+              padding: 20px;
+            " v-if="editor_view">
 
                     <button type="submit" class="btn btn-primary" style="width:200px;position:relative;z-index:1000; "
                         @click="openAddField()">
@@ -240,7 +251,7 @@ startText();
                     <div class="col-12" style="position: relative">
                         <button type="submit" @click="save()" class="btn btn-primary"
                             style="width: 120px; position: relative" v-if="!shopsavepop && fields.length > 0">
-                            Crear
+                            {{ !isEdit ? 'Crear' : 'Editar' }}
                         </button>
 
                         <button type="submit" class="btn btn-primary" style="width: 120px; position: relative"
@@ -318,8 +329,8 @@ startText();
                 </div>
             </div>
         </div>
-
     </main>
+
 
 
 
@@ -343,16 +354,17 @@ startText();
                     </button>
                 </div>
                 <div class="modal-body text-danger" style="padding:0;">
-                    <form @submit.prevent="replaceSelectedText()" style="padding:20px">
+                    <form @submit="replaceSelectedText" style="padding:20px">
                         <input type="text" class="form-control" style="
-                            font-weight: 600;
-                            height: 32px !important;
-                            max-height: 32px !important;
-                            min-height: 32px !important;
-                            font-size: 16px;
-                            background: #efefef;
-                            border-radius: 30px !important;
-                            " v-model="replace_text.target" id="popup-selected-text-input" />
+              font-weight: 600;
+              height: 32px !important;
+              max-height: 32px !important;
+              min-height: 32px !important;
+              font-size: 16px;
+              background: #efefef;
+              border-radius: 30px !important;
+            " v-model="replace_text.target" id="popup-selected-text-input" />
+
                         <div class="col-12 text-center" style="padding-top: 10px">
                             <button type="submit" class="btn btn-primary" style="width: 100px">
                                 Crear
@@ -375,7 +387,7 @@ startText();
             overflow-y: scroll;
           " v-if="fields.length > 0">
                         <li v-for="(field, index) in fields">
-                            <a href="#" @click="(e) => addExistentField(e, i)" @mouseover="mouseoverfield(index)"
+                            <a href="#" @click="addExistentField($event, index)" @mouseover="mouseoverfield(index)"
                                 v-if="field.existent == false" @mouseleave="mouseleavefield(index)"
                                 style="padding: 7px; border-bottom: 1px solid #c9c9c9;width:100%;display:block;position:relative">{{
         field.field
@@ -389,203 +401,12 @@ startText();
     </div>
 
 
+
 </template>
 <style>
 @import "@/assets/platform.css";
 
-.document-editor {
-
-    border-radius: var(--ck-border-radius);
-    /* Set vertical boundaries for the document editor. */
-    max-height: 700px;
-    /* This element is a flex container for easier rendering. */
-    display: flex;
-    flex-flow: column nowrap;
-}
-
-.document-editor__toolbar {
-    /* Make sure the toolbar container is always above the editable. */
-    z-index: 1;
-    /* Create the illusion of the toolbar floating over the editable. */
-    box-shadow: 0 0 5px hsla(0, 0%, 0%, .2);
-    /* Use the CKEditor CSS variables to keep the UI consistent. */
-    border-bottom: 1px solid var(--ck-color-toolbar-border);
-}
-
-/* Adjust the look of the toolbar inside of the container. */
-.document-editor__toolbar .ck-toolbar {
-    border: 0;
-    border-radius: 0;
-}
-
-/* Make the editable container look like the inside of a native word processor app. */
-.document-editor__editable-container {
-    padding: calc(2 * var(--ck-spacing-large));
-    background: var(--ck-color-base-foreground);
-    /* Make it possible to scroll the "page" of the edited content. */
-    overflow-y: scroll;
-}
-
-.document-editor__editable-container .document-editor__editable.ck-editor__editable {
-    /* Set the dimensions of the "page". */
-    width: 15.8cm;
-    min-height: 21cm;
-    /* Keep the "page" off the boundaries of the container. */
-    padding: 1cm 2cm 2cm;
-    border: 1px hsl(0, 0%, 82.7%) solid;
-    border-radius: var(--ck-border-radius);
-    background: white;
-    /* The "page" should cast a slight shadow (3D illusion). */
-    box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
-    /* Center the "page". */
-    margin: 0 auto;
-}
-
-/* Override the page's width in the "Examples" section which is wider. */
-.main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-    width: 18cm;
-}
-
-/* Set the default font for the "page" of the content. */
-.document-editor .ck-content,
-.document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-    font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/* Adjust the headings dropdown to host some larger heading styles. */
-.document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-    line-height: calc(1.7 * var(--ck-line-height-base) * var(--ck-font-size-base));
-    min-width: 6em;
-}
-
-/* Scale down all heading previews because they are way too big to be presented in the UI.
-  Preserve the relative scale, though. */
-.document-editor .ck-heading-dropdown .ck-list .ck-heading_heading1 .ck-button__label,
-.document-editor .ck-heading-dropdown .ck-list .ck-heading_heading2 .ck-button__label {
-    transform: scale(0.8);
-    transform-origin: left;
-}
-
-/* Set the styles for "Heading 1". */
-.document-editor .ck-content h2,
-.document-editor .ck-heading-dropdown .ck-heading_heading1 .ck-button__label {
-    font-size: 2.18em;
-    font-weight: normal;
-}
-
-.document-editor .ck-content h2 {
-    line-height: 1.37em;
-    padding-top: .342em;
-    margin-bottom: .142em;
-}
-
-/* Set the styles for "Heading 2". */
-.document-editor .ck-content h3,
-.document-editor .ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
-    font-size: 1.75em;
-    font-weight: normal;
-    color: hsl(203, 100%, 50%);
-}
-
-.document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
-    color: var(--ck-color-list-button-on-text);
-}
-
-/* Set the styles for "Heading 2". */
-.document-editor .ck-content h3 {
-    line-height: 1.86em;
-    padding-top: .171em;
-    margin-bottom: .357em;
-}
-
-/* Set the styles for "Heading 3". */
-.document-editor .ck-content h4,
-.document-editor .ck-heading-dropdown .ck-heading_heading3 .ck-button__label {
-    font-size: 1.31em;
-    font-weight: bold;
-}
-
-.document-editor .ck-content h4 {
-    line-height: 1.24em;
-    padding-top: .286em;
-    margin-bottom: .952em;
-}
-
-/* Make the block quoted text serif with some additional spacing. */
-.document-editor .ck-content blockquote {
-    font-family: Georgia, serif;
-    margin-left: calc(2 * var(--ck-spacing-large));
-    margin-right: calc(2 * var(--ck-spacing-large));
-}
-
-@media only screen and (max-width: 960px) {
-
-    /* Because on mobile 2cm paddings are to big. */
-    .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-        padding: 1.5em;
-    }
-}
-
-@media only screen and (max-width: 1200px) {
-    .main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-        width: 100%;
-    }
-}
-
-/* Style document editor a'ka Google Docs.*/
-@media only screen and (min-width: 1360px) {
-    .main .main__content.main__content-wide {
-        padding-right: 0;
-    }
-}
-
-@media only screen and (min-width: 1600px) {
-    .main .main__content.main__content-wide {
-        width: 24cm;
-    }
-
-    .main .main__content.main__content-wide .main__content-inner {
-        width: auto;
-        margin: 0 50px;
-    }
-
-    /* Keep "page" look based on viewport width. */
-    .main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
-        width: 60%;
-    }
-}
-
-.document-editor__editable-container .document-editor__editable.ck-editor__editable {
-    width: 600px;
-    min-height: 21cm;
-    padding: 1cm 2cm 2cm;
-    border: 1px hsl(0, 0%, 82.7%) solid;
-    border-radius: var(--ck-border-radius);
-    background: white;
-    box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
-    margin: 0 auto;
-}
-
-.ck-editor__editable {
-    width: calc(90vh);
-    padding: 1cm 2cm 2cm;
-    border: 1px hsl(0, 0%, 82.7%) solid;
-    border-radius: var(--ck-border-radius);
-    background: white;
-    box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
-    margin: 20px auto;
-    overflow: visible;
-}
-
-
-#cke_ruler_wrap {
-    width: 780px;
-    margin: 0 auto;
-    display: block;
-}
-
 .text-map {
-    cursor: pointer;
     border-bottom: 1px solid transparent;
 }
 
@@ -595,8 +416,8 @@ startText();
 
 .text-map-hover {
     border-bottom: 1px solid #3c00ff;
-    background: #efefef;
-    color: #2b44ff
+    background: #3000ff;
+    color: white;
 }
 
 .categorieActive {
@@ -618,85 +439,35 @@ startText();
     color: black !important;
     font-weight: 500 !important;
 }
-
-#cke_ruler_wrap {
-    width: 780px;
-    margin: 0 auto;
-    display: block;
-}
-
-
-
-.ck.ck-editor__editable_inline {
-    border: 1px solid var(--ck-color-base-border);
-    overflow: auto
-}
 </style>
    
   
   
 <script>
-import Editor from '@tinymce/tinymce-vue'
-
-import RichTextEditor from "@/components/platform/RichTextEditor.vue";
-
-
-import { Quill, QuillEditor } from "@vueup/vue-quill";
-import QuillImageDropAndPaste from "quill-image-drop-and-paste";
-import quillTable from "quill-table";
-
-
-
-Quill.register("modules/imageDropAndPaste", QuillImageDropAndPaste);
-Quill.register(quillTable.TableCell);
-Quill.register(quillTable.TableRow);
-Quill.register(quillTable.Table);
-Quill.register(quillTable.Contain);
-Quill.register('modules/table', quillTable.TableModule);
-
-
-
-
-
-
-
-function replaceRange(s, start, end, substitute) {
-    return s.substring(0, start) + substitute + s.substring(end);
-}
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import striptags from 'striptags';
+import Editor from '@tinymce/tinymce-vue';
 
 function eliminarDiacriticosEs(texto) {
     return texto
-    // .normalize("NFD")s
-    // .replace(
-    //     /([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+/gi,
-    //     "$1"
-    // )
-    // .normalize();
+        .normalize("NFD")
+        .replace(
+            /([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+/gi,
+            "$1"
+        )
+        .normalize();
 }
 
+var sel, range, base;
 
-var sel, range, base
-
-var CLONE,
-    CLONEWHITID,
-    CLONEWHITFIELDS,
-    fieldrandomid,
-    fieldoriginal,
-    startMovv = true;
 export default {
     components: {
-        RichTextEditor,
-        QuillEditor,
         'editor': Editor
     },
     data() {
-
-
         return {
             data: {},
             auth: localStorage.getItem("auth"),
-            pages: null,
-            original: null,
             endpointUpload: window.ENDPOINT + "/upload",
             endpoint: window.ENDPOINT + "/writings/create",
             endpointTags: "http://api.webu.lt/search/tags/default",
@@ -708,11 +479,9 @@ export default {
             categories_view: false,
             searchInputTags: null,
             editor: null,
-            quill: null,
-            toolbarOptions: null,
-            addCampos: null,
             showEditorLoading: false,
             showPopSelected: false,
+            getSelection: null,
             replace_text: { target: null },
             temp_content: null,
             fields: [],
@@ -725,6 +494,7 @@ export default {
             saveLoadingShareDisabled: false,
             saveLoadingNtShare: false,
             saveLoadingNtShareDisabled: false,
+            isEdit: false,
             categories: [
                 {
                     id: 1,
@@ -784,147 +554,66 @@ export default {
                 clientY: null,
             },
             temp: {
-                editFont: ['Arial/Arial, Helvetica, sans-serif;',
-                    'Comic Sans MS/Comic Sans MS, cursive;',
-                    'Courier New/Courier New, Courier, monospace;',
-                    'Georgia/Georgia, serif;',
-                    'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;',
-                    'Tahoma/Tahoma, Geneva, sans-serif;',
-                    'Times New Roman/Times New Roman, Times, serif;',
-                    'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;',
-                    'Verdana/Verdana, Geneva, sans-serif'],
-                editColor: ['#bf9000', '#000000']
+                editFont: "Arial",
             },
-            scale: 2, //658813476562495, //1,
-            startX: 0,
-            startY: 0,
-            lines: {
-                h: [100, 200],
-                v: [100, 200]
-            },
-            thick: 20,
-            isShowRuler: true,
-            isShowReferLine: true,
-            sel: null,
-            base: null,
-            range: null,
-            editDocument: null,
-            selectedRange: null,
-            editorData: null,
-            editorConfig: null,
-            linesDoc: 20,
-            columnsDoc: null
-
         };
     },
     created() {
-
-
-
-        if (this.editDocument) {
-            console.log(this.editDocument)
-            this.contentText = this.editDocument.data.content;
-            this.fields = this.editDocument.data.fields
-
-        } else {
-            console.log('aaaa' + this.editDocument)
-            // this.contentText = 'Nuevo escrito'
-            this.fields = []
+        this.contentText = "";
+        if (this.$route.name == 'autowriting-new') {
+            this.isEdit = false
+            localStorage.removeItem('editDocument')
         }
-
-
-        const maxRows = 10;
-        const maxCols = 5;
-        const tableOptions = [];
-        for (let r = 1; r <= maxRows; r++) {
-            for (let c = 1; c <= maxCols; c++) {
-                tableOptions.push('newtable_' + r + '_' + c);
-            }
+        if (this.$route.name == 'autowriting-edit') {
+            this.editor_view = true;
+            this.help_view = false;
+            this.isEdit = true
+            this.editarDoc()
         }
-
-        const addCampos = 'ql-customb'
-
-        this.toolbarOptions = [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
-
-            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-
-            ['image', 'video'],
-            [{ table: tableOptions }, { table: 'append-row' }, { table: 'append-col' }],
-
-
-            ['clean']                                         // remove formatting button
-        ];
-
-
-
-
     },
-    setup() {
-
-
+    mounted() {
+    },
+    computed: {
 
     },
     methods: {
-
-        onAddPage(editor) {
-            this.pages = 0
-            this.original = document.querySelectorAll('.document')
-
-
-            for (let index = 0; index <= this.original.keys.length; index++) {
-                this.pages = this.pages++
-
-
-                var place = document.querySelector('.editor-wrapper');
-                var clone = this.original[index].cloneNode(true);
-                clone.id = "editor";
-                place.appendChild(clone);
-                console.log(clone)
-
-
-
-            }
+        editarDoc() {
+            const getDocStorage = JSON.parse(
+                localStorage.getItem("editDocument")
+            );
+            console.log(getDocStorage);
+            setTimeout(() => {
+                console.log(window.tinymce.activeEditor)
+                window.tinymce.activeEditor.setContent(getDocStorage.data.content)
+                this.fields = getDocStorage.data.fields
+            }, 1500);
+        },
+        countExistentFieldTotal(id) {
+            var countTotal = 0;
+            this.fields.forEach(element => {
+                if (id == element.existent_id) {
+                    countTotal++;
+                }
+            });
+            return countTotal;
         },
 
-        onReadyCK(editor) {
-
-            DecoupledDocumentEditor
-                .create(document.querySelector('.document-editor__toolbar'), defaultConfig, defaultPlugings)
-                .then(editor => {
-                    console.log('poraca ando')
-                    console.log(Array.from(editor.ui.componentFactory.names()));
-                    // toolbarContainer.from( editor.ui.componentFactory.names() );
-                    // const toolbarContainer = document.querySelector('#toolbar-container');
-
-                    // toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-
-
-            this.editorCK = new Editor(document.querySelectorAll('.document-editor__toolbar'), new Editor())
-
+        actionTeste(event, role) {
+            if (role == "font") {
+                document.execCommand("fontName", false, this.temp.editFont);
+                return;
             }
-
-
+            switch (role) {
+                case "h1":
+                case "h2":
+                case "p":
+                    document.execCommand("formatBlock", false, role);
+                    break;
+                default:
+                    document.execCommand(role, false, null);
+                    break;
+            }
         },
-
-
         saveShare(value) {
             console.log(this.data);
             if (value == 1) {
@@ -1012,7 +701,7 @@ export default {
                 body: JSON.stringify({
                     auth: this.auth,
                     data: {
-                        content: document.getElementById("editor").innerHTML,
+                        content: window.tinymce.activeEditor.getContent(),
                         fields: temp,
                         title: "Documento sin titulo", //this.titleDocument,
                         description: "Documento sin descripcion", //this.descriptionDocument,
@@ -1038,87 +727,63 @@ export default {
             element.outerHTML = element.base;
             this.fields.splice(index, 1);
             element.classList.remove("text-map-hover");
-
         },
-        mouseoverfield(e) {
-            // if (this.fields.length) {
-            //     e.target.classList.add("text-map-hover");
-
-            //     for (let index = 0; index < array.length; index++) {
-            //         const elements = this.fields[index];
-            //         const element = elements.field
-            //         element[index].data - id
-            //         console.log(document.querySelector(`'data-id'=${element.data - id}`))
-            //         console.log(e.target)
-            //     }
-
-            // }
+        mouseoverfield(index) {
+            var element = this.fields[index].element;
+            element.className = "text-map-hover";
+            console.log(element);
+        },
+        mouseleavefield(index) {
+            var element = this.fields[index].element;
+            element.classList.remove("text-map-hover");
+            console.log(element);
         },
 
-        addExistentField(e, index) {
-
+        addExistentField(event, index) {
             this.replaceforExistent = true;
             this.replaceforExistentIndex = index;
-            console.log(this.selec)
-            this.getSelectionOnField()
-            this.openAddField()
+            this.replaceSelectedText(event);
         },
 
-        getSelectionOnField() {
+        openModalChangeText() {
 
-            this.$sel = window.getSelection();
-            if (this.$sel.extentOffset) console.log('existo!')
-            this.$sel.extentOffset
-            this.$base = window
-                .getSelection().anchorNode.textContent
-            // .substring(
-            //     window.getSelection().extentOffset,
-            //     window.getSelection().anchorOffset
-            // );
-            this.$range = this.$sel.getRangeAt(0);
 
-            console.log('sel' + this.$sel)
+            sel = window.tinymce.activeEditor.selection.getContent()
+            base = sel
+                .anchorNode.data.substring(
+                    window.getSelection().anchorOffset,
+                    window.getSelection().extentOffset
+                );
+            range = sel.getRangeAt(0);
 
-            console.log('base' + this.$base)
-
-            console.log('ahora' + this.$range)
-
-            let selection = window
-                .getSelection()
+            let selection = sel
                 .anchorNode.textContent.substring(
                     window.getSelection().extentOffset,
                     window.getSelection().anchorOffset
                 );
 
-
             if (selection.length !== 0) {
                 //open popup in cursor
                 var event;
                 // const onMouseMove = (e) => {
-                //     var popup = document.querySelector("#popup-selected-text");
-                //     popup.style.left = e.pageX + 20 + "px";
-                //     popup.style.top = e.pageY + 20 + "px";
-                //     popup.style.visibility = "visible";
-                //     document.removeEventListener("mousemove", onMouseMove);
+                //   var popup = document.querySelector("#popup-selected-text");
+                //   popup.style.left = e.pageX + 20 + "px";
+                //   popup.style.top = e.pageY + 20 + "px";
+                //   popup.style.visibility = "visible";
+                //   document.removeEventListener("mousemove", onMouseMove);
                 // };
 
                 // var event = document.addEventListener("mousemove", onMouseMove);
             }
         },
-        openAddField() {
 
+
+
+        openAddField() {
             $('#staticBackdrop4').modal('show');
-        },
-        closeAddField() {
-            $('#staticBackdrop4').modal('hide');
         },
 
         replaceSelectedText(e) {
-            // e.preventDefault();
-            this.getSelectionOnField()
-
-            console.log('Llamando al replacesleected text')
-            console.log(range)
             console.log(this.fields)
             e.preventDefault();
             if (this.replaceforExistent) {
@@ -1126,25 +791,20 @@ export default {
                 this.replace_text.target = element.getAttribute("replace");
                 // this.replaceforExistent = false;
             }
-
-
+            // range.deleteContents();
 
             var a = document.createElement("a");
             a.innerText = "[" + this.replace_text.target + "]";
-            // a.className = "text-map";
-
-            // a.className = "testeo";
-            a.classList.add('text-map', 'testeo')
+            a.className = "text-map";
+            a.className = "testeo";
             var id = Math.ceil(Math.random() * 1000000);
             a.setAttribute("data-id", id);
             a.setAttribute("replace", this.replace_text.target);
             a.setAttribute(
                 "base",
-                eliminarDiacriticosEs(base)
-
-
+                base
             );
-            console.log(a)
+
             var newField;
 
 
@@ -1163,41 +823,32 @@ export default {
                     element: a,
                     id: id,
                     replace: this.replace_text.target,
-                    base: eliminarDiacriticosEs(base)
-
-
+                    base: base
                 };
                 this.replaceforExistent = false;
+
+
                 this.fields[this.replaceforExistentIndex].existent_fields.push(newField)
             } else {
                 newField = {
                     existent: false,
                     field: this.replace_text.target,
-                    element: a.getAttribute('replace'),
+                    element: a,
                     id: id,
                     replace: this.replace_text.target,
-                    base: eliminarDiacriticosEs(base)
-
-
-                }
+                    base: base
+                };
             }
 
             this.fields.push(newField);
 
-            // selectionrr.insertNode(a);
-            console.log('agregar campo')
-            console.log(range)
-            console.log(a)
+            window.tinymce.activeEditor.selection.setContent(`${this.replace_text.target}`)
+            window.tinymce.activeEditor.selection.setNode(a);
 
-            this.$range.insertNode(a);
-
-
-            this.$range.deleteContents();
-            this.replace_text.target = null
-            this.closeAddField()
-
+            this.replace_text.target = null;
             // var popup = document.querySelector("#popup-selected-text");
             // popup.style.visibility = "hidden";
+            $('#staticBackdrop4').modal('hide');
         },
 
         next() {
@@ -1207,39 +858,24 @@ export default {
 
             this.categories_view = false;
 
-            // setTimeout(() => {
-            //     document
-            //         .querySelector("#editor")
-            //         .addEventListener('overflow', this.onAddPage());
-            // }, 300);
-
-
-
             setTimeout(() => {
                 ["mouseup", "keyup", "selectionchange"].forEach((e) => {
                     document
-                        .querySelector("#crearEscrito")
-                        .addEventListener(e, this.getSelectionOnField);
+                        .querySelector("#editor3")
+                        .addEventListener(e, this.openModalChangeText);
                 });
-            }, 300);
-
+            }, 1000);
         },
 
         startText() {
 
-
-            this.onReadyCK()
-
-
-
         },
-    }   
-
+    },
+};
 </script>
   
 <script setup>
 import columnLeft from "@/components/platform/left.vue";
 import navBar from "@/components/platform/navbar.vue";
 import { Editable } from "@livingdocs/editable.js/src/core";
-
 </script>

@@ -760,7 +760,7 @@
                 </div>
               </div>
             </div>
-
+<!-- 
             <div id="editor-full3" contenteditable="true" style="
                 width: 100%;
                 padding: 20px;
@@ -769,8 +769,8 @@
                 overflow-y: auto;
                 color: black;
               " v-html="contentDocument"></div>
-
-            <!-- <div id="editor2-full" contenteditable="true" style="
+-->
+          <div id="editor2-full" contenteditable="true" style="
                     width: 100%;
                     padding: 20px;
                     overflow: hidden;
@@ -778,7 +778,7 @@
                     overflow-y: auto;
                     color:black;
                     margin-bottom: 0;
-                  " v-html="contentDocument" @keyup="autoSaveFull()"></div> -->
+                  " v-html="contentDocument" @keyup="autoSaveFull()"></div> 
           </div>
         </div>
       </div>

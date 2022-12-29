@@ -65,8 +65,8 @@
                         " v-for="item in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-                            item.text
-                        }}</a>
+    item.text
+}}</a>
                       </li>
                     </ul>
                   </div>
@@ -194,8 +194,8 @@
                             ">
                             {{ tagSelectedTags.title }}
                             <a href="#" style="margin-left: 10px" @click="
-                              removeFilterTags(index, tagSelectedTags.title)
-                            ">
+  removeFilterTags(index, tagSelectedTags.title)
+">
                               <i class="fas fa-times"></i>
                             </a>
                           </a>
@@ -220,8 +220,8 @@
                           margin-bottom: 15px;
                           margin-top: 10px;
                         " v-for="(item, index) in filteredResourcesTags" :key="index" @click.prevent="
-                          getDocumentsByTag(item._id, item.data.title)
-                        ">
+  getDocumentsByTag(item._id, item.data.title)
+">
                         <a href="#" style="
                             color: black;
                             font-weight: 600;
@@ -248,8 +248,8 @@
                           line-height: 15px;
                           margin-bottom: 15px;
                         " v-for="(item, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
-                          getDocumentsByTagPrivate(item._id, item.data.name)
-                        ">
+  getDocumentsByTagPrivate(item._id, item.data.name)
+">
                         <a href="#" style="
                             color: black;
                             font-weight: 600;
@@ -296,8 +296,8 @@
                   position: relative;
                 " v-for="(document, index) in fixerEditMode" :key="index" @click="getDocument(document._id)"
                 v-bind:class="{
-                  activeDocument: document._id === activeDocumentId,
-                }" @contextmenu.prevent="openContextmenu($event, document, index)">
+  activeDocument: document._id === activeDocumentId,
+}" @contextmenu.prevent="openContextmenu($event, document, index)">
                 <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
                   <span v-tooltip="'Editar titulo'" class="edit-mode">{{ document.data.title }}
                     <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
@@ -379,10 +379,10 @@
                   <div class="col-md-8">
 
                     <b>{{
-                        document.data.title
-                          ? document.data.title
-                          : "Previsualizador de Documentos"
-                    }}
+    document.data.title
+      ? document.data.title
+      : "Previsualizador de Documentos"
+}}
                     </b>
                   </div>
                   <div class="col-md-4 text-right">
@@ -391,8 +391,8 @@
                     </a>
                     <div style="display: inline-block">
                       <DocumentDropdown :document="document" @go-edit-document-private="
-                        goEditDocumentPrivate(document)
-                      " @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
+  goEditDocumentPrivate(document)
+" @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
                         @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
                         @open-compartir-privada="openCompartirPrivada()" />
 
@@ -419,18 +419,18 @@
               <div>
                 <div class="editor-wrapper" style="overflow:hidden;">
                   <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq" :init="{
-                    lenguage: 'es_ES',
-                    branding: false,
-                    height: '91vh',
-                    menubar: true,
-                    powerpaste_allow_local_images: true,
-                    powerpaste_keep_unsupported_src: true,
-                    smart_paste: true,
-                    powerpaste_html_import: 'prompt',
-                    powerpaste_word_import: 'clean',
-                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                  }" />
+  lenguage: 'es_ES',
+  branding: false,
+  height: '91vh',
+  menubar: true,
+  powerpaste_allow_local_images: true,
+  powerpaste_keep_unsupported_src: true,
+  smart_paste: true,
+  powerpaste_html_import: 'prompt',
+  powerpaste_word_import: 'clean',
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" />
 
 
 
@@ -483,6 +483,69 @@
       </li>
     </ul>
   </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="compartir-privada" tabindex="-1" role="dialog" aria-labelledby="report-contentTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content" style="border-radius: 10px; border: none">
+        <div class="modal-header text-center" style="
+            background: #dedcdc;
+            color: #454545;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+          ">
+          <h5 class="modal-title" style="
+              font-size: 15px;
+              font-weight: 600;
+              text-align: center !important;
+              display: block !important;
+              width: 100%;
+            ">
+            Compartir en forma privada
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12" style="
+              background: #f2f2f2;
+              color: #141414;
+              font-weight: 600;
+              text-align: left;
+              padding: 20px;
+              margin-bottom: 10px;
+            ">
+            Escribí el mail de registro del usuario al que querés dar acceso
+
+            <input type="text" v-model="valEmail" style="
+                height: 30px;
+                min-height: 33px;
+                border-radius: 30px;
+                border-radius: 30px;
+                border: 1px solid rgb(199, 199, 199);
+                background: rgb(231, 231, 231);
+                margin-top: 15px;
+                padding-left: 10px;
+              " />
+          </div>
+
+
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary" style="width: 120px; margin-top: 3vh"
+              @click="compartirPrivado(valEmail)">
+              Compartir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- Modal -->
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="true" tabindex="-1"
@@ -636,8 +699,8 @@
 
                   <div style="display: inline-block">
                     <DocumentDropdown :document="document" @go-edit-document-private="
-                      goEditDocumentPrivate(document)
-                    " @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
+  goEditDocumentPrivate(document)
+" @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
                       @save-share="saveShare(1, document.data.id)" @delete-document="deleteDocument(document.data.id)"
                       @open-compartir-privada="openCompartirPrivada()" />
                   </div>
@@ -648,19 +711,19 @@
               <div>
                 <div class="editor-wrapper" style="overflow:hidden;">
                   <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                    v-bind:initial-value="contentDocument" :init="{
-                      lenguage: 'es_ES',
-                      branding: false,
-                      height: '91vh',
-                      menubar: true,
-                      powerpaste_allow_local_images: true,
-                      powerpaste_keep_unsupported_src: true,
-                      smart_paste: true,
-                      powerpaste_html_import: 'prompt',
-                      powerpaste_word_import: 'clean',
-                      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                      toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                    }" />
+                    :modelValue="contentDocument" :init="{
+  lenguage: 'es_ES',
+  branding: false,
+  height: '91vh',
+  menubar: true,
+  powerpaste_allow_local_images: true,
+  powerpaste_keep_unsupported_src: true,
+  smart_paste: true,
+  powerpaste_html_import: 'prompt',
+  powerpaste_word_import: 'clean',
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" />
 
 
                 </div>
@@ -678,10 +741,10 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" style="border-radius: 10px; border: none" @submit.prevent="
-        !activeDocumentId
-          ? createNewTag(newTagName)
-          : insertDocumentTags(activeDocumentId, tagSelected)
-      ">
+  !activeDocumentId
+    ? createNewTag(newTagName)
+    : insertDocumentTags(activeDocumentId, tagSelected)
+">
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
 
@@ -1055,6 +1118,7 @@ export default {
       endpointSave: window.ENDPOINT + "/library/folders/edit",
       editor_enabled: false,
       items: [],
+      valEmail: null,
       documents: [],
       loadingFolders: true,
       loadingDocument: false,
@@ -2069,12 +2133,14 @@ export default {
               this.editor_enabled = false;
               this.document = data;
               this.contentDocument = data.data.content;
+              window.tinymce.activeEditor.setContent(this.contentDocument)
               this.loadingDocument = false;
               this.$Progress.finish();
             } else {
               this.editor_enabled = true;
               this.document = data;
               this.contentDocument = data.data.content;
+              window.tinymce.activeEditor.setContent(this.contentDocument)
               // this.contentDocument = data.data.content.replace("http://", "https://");
               this.loadingDocument = false;
               this.$Progress.finish();
@@ -2154,6 +2220,10 @@ export default {
           }
         });
     },
+    openCompartirPrivada() {
+      // open private share mode
+      $("#compartir-privada").modal("show");
+    },
     loadFolders() {
       const requestOptions = {
         method: "POST",
@@ -2210,6 +2280,32 @@ export default {
               this.loadingFolders = false;
             }
           }, 200);
+        });
+    },
+    compartirPrivado(email) {
+      //function to fetch baack
+
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      console.log(user);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          documentId: this.document._id,
+          firstName: user.profile.firstname,
+          lastName: user.profile.lastname,
+        }),
+      };
+      fetch(window.ENDPOINT + "/librarie/share/private", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          this.$toast.success("Se envio por email.", {
+            position: "bottom-right",
+          });
         });
     },
     getDocumentsFromFolder(nodeId, state) {

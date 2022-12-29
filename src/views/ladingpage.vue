@@ -12,7 +12,7 @@
         z-index: 997;
       ">
       <a class="navbar-brand" href="/">
-        <img src="@/assets/landing/logo.png" alt="" style="max-width: 150px" /></a>
+        <img src="@/assets/Logocompleto.svg" alt="" style="max-width: 170px; margin-top: 5px" /></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -57,10 +57,10 @@
               flex-direction: column;
             ">
             <a href="/">
-              <img src="@/assets/Logocompleto.svg" alt="" style="max-width: 170px; margin-top: -3vh" /></a>
+              <img src="@/assets/Logocompleto.svg" alt="" style="max-width: 170px; margin-top: 12px" /></a>
           </div>
           <div class="col col-sm-8 col-md-7 ">
-            <ul id="otroModo" class="menu_items">
+            <ul id="otroModo" class="menu_items" style="margin-top: 7px">
               <li class="active">
                 <a class="link" href="#fp" @click.prevent="moveToBlue('fp')">Formar Parte</a>
               </li>

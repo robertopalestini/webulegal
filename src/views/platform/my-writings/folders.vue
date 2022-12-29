@@ -92,8 +92,8 @@ if you need break please take notes, i trust
                         " v-for="item in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-                            item.text
-                        }}</a>
+    item.text
+}}</a>
                       </li>
                     </ul>
                   </div>
@@ -224,8 +224,8 @@ if you need break please take notes, i trust
                               padding-right: 10px;
                             ">{{ tagSelectedTags.title }}
                             <a href="#" style="margin-left: 10px" @click="
-                              removeFilterTags(index, tagSelectedTags.title)
-                            "><i class="fas fa-times"></i></a>
+  removeFilterTags(index, tagSelectedTags.title)
+"><i class="fas fa-times"></i></a>
                           </a>
                         </li>
                       </ul>
@@ -246,8 +246,8 @@ if you need break please take notes, i trust
                           line-height: 15px;
                           margin-bottom: 15px;
                         " v-for="(tag, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
-                          getDocumentsByPrivateTag(tag._id, tag.data.name)
-                        ">
+  getDocumentsByPrivateTag(tag._id, tag.data.name)
+">
                         <a href="#" style="
                             color: black;
                             font-weight: 600;
@@ -269,8 +269,8 @@ if you need break please take notes, i trust
                           line-height: 15px;
                           margin-bottom: 15px;" v-for="(tag, index) in filteredResourcesTags" :key="index"
                         @click.prevent="
-                          getDocumentsByTag(tag._id, tag.data.title)
-                        ">
+  getDocumentsByTag(tag._id, tag.data.title)
+">
                         <a href="#" style="
                             color: black;
                             font-weight: 600;
@@ -317,8 +317,8 @@ if you need break please take notes, i trust
                   position: relative;
                 " v-for="(document, index) in fixerEditMode" :key="index" @click="getDocument(document._id)"
                 v-bind:class="{
-                  activeDocument: document._id === activeDocumentIdTags,
-                }" @contextmenu.prevent="openContextmenu($event, document, index)">
+  activeDocument: document._id === activeDocumentIdTags,
+}" @contextmenu.prevent="openContextmenu($event, document, index)">
                 <div class="col-12" style="padding: 0" v-if="document._ext.edit_title == false">
                   <span class="edit-mode">{{ document.data.title }}
                     <img src="@/assets/boligrafo.png" @click.prevent="document._ext.edit_title = true" />
@@ -554,18 +554,18 @@ if you need break please take notes, i trust
                 <div class="editor-wrapper" style="overflow:hidden;">
                   <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
                     :modelValue="contentDocument" :init="{
-                      lenguage: 'es_ES',
-                      branding: false,
-                      height: '91vh',
-                      menubar: true,
-                      powerpaste_allow_local_images: true,
-                      powerpaste_keep_unsupported_src: true,
-                      smart_paste: true,
-                      powerpaste_html_import: 'prompt',
-                      powerpaste_word_import: 'clean',
-                      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                      toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                    }" />
+  lenguage: 'es_ES',
+  branding: false,
+  height: '91vh',
+  menubar: true,
+  powerpaste_allow_local_images: true,
+  powerpaste_keep_unsupported_src: true,
+  // smart_paste: true,
+  // powerpaste_html_import: 'prompt',
+  // powerpaste_word_import: 'clean',
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" />
 
 
 
@@ -747,38 +747,7 @@ if you need break please take notes, i trust
                 padding-left: 10px;
               " />
           </div>
-          <div class="col-md-12" style="
-              margin-left: 1vw;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              color: #141414;
-              font-weight: 600;
-              text-align: left;
-            ">
-            <input type="radio" :value="onlyRead" @input="setOnlyRead()" class="show-checkbox" style="
-                height: 30px;
-                min-height: 33px;
-                border-radius: 30px;
-                border-radius: 30px;
-                border: 1px solid rgb(199, 199, 199);
-                background: rgb(231, 231, 231);
-                margin-right: 0.5vw;
-              " />
-            <label style="margin-top: 1vh">Solo Lectura</label>
 
-            <input type="radio" :value="readWrite" @input="setReadWrite()" class="show-checkbox" style="
-                height: 30px;
-                min-height: 33px;
-                border-radius: 30px;
-                border-radius: 30px;
-                border: 1px solid rgb(199, 199, 199);
-                background: rgb(231, 231, 231);
-                margin-right: 0.5vw;
-                margin-left: 4vw;
-              " />
-            <label style="margin-top: 1vh">Lectura y Edición</label>
-          </div>
 
           <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary" style="width: 120px; margin-top: 3vh"
@@ -969,18 +938,18 @@ if you need break please take notes, i trust
               <div class="editor-wrapper" style="overflow:hidden;">
                 <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
                   :modelValue="contentDocument" :init="{
-                    lenguage: 'es_ES',
-                    branding: false,
-                    height: '91vh',
-                    menubar: true,
-                    powerpaste_allow_local_images: true,
-                    powerpaste_keep_unsupported_src: true,
-                    smart_paste: true,
-                    powerpaste_html_import: 'prompt',
-                    powerpaste_word_import: 'clean',
-                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                  }" />
+  lenguage: 'es_ES',
+  branding: false,
+  height: '91vh',
+  menubar: true,
+  powerpaste_allow_local_images: true,
+  powerpaste_keep_unsupported_src: true,
+  smart_paste: true,
+  powerpaste_html_import: 'prompt',
+  powerpaste_word_import: 'clean',
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" />
 
 
               </div>
@@ -1006,10 +975,10 @@ if you need break please take notes, i trust
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" style="border-radius: 10px; border: none" @submit.prevent="
-        !activeDocumentId
-          ? createNewTag(newTagName)
-          : insertDocumentTags(activeDocumentId, tagSelected)
-      ">
+  !activeDocumentId
+    ? createNewTag(newTagName)
+    : insertDocumentTags(activeDocumentId, tagSelected)
+">
         <div class="modal-header text-center">
           <h5 class="modal-title">Agregar etiquetas</h5>
 
@@ -1888,7 +1857,6 @@ import Editor from '@tinymce/tinymce-vue';
 
 export default {
   components: {
-    RichTextEditor,
     'editor': Editor
   },
   data() {
@@ -2504,7 +2472,7 @@ export default {
 
       this.$router.push({
         name: "autowriting-edit",
-        params: { id: escrito._id },
+        params: { id: escrito._id, editor_view: true },
       });
     },
 
@@ -2749,9 +2717,8 @@ export default {
       $("#newTagSuggest").modal("show");
     },
     autoSaveFull() {
-      const content = document.querySelector("#crearEscrito").innerHTML;
+      const content = window.tinymce.activeEditor.getContent()
 
-      document.querySelector("#crearEscrito").innerHTML = content;
       this.document.data.content = content;
       const requestOptions = {
         method: "POST",
@@ -2762,7 +2729,7 @@ export default {
           auth: this.auth,
           id: this.document._id,
           data: {
-            content: content,
+            content: window.tinymce.activeEditor.getContent(),
           },
         }),
       };
@@ -2772,8 +2739,6 @@ export default {
     },
 
     autoSave() {
-      const content = document.querySelector(".").innerHTML;
-      this.document.data.content = content;
 
       const requestOptions = {
         method: "POST",
@@ -2784,7 +2749,7 @@ export default {
           auth: this.auth,
           id: this.document._id,
           data: {
-            content: content,
+            content: window.tinymce.activeEditor.getContent(),
           },
         }),
       };
@@ -2974,7 +2939,12 @@ export default {
       fetch(this.endpointTextPreview, requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          this.documentModal.data.content = data.content;
+          console.log(window.tinymce.activeEditor.selection.setNode(this.documentModal.data.fields[0]))
+          // var jj = window.tinymce.activeEditor.selection.setNode(this.documentModal.data.fields[0])
+          //  console.log(window.tinymce.activeEditor.selection.getNode(jj))
+
+
+          // this.documentModal.data.content = window.tinymce.activeEditor.getContent(),
           console.log(data.content);
         });
     },
@@ -3202,7 +3172,8 @@ export default {
               this.editor_enabled = false;
               if (data.data.form_complete) {
                 this.documentModal = data;
-                this.contentDocument = data.content;
+                console.log(data)
+                window.tinymce.activeEditor.setContent(this.contentDocument)
                 this.loadingDocument = false;
                 this.$Progress.finish();
 
@@ -3259,6 +3230,8 @@ export default {
               this.editor_enabled = false;
               this.document = data;
               this.contentDocument = data.data.content;
+              console.log(window.tinymce)
+              window.tinymce.activeEditor.setContent(this.contentDocument)
               this.loadingDocument = false;
 
 
@@ -3268,6 +3241,8 @@ export default {
               this.document = data;
 
               this.contentDocument = data.data.content;
+              console.log(window.tinymce)
+              window.tinymce.activeEditor.setContent(this.contentDocument)
               this.loadingDocument = false;
               this.$Progress.finish();
             }

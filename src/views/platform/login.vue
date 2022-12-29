@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-5 text-center" style="margin-top:20px;margin-bottom:20px;">
-        <img src="@/assets/logo-transparent.png" class="img-fluid" style="max-width:180px" />
+        <img src="@/assets/Logocompleto.svg" alt="" style="max-width: 270px; margin-top: 12px" class="img-fluid" />
       </div>
       <div class="col-md-12"></div>
       <div class="col-md-5 text-center" style="font-size:16px;margin-top:20px;margin-bottom:20px;">
@@ -36,7 +36,9 @@
           </div>
 
           <div class="form-group" style="margin-top:20px;margin-bottom:20px;">
-           <p>Al ingresar aceptás los <a href='/src/assets/TÉRMINOS-Y-CONDICIONES-GENERALES-WEBU.pdf'>términos y condiciones</a> y <a href="/src/assets/Politica-de-Privacidad-Webu.pdf" >política de privacidad</a> de la página</p>
+            <p>Al ingresar aceptás los <a href='/src/assets/TÉRMINOS-Y-CONDICIONES-GENERALES-WEBU.pdf'>términos y
+                condiciones</a> y <a href="/src/assets/Politica-de-Privacidad-Webu.pdf">política de privacidad</a> de la
+              página</p>
           </div>
 
           <div class="form-group" style="margin-top:20px;margin-bottom:20px;">
@@ -52,10 +54,10 @@
        <div class="col-md-12"></div> -->
 
       <div class="col-md-5">
-         
+
         <div class="form-group" style="margin-top:20px;margin-bottom:20px;    text-align: center;">
           <v-facebook-login app-id="394916662616132" @login="callbackFacebook"
-            :login-options="{scope: 'email,user_likes'}" @sdk-init="handleSdkInit" style="       transition: background-color 0.25s ease-in-out 0s;
+            :login-options="{ scope: 'email,user_likes' }" @sdk-init="handleSdkInit" style="       transition: background-color 0.25s ease-in-out 0s;
     
     width: 218px;
     font-size: 13px;
@@ -63,19 +65,19 @@
     height: 40px;
     font-weight: 600;
     text-align: right;
-    /* background: rgb(59, 89, 152); */"  sdk-locale="ar_AR" :slot="{login : 'test'}"  > 
-    <template v-slot:login>
-      Acceder con Facebook
-    <!-- content for the header slot -->
-  </template>
+    /* background: rgb(59, 89, 152); */" sdk-locale="ar_AR" :slot="{ login: 'test' }">
+            <template v-slot:login>
+              Acceder con Facebook
+              <!-- content for the header slot -->
+            </template>
 
-     
-  </v-facebook-login>
+
+          </v-facebook-login>
 
           <!-- <button type="submit" class="btn btn-primary col-12 btn-social " >Iniciar sesion con Facebook</button> -->
         </div>
         <div class="form-group" style="margin-top:20px;margin-bottom:20px;">
-          <GoogleLogin :callback="callbackGoogle"  />
+          <GoogleLogin :callback="callbackGoogle" />
           <!-- <button type="submit" class="btn btn-primary col-12 btn-social "  >Iniciar sesion con Google</button> -->
         </div>
       </div>
@@ -93,7 +95,7 @@
 
       <div class="col-md-5">
         <div class="form-group text-center" style="margin-top:20px;margin-bottom:20px;">
-          ¿Se te olvidó tu contraseña? <a href="/login/password" >Recuperar</a>
+          ¿Se te olvidó tu contraseña? <a href="/login/password">Recuperar</a>
         </div>
       </div>
 
@@ -263,32 +265,33 @@ html body {
   font-family: 'Montserrat', sans-serif !important;
   font-weight: bold !important;
 }
+
 .logo {
-    padding: 0px 0px 0px 50px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: rgb(255, 255, 255);
-    top: 6px;
-    background: url(https://cdn.icon-icons.com/icons2/1584/PNG/128/3721668-facebook-flat_108056.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-left: 4px;
-    border-radius:30px;
-    width:25px;
-    height: 25px;
-    padding:0;
-    margin:0;
-    margin-left: 10px;
+  padding: 0px 0px 0px 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgb(255, 255, 255);
+  top: 6px;
+  background: url(https://cdn.icon-icons.com/icons2/1584/PNG/128/3721668-facebook-flat_108056.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 4px;
+  border-radius: 30px;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  margin: 0;
+  margin-left: 10px;
 }
 
 .S9gUrf-YoZ4jf {
   position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
 }
 </style>
 <script setup>
@@ -337,14 +340,14 @@ export default {
       // $('.v-facebook-login span').html('Acceder con facebook')
     },
     callbackFacebook(response) {
-      
-      var test =  this.submitFacebook;
-      
+
+      var test = this.submitFacebook;
+
       this.sdkFB.api('/me?fields=id,name,email', function (dataUser) {
         console.log(response, ' data me ')
         console.log('Welcome, ' + response.name + "!");
         console.log('Your email id is : ' + response.email);
-       test(response, dataUser)
+        test(response, dataUser)
 
       });
 
@@ -385,7 +388,7 @@ export default {
       };
       fetch(this.endpoint, requestOptions).then(response => response.json()).then((data) => {
 
-       
+
         if (data.error) {
 
           this.$toast.show(
@@ -398,7 +401,7 @@ export default {
 
         } else {
 
-          
+
           localStorage.setItem('auth', data.auth);
           localStorage.setItem('authId', data.auth._id);
           localStorage.setItem('user', JSON.stringify(data));
@@ -432,12 +435,12 @@ export default {
 
         if (data.error) {
           this.$toast.show(
-              "Esta cuenta ya se ha registrado via email.",
-                {
-                   position: "bottom-right" 
-                }
-              ) 
-           this.$Progress.finish();
+            "Esta cuenta ya se ha registrado via email.",
+            {
+              position: "bottom-right"
+            }
+          )
+          this.$Progress.finish();
           return;
         }
 
@@ -475,12 +478,12 @@ export default {
 
         if (data.error) {
           this.$toast.show(
-              "Esta cuenta ya se ha registrado via email.",
-                {
-                   position: "bottom-right" 
-                }
-              ) 
-           this.$Progress.finish();
+            "Esta cuenta ya se ha registrado via email.",
+            {
+              position: "bottom-right"
+            }
+          )
+          this.$Progress.finish();
           return;
         }
 

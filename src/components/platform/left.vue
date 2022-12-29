@@ -32,7 +32,9 @@
 }
 </style>
 <template>
-    <div class="col-md-12 text-center" style="padding-bottom:30px;position:relative;padding-top:30px">
+    <div v-if="isDashboard == false" style="margin-top:15PX"></div>
+
+    <div class="col-md-12 text-center" style="padding-bottom:30px;position:relative;padding-top:0px">
         <button type="submit" class="btn btn-primary" style="width:120px;position:relative;z-index:1000"
             @click.prevent="new_doc_pop = true">
             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#FFFFFF">
@@ -239,6 +241,7 @@ import { RouterLink } from "vue-router";
 export default {
     data() {
         return {
+            isDashboard: false,
             new_doc_pop: false,
             lib_submenu: false,
             writes_submenu: false,
@@ -255,6 +258,7 @@ export default {
     },
     created() {
 
+        this.checkDashboard()
 
         const requestOptions = {
             method: "POST",
@@ -274,6 +278,18 @@ export default {
         clickOutside: vClickOutside.directive
     },
     methods: {
+        checkDashboard() {
+            if (window.location.pathname.includes('platform/dashboard')) {
+                this.isDashboard = true
+            }
+            else {
+                this.isDashboard = false
+            }
+
+            console.log(window.location.pathname)
+
+        },
+
         goToCreate(type, event) {
             event.preventDefault();
             if (type == 1) {

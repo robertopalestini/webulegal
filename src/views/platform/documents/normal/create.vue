@@ -19,29 +19,32 @@
               </a>
             </div>
 
-            <div>
-              <div class="editor-wrapper" style="overflow:hidden;">
-                <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                  v-html="editDocument" :init="{
-                    lenguage: 'es_ES',
-                    branding: false,
-                    height: '91vh',
-                    menubar: true,
-                    powerpaste_allow_local_images: true,
-                    powerpaste_keep_unsupported_src: true,
-                    smart_paste: true,
-                    powerpaste_html_import: 'prompt',
-                    powerpaste_word_import: 'clean',
-                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-                    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-                  }" initial-value='Escribí o pegá acá el modelo a automatizar' />
+
+            <div style="height:75vh;overflow:hidden;">
+              <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
+                :modelValue="contentDocument" :init="{
+  lenguage: 'es_ES',
+  branding: false,
+  height: '75vh',
+  menubar: true,
+  powerpaste_allow_local_images: true,
+  powerpaste_allow_local_image: true,
+  file_browser_callback_types: 'file image media',
+  file_picker_types: 'file image media',
+  powerpaste_keep_unsupported_src: true,
+  smart_paste: true,
+  powerpaste_html_import: 'prompt',
+  powerpaste_word_import: 'clean',
+  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
+  toolbar: 'undo redo fullscreen fullpage |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat | insertfile quickimage media table link mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
+}" initial-value='Escribí o pegá acá el documento o archivo de biblioteca' />
 
 
-              </div>
             </div>
+
             <!-- <div id="cke_ruler_wrap"></div> -->
 
-            <div class="col-12" style="position: relative; margin-top:15px" v-if="editor_view">
+            <div class="col-12" style="position: relative; margin-top:26px" v-if="editor_view">
               <div class="text-center">
                 <button type="submit" class="btn btn-primary" style="width: 120px; position: relative" disabled="true"
                   v-if="shopsavepop">
@@ -127,7 +130,7 @@
           <div class="text-center">
             <button type="submit" class="btn btn-primary" style="width: 120px; position: relative" @click="openOrg()"
               v-if="!shopsavepop">
-              Crear
+              {{ !isEdit ? 'Crear' : 'Editar' }}
             </button>
           </div>
         </div>
@@ -302,85 +305,26 @@ export default {
       saveLoadingNtShareDisabled: false,
       attachFiles: [],
       contentText: null,
+      isEdit: false,
     };
   },
   created() {
-    const maxRows = 10;
-    const maxCols = 5;
-    const tableOptions = [];
-    for (let r = 1; r <= maxRows; r++) {
-      for (let c = 1; c <= maxCols; c++) {
-        tableOptions.push("newtable_" + r + "_" + c);
-      }
+    console.log(this.$route)
+    if (this.$route.name == 'document-new') {
+      this.isEdit = false
+      localStorage.removeItem('editDocumentPrivate')
+
+    }
+    if (this.$route.name == 'document-edit') {
+      this.isEdit = true
+      this.editarDoc()
     }
 
-    const addCampos = "ql-customb";
 
-    this.toolbarOptions = [
-      ["bold", "italic", "underline", "strike"], // toggled buttons
-      // ['blockquote', 'code-block'],
-
-      [{ header: 1 }, { header: 2 }], // custom button values
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ script: "sub" }, { script: "super" }], // superscript/subscript
-      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-      [{ direction: "rtl" }], // text direction
-
-      // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-      [{ font: [] }],
-      [{ align: [] }],
-
-      ["image", "video", "attachment"],
-      // [{ table: tableOptions }, { table: 'append-row' }, { table: 'append-col' }],
-
-      ["clean"], // remove formatting button
-    ];
   },
   mounted() {
-    // if (this.$route.name == 'document-edit') {
-    const getDocStorage = JSON.parse(
-      localStorage.getItem("editDocumentPrivate")
-    );
-    console.log(getDocStorage);
-    this.data = getDocStorage;
-    this.contentText = getDocStorage.data.content;
-    this.fields = getDocStorage.data.fields;
-    // } else if (this.$route.name == 'document-new') {
-    //   localStorage.removeItem('editDocumentPrivate')
-    //   console.log('aaaa' + this.contentText)
-    //   this.contentText = null
-    //   this.fields = []
 
-    // }
 
-    setTimeout(() => {
-      this.quill = new Quill("#editor", {
-        theme: "snow",
-        placeholder:
-          "Pega o escribi aca el contenido legal que quieras agregar.",
-        modules: {
-          // table: true,
-          toolbar: this.toolbarOptions,
-          attachmentHandler: {
-            upload: (file) => {
-              // return a Promise that resolves in a link to the uploaded image
-              return new Promise((resolve) => {
-                const fd = new FormData();
-
-                fd.append("file", file);
-                fd.append("name", file.name);
-
-                this.attachFile(fd);
-              });
-            },
-          },
-        },
-      });
-      this.changeButtonForQuill()
-    }, 1000);
 
 
 
@@ -407,8 +351,22 @@ export default {
     //     event.preventDefault();
     // });
   },
-  computed: {},
+  computed: {
+
+  },
   methods: {
+    editarDoc() {
+
+
+      const getDocStorage = JSON.parse(
+        localStorage.getItem("editDocumentPrivate")
+      );
+      console.log(getDocStorage);
+      setTimeout(() => {
+        console.log(window.tinymce.activeEditor)
+        window.tinymce.activeEditor.setContent(getDocStorage.data.content)
+      }, 1500);
+    },
     crearPaginas() {
       const new_div = document.createElement("div");
 
@@ -515,8 +473,8 @@ export default {
     },
 
     save() {
-      this.contentText = this.quill.container.innerHTML;
-      console.log(this.quill.container.innerHTML);
+      this.contentText = window.tinymce.activeEditor.getContent(),
+        console.log(window.tinymce.activeEditor.getContent());
       // this.quill.setHTML('<div>Hello</div>');
       var temp = [];
       var copy = this.fields;
@@ -534,7 +492,7 @@ export default {
           auth: this.auth,
           data: {
             type: "document",
-            content: this.contentText,
+            content: window.tinymce.activeEditor.getContent(),
             // fields: temp,
             title: "Documento sin titulo", //this.titleDocument,
             description: "Documento sin descripcion", //this.descriptionDocument,
