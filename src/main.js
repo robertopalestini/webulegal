@@ -31,14 +31,14 @@ const options = {
 // window.PATHUPLOAD = 'https://webulegal.com/uploads/';
 // window.ENDPOINTEXPORTS = 'https://webulegal.com/exports/';
 // window.BASEURL = 'https://webulegal.com';
-// window.ENDPOINT = "http://localhost:4000/api";
-// window.PATHUPLOAD = "http://localhost:4000/uploads/";
-// window.ENDPOINTEXPORTS = "http://localhost:4000/exports/";
-// window.BASEURL = "http://localhost:4000";
-window.ENDPOINT = "https://webulegal-back.vercel.app/api"
-window.PATHUPLOAD = "https://webulegal-back.vercel.app/uploads/"
-window.ENDPOINTEXPORTS = "https://webulegal-back.vercel.app/exports/"
-window.BASEURL = "https://webulegal-back.vercel.app/"
+window.ENDPOINT = "http://localhost:4000/api";
+window.PATHUPLOAD = "http://localhost:4000/uploads/";
+window.ENDPOINTEXPORTS = "http://localhost:4000/exports/";
+window.BASEURL = "http://localhost:4000";
+// window.ENDPOINT = "https://webulegal-back.vercel.app/api"
+// window.PATHUPLOAD = "https://webulegal-back.vercel.app/uploads/"
+// window.ENDPOINTEXPORTS = "https://webulegal-back.vercel.app/exports/"
+// window.BASEURL = "https://webulegal-back.vercel.app/"
 
 app.use(VueGapi, {
   apiKey: "8df19e66ae3486207a156237c15ede31adef0fa1",

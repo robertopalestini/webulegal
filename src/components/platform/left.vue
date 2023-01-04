@@ -114,12 +114,12 @@
         </li>
 
 
-        <li style="padding:0;display:flex;width:100%;">
+        <!-- <li style="padding:0;display:flex;width:100%;">
             <RouterLink to="/platform/shared-with-me"
                 style="padding:6px;padding-left:20px;padding-right:20px;font-weight:700;width:100%;">
                 <img src="@/assets/users.svg" style="width:14px;height:14px;margin-right:5px" /> Compartidos Conmigo
             </RouterLink>
-        </li>
+        </li> -->
 
         <li style="padding:0;display:flex;flex-direction:column;margin-top:150px;" v-if="user.data.role == 'admin'">
             <a href="@" style="padding:6px;padding-left:20px;padding-right:20px;font-weight:700;">

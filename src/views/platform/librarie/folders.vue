@@ -65,8 +65,8 @@
                         " v-for="item in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-                          item.text
-                          }}</a>
+    item.text
+}}</a>
                       </li>
                     </ul>
                   </div>
@@ -378,14 +378,29 @@
                 <div class="row">
                   <div class="col-md-8">
 
-                    <b>{{
-                      document.data.title
-                      ? document.data.title
-                      : "Previsualizador de Documentos"
-                      }}
-                    </b>
+                    <b>{{ document.data.title }}</b>
                   </div>
                   <div class="col-md-4 text-right">
+                    <a href="#" style="margin:5px" @click="openFullScreen()">
+                      <img src="@/assets/expandir.svg" style="width:14px;height:14px;margin-right:5px" />
+                    </a>
+
+                    <component v-if="document.data.complete == 1">
+                      <div class="dropdown" style="margin:5px;display:inline">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-expanded="false">
+                          <img src="@/assets/descargar.svg" style="width:14px;height:14px;margin-right:5px" />
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#" @click.prevent="exportWord()">Documento Word</a>
+                          <a class="dropdown-item" href="#" @click.prevent="exportPDF()">Documento PDF</a>
+                        </div>
+                      </div>
+                    </component>
+
+                    <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
+                  </div>
+                  <!-- <div class="col-md-4 text-right">
                     <a href="#" v-tooltip="'Expandir'" style="margin: 5px" @click="openFullScreen()">
                       <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
                     </a>
@@ -412,11 +427,14 @@
                     </component>
 
                     <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
-                  </div>
+                  </div> -->
                 </div>
               </div>
 
-              <div>
+
+              <div id="editor2" style="width:100%;padding:20px;color:black" v-html="contentDocument">
+              </div>
+              <!-- <div>
                 <div class="editor-wrapper" style="overflow:hidden;">
                   <editor id="crearEscrito" @keyup="autoSaveFull()"
                     api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq" :init="{
@@ -436,7 +454,7 @@
 
 
                 </div>
-              </div>
+              </div> -->
 
             </div>
           </div>
@@ -452,38 +470,20 @@
     <!-- ======================================= -->
   </main>
 
-  <div class="box" @contextmenu="onContextMenu($event)" style="
-      position: fixed;
-      z-index: 1000;
-      background: rgb(248 248 248);
-      width: 150px;
-      height: auto;
-      padding: 10px;
-      border: 1px solid rgb(226, 226, 226) !important;
-      border-radius: 6px;
-    " :style="{ top: selected.clientY, left: selected.clientX }">
-    <ul style="padding: 0; margin: 0; list-style: none">
-      <li style="
-          padding: 0;
-          margin: 0;
-          list-style: none;
-          padding-top: 6px;
-          padding-bottom: 6px;
-          border-bottom: 1px solid rgb(225 225 225 / 48%);
-        ">
-        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="openModalMoveDocument()">Mover</a>
+
+  <div class="box" @contextmenu="onContextMenu($event)" style="position:fixed;z-index:1000;background:rgb(248 248 248);width:150px;height:auto;padding:10px;  ; border:1px solid rgb(226, 226, 226) !important;border-radius:6px
+     " :style="{ top: selected.clientY, left: selected.clientX }">
+    <ul style="padding:0;margin:0;list-style:none">
+      <li
+        style="padding:0;margin:0;list-style:none;padding-top:6px;padding-bottom:6px; border-bottom: 1px solid rgb(225 225 225 / 48%)">
+        <a href="#" style="font-size:11px;font-weight:600;color:black;" @click="openModalMoveDocument()">Mover</a>
       </li>
-      <li style="
-          padding: 0;
-          margin: 0;
-          list-style: none;
-          padding-top: 6px;
-          padding-bottom: 6px;
-        ">
-        <a href="#" style="font-size: 11px; font-weight: 600; color: black" @click="deleteDocument()">Eliminar</a>
+      <li style="padding:0;margin:0;list-style:none;padding-top:6px;padding-bottom:6px;  ">
+        <a href="#" style="font-size:11px;font-weight:600;color:black;" @click="deleteDocument()">Eliminar</a>
       </li>
     </ul>
   </div>
+
 
 
 
@@ -678,9 +678,9 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade FullScreenModal" id="FullScreenModal" tabindex="-1" role="dialog"
+  <div class="modal fade FullScreenModal" style="margin: 2vh 2vw 2vh 2vw; width:96vw; height:96vh" id="FullScreenModal" tabindex="-1" role="dialog"
     aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header text-right">
           <h5 class="modal-title">WebuLegal</h5>
@@ -688,7 +688,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="width:100% ;height:95vh">
           <div class="container-fluid">
             <div class="col-12" v-if="document" style="padding: 10px">
               <div class="row">
@@ -699,36 +699,79 @@
                   <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
 
                   <div style="display: inline-block">
-                    <DocumentDropdown :document="document" @go-edit-document-private="
+                    <!-- <DocumentDropdown :document="document" @go-edit-document-private="
   goEditDocumentPrivate(document)
 " @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
                       @save-share="saveShare(1, document.data.id)" @delete-document="deleteDocument(document.data.id)"
-                      @open-compartir-privada="openCompartirPrivada()" />
+                      @open-compartir-privada="openCompartirPrivada()" /> -->
                   </div>
                   <a href="#" style="margin: 5px" v-if="document.data.share == 1"><img src="@/assets/cuota.svg"
                       style="width: 14px; height: 14px; margin-right: 5px" /></a>
                 </div>
               </div>
-              <div>
-                <div class="editor-wrapper" style="overflow:hidden;">
-                  <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                    :modelValue="contentDocument" :init="{
-  lenguage: 'es_ES',
-  branding: false,
-  height: '91vh',
-  menubar: true,
-  powerpaste_allow_local_images: true,
-  powerpaste_keep_unsupported_src: true,
-  smart_paste: true,
-  powerpaste_html_import: 'prompt',
-  powerpaste_word_import: 'clean',
-  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-}" />
 
-
+              <div id="editparent" v-if="editor_enabled">
+                <div id="editControls" style="text-align: left; padding: 5px">
+                  <div class="btn-group">
+                    <select class="btn" v-model="temp.editFont" @change="actionTeste($event, 'font')">
+                      <option value="Arial">Arial</option>
+                      <option value="Calibri">Calibri</option>
+                      <option value="Comic Sans MS">Comic Sans MS</option>
+                    </select>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'undo')" href="#"><span
+                        class="material-icons">undo</span></a>
+                    <a class="btn" @click="actionTeste($event, 'redo')" href="#"><span
+                        class="material-icons">redo</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'bold')" href="#"><span
+                        class="material-icons">format_bold</span></a>
+                    <a class="btn" @click="actionTeste($event, 'italic')" href="#"><span
+                        class="material-icons">format_italic</span></a>
+                    <a class="btn" @click="actionTeste($event, 'underline')" href="#"><span
+                        class="material-icons">format_underline</span></a>
+                    <a class="btn" @click="actionTeste($event, 'strikeThrough')" href="#"><span
+                        class="material-icons">strikethrough_s</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'justifyLeft')" href="#"><span
+                        class="material-icons">format_align_left</span></a>
+                    <a class="btn" @click="actionTeste($event, 'justifyCenter')" href="#"><span
+                        class="material-icons">format_align_center</span></a>
+                    <a class="btn" @click="actionTeste($event, 'justifyRight')" href="#"><span
+                        class="material-icons">format_align_right</span></a>
+                    <a class="btn" @click="actionTeste($event, 'justifyFull')" href="#"><span
+                        class="material-icons">format_align_justify</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'indent')" href="#"><span
+                        class="material-icons">format_indent_increase</span></a>
+                    <a class="btn" @click="actionTeste($event, 'outdent')" href="#"><span
+                        class="material-icons">format_indent_decrease</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'insertUnorderedList')" href="#"><span
+                        class="material-icons">format_list_bulleted</span></a>
+                    <a class="btn" @click="actionTeste($event, 'insertOrderedList')" href="#"><span
+                        class="material-icons">format_list_numbered</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" data-role="h1" href="#">h<sup>1</sup></a>
+                    <a class="btn" data-role="h2" href="#">h<sup>2</sup></a>
+                    <a class="btn" data-role="p" href="#">p</a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" data-role="subscript" href="#"><i class="icon-subscript"></i></a>
+                    <a class="btn" data-role="superscript" href="#"><i class="icon-superscript"></i></a>
+                  </div>
                 </div>
               </div>
+
+              <div id="editor2" style="width:100%;padding:20px;color:black" v-html="contentDocument">
+              </div>
+
 
             </div>
           </div>
@@ -1209,14 +1252,11 @@ export default {
   mounted() {
     this.loadAllDocuments();
     this.loadFolders();
-    this.loadTags();
-    this.getTags();
     this.loadFoldersTree2();
     if (this.$route.query.id) {
       this.activeDocumentId = this.$route.query.id;
       this.getDocument(this.$route.query.id);
     }
-    this.contentText = "";
   },
   computed: {
     fixerEditMode() {
@@ -2133,19 +2173,21 @@ export default {
             if (data.data.complete == 0) {
               this.editor_enabled = false;
               this.document = data;
-              this.contentDocument = data.data.content;
-              window.tinymce.activeEditor.setContent(this.contentDocument)
+              this.contentDocument = null;
               this.loadingDocument = false;
               this.$Progress.finish();
+
             } else {
               this.editor_enabled = true;
               this.document = data;
               this.contentDocument = data.data.content;
-              window.tinymce.activeEditor.setContent(this.contentDocument)
-              // this.contentDocument = data.data.content.replace("http://", "https://");
+
+              this.contentDocument = data.data.content.replace("http://", "https://");
+
               this.loadingDocument = false;
               this.$Progress.finish();
             }
+
           }
         });
     },

@@ -1,29 +1,3 @@
-<!-- this one, is in wich we have methods, modals, and all const declared to call, this have too the v-tooltip, its like a complete 
-version. Your task is have working this all functions, in library and writings.
-anything you need, ium here, meanwhile i will be working in other frontend fix
-ii think for the "Make public" we need endppoint with dbcollection update, so work in fullstack please
-
-you are right, now its ok
--->
-
-<!-- thank you -->
-<!-- I will be working on components first. I think I can do more work today since there is no task yet on my work -->
-<!-- Tomorrow or Friday, I am not sure I will be available because task is starting in one of those days
-ok, maybe you can do an extra, in freelancer you need 30 usd to withdrae
-
-so, you will do the component, and put this in the 4 sections? at the moment in development,  we need the prop to disable/hide some actions,
-aat the first i mean use a hardcode 'true' but after we have this in the 4 views, we put functions with boolean return
-
-Go!, START time: 11:49 PM in argentina, now is 0:11am, 20 minutes at this moment, you can write work-hours and break-times here
-go hard, go pro!
-Sure, on it!
-disconnect :'(
-if you need break please take notes, i trust
--->
-
-<!-- please share server for the node.js as well, I see only localhost:3000 (vue) is being shared -->
-<!-- upi -->
-
 <template>
   <navBar />
   <main>
@@ -46,13 +20,10 @@ if you need break please take notes, i trust
 
           <div class="row" style="padding-right: 0px; padding-left: 0px">
             <div class="col-md-3" style="
-                position: relative;
-                overflow: hidden;
-                overflow-y: auto;
-                margin: 0;
-                padding-right: 0px;
-                padding-left: 0px;
-                height: calc(100vh - 70px);
+                 position: relative;
+                  overflow: hidden;
+                  overflow-y: auto;
+                  height: calc(100vh - 70px);
               ">
               <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
@@ -67,33 +38,28 @@ if you need break please take notes, i trust
               <div class="tab-content py-3" id="myTabContent">
                 <div class="tab-pane fade" :class="{ 'active show': isActive('folders') }" id="folders">
                   <div class="col-12 text-center" style="
-                      padding-top: 8.5px;
-                      padding-bottom: 8.5px;
-                      border-bottom: 1px solid #e5e5e5;
-                    ">
-                    <input type="text" class="form-control type-input-3" v-model="searchTargetFolders.target"
-                      @keyup="search()" placeholder="Buscar..." />
+                    padding-top: 8.5px;
+                    padding-bottom: 8.5px;
+                    border-bottom: 1px solid #e5e5e5;
+                  ">
+                    <input type="text" class="form-control type-input-3" v-model="searchTarget.target" @keyup="search()"
+                      placeholder="Buscar..." />
                   </div>
                   <div class="col-12" style="padding-top: 10px; padding-bottom: 0">
                     <div class="spinner-border spinner-border-sm" role="status" v-if="loadingFolders">
                       <span class="sr-only">Loading...</span>
                     </div>
-                    <ul style="
+                    <ul style="padding: 0; margin: 0; width: 100%; list-style: none" v-if="items.length > 0">
+                      <li style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
-                      " v-if="items.length > 0">
-                      <li style="
-                          padding: 0;
-                          margin: 0;
-                          width: 100%;
-                          list-style: none;
-                        " v-for="item in filteredResources" :key="index"
+                      " v-for="item in filteredResources" :key="index"
                         @click.prevent="getDocumentsByTag(item.id, item.text)">
                         <a href="#" style="color: black; font-weight: 600">{{
-                          item.text
-                          }}</a>
+    item.text
+}}</a>
                       </li>
                     </ul>
                   </div>
@@ -118,77 +84,80 @@ if you need break please take notes, i trust
                   </div>
 
                   <div class="col-12 text-center" style="
-                      padding-top: 8.5px;
-                      padding-bottom: 8.5px;
-                      border-bottom: 1px solid #e5e5e5;
-                    ">
+                    padding-top: 8.5px;
+                    padding-bottom: 8.5px;
+                    border-bottom: 1px solid #e5e5e5;
+                  ">
                     <ul style="
-                        padding: 0px;
-                        list-style: none;
+                      padding: 0px;
+                      list-style: none;
+                      width: 100%;
+                      display: flex;
+                      justify-content: flex-start;
+                      align-items: center;
+                      flex-direction: column;
+                      align-content: flex-start;
+                    ">
+                      <li style="
                         width: 100%;
                         display: flex;
                         justify-content: flex-start;
-                        align-items: center;
+                        align-items: flex-start;
                         flex-direction: column;
                         align-content: flex-start;
-                      ">
-                      <li style="
-                          width: 100%;
-                          display: flex;
-                          justify-content: flex-start;
-                          align-items: flex-start;
-                          flex-direction: column;
-                          align-content: flex-start;
-                          margin-bottom: 5px;
-                        " v-for="(tagSelected, index) in tagsSelected">
+                        margin-bottom: 5px;
+                      " v-for="(tagSelected, index) in tagsSelected">
                         <a href="#" style="
-                            font-size: 12px;
-                            padding: 5px;
-                            background: rgb(234, 234, 234);
-                            border-radius: 30px;
-                            display: flex;
-                            place-content: flex-start;
-                            align-items: center;
-                            flex-direction: row;
-                            padding-left: 10px;
-                            padding-right: 10px;
-                          ">{{ tagSelected.text }}
+                          font-size: 12px;
+                          padding: 5px;
+                          background: rgb(234, 234, 234);
+                          border-radius: 30px;
+                          display: flex;
+                          place-content: flex-start;
+                          align-items: center;
+                          flex-direction: row;
+                          padding-left: 10px;
+                          padding-right: 10px;
+                        ">{{ tagSelected.text }}
                           <a href="#" style="margin-left: 10px" @click="removeFilterTag(index, tagSelected.text)"><i
                               class="fas fa-times"></i></a>
                         </a>
                       </li>
                     </ul>
                   </div>
+
+
                 </div>
-                <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
-                  <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
+              </div>
+              <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
+                <!--  <div class="col-12 text-center" style="padding-top:2.5px;padding-bottom:2.5px;border-bottom:1px solid #E5E5E5">
                                      <a href="#" style="font-size:13px;">Nueva carpeta</a>
                                    </div>  -->
-                  <div class="col-12 text-center" style="
+                <div class="col-12 text-center" style="
                       padding-top: 8.5px;
                       padding-bottom: 8.5px;
                       border-bottom: 1px solid #e5e5e5;
                     ">
-                    <input type="text" class="form-control type-input-3" v-model="searchTarget.target"
-                      placeholder="Buscar etiqueta.." />
+                  <input type="text" class="form-control type-input-3" v-model="searchTarget.target"
+                    placeholder="Buscar etiqueta.." />
+                </div>
+                <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
+                  <div class="spinner-border spinner-border-sm" role="status" v-if="loadingTags">
+                    <span class="sr-only">Loading...</span>
                   </div>
-                  <div class="col-12" style="padding-top: 10px; padding-bottom: 10px">
-                    <div class="spinner-border spinner-border-sm" role="status" v-if="loadingTags">
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openModalAddTags()">
-                      <img src="@/assets/admin-add.png" style="width: 20px" />
-                      Nueva etiqueta</a>
-                    <NewTagModal style="z-index: 1000" />
+                  <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="openModalAddTags()">
+                    <img src="@/assets/admin-add.png" style="width: 20px" />
+                    Nueva etiqueta</a>
+                  <NewTagModal style="z-index: 1000" />
 
-                    <hr />
-                    <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
-                      Todos los documentos</a>
-                    <hr />
+                  <hr />
+                  <a href="#" style="font-size: 13px; font-weight: 600" @click.prevent="loadAllDocuments()">
+                    Todos los documentos</a>
+                  <hr />
 
-                    <div class="col-12 text-left" style="padding: 0" v-if="tagsSelectedTags.length > 0">
-                      <p style="font-size: 13px; font-weight: 600">Filtros :</p>
-                      <ul style="
+                  <div class="col-12 text-left" style="padding: 0" v-if="tagsSelectedTags.length > 0">
+                    <p style="font-size: 13px; font-weight: 600">Filtros :</p>
+                    <ul style="
                           padding: 0px;
                           list-style: none;
                           width: 100%;
@@ -198,7 +167,7 @@ if you need break please take notes, i trust
                           flex-direction: column;
                           align-content: flex-start;
                         ">
-                        <li style="
+                      <li style="
                             width: 100%;
                             display: flex;
                             justify-content: flex-start;
@@ -208,7 +177,7 @@ if you need break please take notes, i trust
                             margin-bottom: 5px;
 
                           " v-for="(tagSelectedTags, index) in tagsSelectedTags">
-                          <a href="#" style="
+                        <a href="#" style="
 
                               font-size: 12px;
                               padding-top: 5px;
@@ -223,22 +192,22 @@ if you need break please take notes, i trust
                               padding-left: 10px;
                               padding-right: 10px;
                             ">{{ tagSelectedTags.title }}
-                            <a href="#" style="margin-left: 10px" @click="
+                          <a href="#" style="margin-left: 10px" @click="
   removeFilterTags(index, tagSelectedTags.title)
 "><i class="fas fa-times"></i></a>
-                          </a>
-                        </li>
-                      </ul>
-                      <hr />
-                    </div>
+                        </a>
+                      </li>
+                    </ul>
+                    <hr />
+                  </div>
 
-                    <ul style="
+                  <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
                       " v-if="tags.length > 0">
-                      <li style="
+                    <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
@@ -248,38 +217,38 @@ if you need break please take notes, i trust
                         " v-for="(tag, index) in filteredResourcesPrivateTags" :key="index" @click.prevent="
   getDocumentsByPrivateTag(tag._id, tag.data.name)
 ">
-                        <a href="#" style="
+                      <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
                           ">{{ tag.data.name }}</a>
-                      </li>
-                    </ul>
-                    <ul style="
+                    </li>
+                  </ul>
+                  <ul style="
                         padding: 0;
                         margin: 0;
                         width: 100%;
                         list-style: none;
                       " v-if="itemsTags.length > 0">
-                      <li style="
+                    <li style="
                           padding: 0;
                           margin: 0;
                           width: 100%;
                           list-style: none;
                           line-height: 15px;
                           margin-bottom: 15px;" v-for="(tag, index) in filteredResourcesTags" :key="index"
-                        @click.prevent="
+                      @click.prevent="
   getDocumentsByTag(tag._id, tag.data.title)
 ">
-                        <a href="#" style="
+                      <a href="#" style="
                             color: black;
                             font-weight: 600;
                             font-size: 12px;
                           ">{{ tag.data.title }}</a>
-                      </li>
-                    </ul>
-                  </div>
+                    </li>
+                  </ul>
                 </div>
+
               </div>
 
               <!-- <a href="@" v-tooltip="'Ocultar'" @click.prevent="$router.go(-1)"
@@ -410,14 +379,14 @@ if you need break please take notes, i trust
                       <a href="#" style="margin: 5px" class="textHover" v-tooltip="'Expandir'"
                         v-if="document.data.form_complete" @click="getDocumentModal(document._id)">
                         <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
-                        <span>Expandir</span>
+
                       </a>
                     </span>
 
                     <a href="#" style="margin: 5px" class="textHover" v-tooltip="'Expandir'"
                       v-if="document.data.complete == 1" @click="openFullScreen()">
                       <img src="@/assets/expandir.svg" style="width: 14px; height: 14px; margin-right: 5px" />
-                      <span>Expandir</span>
+
                     </a>
 
 
@@ -436,15 +405,106 @@ if you need break please take notes, i trust
                     </component>
 
                     <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
-                    <!-- Droption Document Component -->
+                  </div>
+                </div>
+              </div>
+
+              <div id="editparent" v-if="editor_enabled">
+                <div id="editControls" style="text-align: left; padding: 5px">
+                  <div class="btn-group">
+                    <select class="btn" v-model="temp.editFont" @change="actionTeste($event, 'font')">
+                      <option value="Arial">Arial</option>
+                      <option value="Calibri">Calibri</option>
+                      <option value="Comic Sans MS">Comic Sans MS</option>
+                    </select>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'undo')" href="#"><span
+                        class="material-icons">undo</span></a>
+                    <a class="btn" @click="actionTeste($event, 'redo')" href="#"><span
+                        class="material-icons">redo</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'bold')" href="#"><span
+                        class="material-icons">format_bold</span></a>
+                    <a class="btn" @click="actionTeste($event, 'italic')" href="#"><span
+                        class="material-icons">format_italic</span></a>
+                    <a class="btn" @click="actionTeste($event, 'underline')" href="#"><span
+                        class="material-icons">format_underline</span></a>
+                    <a class="btn" @click="actionTeste($event, 'strikeThrough')" href="#"><span
+                        class="material-icons">strikethrough_s</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'justifyLeft')" href="#"><span
+                        class="material-icons">format_align_left</span></a>
+                    <a class="btn" @click="actionTeste($event, 'justifyCenter')" href="#"><span
+                        class="material-icons">format_align_center</span></a>
+                    <a class="btn" @click="actionTeste($event, 'justifyRight')" href="#"><span
+                        class="material-icons">format_align_right</span></a>
+                    <a class="btn" @click="actionTeste($event, 'justifyFull')" href="#"><span
+                        class="material-icons">format_align_justify</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'indent')" href="#"><span
+                        class="material-icons">format_indent_increase</span></a>
+                    <a class="btn" @click="actionTeste($event, 'outdent')" href="#"><span
+                        class="material-icons">format_indent_decrease</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" @click="actionTeste($event, 'insertUnorderedList')" href="#"><span
+                        class="material-icons">format_list_bulleted</span></a>
+                    <a class="btn" @click="actionTeste($event, 'insertOrderedList')" href="#"><span
+                        class="material-icons">format_list_numbered</span></a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" data-role="h1" href="#">h<sup>1</sup></a>
+                    <a class="btn" data-role="h2" href="#">h<sup>2</sup></a>
+                    <a class="btn" data-role="p" href="#">p</a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" data-role="subscript" href="#"><i class="icon-subscript"></i></a>
+                    <a class="btn" data-role="superscript" href="#"><i class="icon-superscript"></i></a>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="editor2" v-if="document.data.complete == 0" v-on:click="getDocumentModal(document._id)"
+                contenteditable="true" style="
+                    width: 100%;
+                    padding: 20px;
+                    overflow: hidden;
+                    height: calc(100vh - 316px);
+                    overflow-y: auto;
+                    color:black
+                  " v-html="contentDocument"></div>
+              <div id="editor2" v-else contenteditable="true" style="
+                    width: 100%;
+                    padding: 20px;
+                    overflow: hidden;
+                    height: calc(100vh - 316px);
+                    overflow-y: auto;
+                    color:black
+                  " v-html="contentDocument"></div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Droption Document Component
                     <div style="display: inline-block">
                       <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
                         @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openModalAddTags()"
                         @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
                         @open-compartir-privada="openCompartirPrivada()" />
-                    </div>
+                    </div> -->
 
-                    <!-- <component v-bind:document="document" v-if="document.data.complete == 0">
+  <!-- <component v-bind:document="document" v-if="document.data.complete == 0">
                         <div class="dropdown" style="margin: 5px; display: inline">
                           <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                             <img src="@/assets/menu.svg" style="width: 14px;
@@ -487,7 +547,7 @@ if you need break please take notes, i trust
                         </div>
                       </component> -->
 
-                    <!-- <component v-bind:document="document" v-if="document.data.complete == 1">
+  <!-- <component v-bind:document="document" v-if="document.data.complete == 1">
                         <div class="dropdown" style="margin: 5px; display: inline">
                           <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                             <img src="@/assets/menu.svg" style="width: 14px;
@@ -525,11 +585,7 @@ if you need break please take notes, i trust
                           </div>
                         </div>
                       </component> -->
-                  </div>
-                </div>
-              </div>
-
-              <!-- 
+  <!-- 
                 <div v-if="(document.data.complete === 0 && !loadingDocument)" v-html="contentDocument" id="editor-full"
                   contenteditable="true" style="width: 100%;
                           padding: 20px;
@@ -538,7 +594,7 @@ if you need break please take notes, i trust
                           overflow-y: auto;
                           color:black;">
                 </div> -->
-              <!-- 
+  <!-- 
               <div id="editor-full" v-html="contentDocument" :contenteditable="
               document.data.type === 'document' ? true : false
               " style="
@@ -550,40 +606,7 @@ if you need break please take notes, i trust
                   color: black;
                 "></div> -->
 
-              <div>
-                <div class="editor-wrapper" style="overflow:hidden;">
-                  <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                    :modelValue="contentDocument" :init="{
-  lenguage: 'es_ES',
-  branding: false,
-  height: '91vh',
-  menubar: true,
-  powerpaste_allow_local_images: true,
-  powerpaste_keep_unsupported_src: true,
-  // smart_paste: true,
-  // powerpaste_html_import: 'prompt',
-  // powerpaste_word_import: 'clean',
-  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-}" />
-
-
-
-                </div>
-              </div>
-            </div>
-
-            <!-- no need this. because it's in template , but i got string 'contentmodel, aaa i didnt put value for content model, ok, so the
-    ternaries  are in value of the bind'
-  yes it was my bad passing the string-->
-            <!-- let's try -->
-          </div>
-        </div>
-
-        <!-- ======================================= -->
-      </div>
-    </div>
-  </main>
+  <!-- ======================================= -->
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
@@ -868,102 +891,77 @@ if you need break please take notes, i trust
                   </component>
 
                   <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
-                  <!-- Droption Document Component -->
-                  <div style="display: inline-block">
-                    <DocumentDropdown :document="document" @go-edit-private="goEditPrivate(document)"
-                      @open-modal-move-document="openModalMoveDocument()" @open-modal-add-tags="openNewTag()"
-                      @save-share="saveShare(1, activeDocumentId)" @delete-document="deleteDocument(activeDocumentId)"
-                      @open-compartir-privada="openCompartirPrivada()" />
-                  </div>
-                  <!-- 
-
-                  <component v-bind:document="document" v-if="document.data.complete != null">
-                    <div class="dropdown" style="margin: 5px; display: inline">
-                      <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                        <img src="@/assets/menu.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" @click.prevent="goEditPrivate(document)">
-                          <img src="@/assets/edit.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Edddditar</a>
-
-
-                        <a class="dropdown-item" href="#" @click="openModalMoveDocument()">
-                          <img src="@/assets/mover-carpeta.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Mover</a>
-
-
-                        <a class="dropdown-item" href="#" @click="openModalAddTags()">
-                          <img src="@/assets/etiquetas.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Agregar etiquetas</a>
-
-                        <a class="dropdown-item" href="#" @click="saveShare(1, activeDocumentId)">
-                          <img src="@/assets/candado-abierto(1).png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Hacer Publico</a>
-
-                        <a class="dropdown-item" href="#" @click.prevent="openCompartirPrivada(document)"
-                          v-if="document._id">
-                          <img src="@/assets/users.svg" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Compartir de forma privada</a>
-
-                        <a class="dropdown-item" href="#" @click="deleteDocument(activeDocumentId)">
-                          <img src="@/assets/tacho-de-basura.png" style="width: 14px;
-                                height: 14px;
-                                margin-right: 5px;" />
-                          Eliminar</a>
-                      </div>
-                    </div>
-                  </component> -->
-
-                  <buttonShare v-bind:id="document.data.id_share_comuniy" v-if="document.data.share == 1" />
                 </div>
               </div>
             </div>
-            <!-- 
-            <RichTextEditor /> -->
 
-            <div>
-              <div class="editor-wrapper" style="overflow:hidden;">
-                <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                  :modelValue="contentDocument" :init="{
-  lenguage: 'es_ES',
-  branding: false,
-  height: '91vh',
-  menubar: true,
-  powerpaste_allow_local_images: true,
-  powerpaste_keep_unsupported_src: true,
-  smart_paste: true,
-  powerpaste_html_import: 'prompt',
-  powerpaste_word_import: 'clean',
-  plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-  toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-}" />
+            <div class="col-md-12" id="editparent" v-if="editor_enabled">
+              <div id="editControls" style="text-align: left; padding: 5px">
+                <div class="btn-group">
+                  <select class="btn" v-model="temp.editFont" @change="actionTeste($event, 'font')">
+                    <option value="Arial">Arial</option>
+                    <option value="Calibri">Calibri</option>
+                    <option value="Comic Sans MS">Comic Sans MS</option>
+                  </select>
+                </div>
 
-
+                <div class="btn-group">
+                  <a class="btn" @click="actionTeste($event, 'undo')" href="#"><span
+                      class="material-icons">undo</span></a>
+                  <a class="btn" @click="actionTeste($event, 'redo')" href="#"><span
+                      class="material-icons">redo</span></a>
+                </div>
+                <div class="btn-group">
+                  <a class="btn" @click="actionTeste($event, 'bold')" href="#"><span
+                      class="material-icons">format_bold</span></a>
+                  <a class="btn" @click="actionTeste($event, 'italic')" href="#"><span
+                      class="material-icons">format_italic</span></a>
+                  <a class="btn" @click="actionTeste($event, 'underline')" href="#"><span
+                      class="material-icons">format_underline</span></a>
+                  <a class="btn" @click="actionTeste($event, 'strikeThrough')" href="#"><span
+                      class="material-icons">strikethrough_s</span></a>
+                </div>
+                <div class="btn-group">
+                  <a class="btn" @click="actionTeste($event, 'justifyLeft')" href="#"><span
+                      class="material-icons">format_align_left</span></a>
+                  <a class="btn" @click="actionTeste($event, 'justifyCenter')" href="#"><span
+                      class="material-icons">format_align_center</span></a>
+                  <a class="btn" @click="actionTeste($event, 'justifyRight')" href="#"><span
+                      class="material-icons">format_align_right</span></a>
+                  <a class="btn" @click="actionTeste($event, 'justifyFull')" href="#"><span
+                      class="material-icons">format_align_justify</span></a>
+                </div>
+                <div class="btn-group">
+                  <a class="btn" @click="actionTeste($event, 'indent')" href="#"><span
+                      class="material-icons">format_indent_increase</span></a>
+                  <a class="btn" @click="actionTeste($event, 'outdent')" href="#"><span
+                      class="material-icons">format_indent_decrease</span></a>
+                </div>
+                <div class="btn-group">
+                  <a class="btn" @click="actionTeste($event, 'insertUnorderedList')" href="#"><span
+                      class="material-icons">format_list_bulleted</span></a>
+                  <a class="btn" @click="actionTeste($event, 'insertOrderedList')" href="#"><span
+                      class="material-icons">format_list_numbered</span></a>
+                </div>
+                <div class="btn-group">
+                  <a class="btn" data-role="h1" href="#">h<sup>1</sup></a>
+                  <a class="btn" data-role="h2" href="#">h<sup>2</sup></a>
+                  <a class="btn" data-role="p" href="#">p</a>
+                </div>
+                <div class="btn-group">
+                  <a class="btn" data-role="subscript" href="#"><i class="icon-subscript"></i></a>
+                  <a class="btn" data-role="superscript" href="#"><i class="icon-superscript"></i></a>
+                </div>
+                <div id="editor2-full" contenteditable="true" style="
+                    width: 100%;
+                    padding: 20px;
+                    overflow: hidden;
+                    height: calc(100vh - 316px);
+                    overflow-y: auto;
+                    color:black
+                  " v-html="contentDocument" @keyup="autoSaveFull()"></div>
               </div>
             </div>
-            <!-- <div id="cke_ruler_wrap"></div>
-
-            <div id="editor-modal" contenteditable="true" style="
-                width: 100%;
-                padding: 20px;
-                overflow: hidden;
-                height: calc(90vh);
-                overflow-y: auto;
-                color: black;
-              " v-html="contentDocument"></div> -->
           </div>
         </div>
       </div>
@@ -1058,7 +1056,6 @@ if you need break please take notes, i trust
       align-items: center;
     " v-if="popshared">
     <div style="
-        color: rgb(52, 52, 52);
         width: 355px;
         right: 180px;
         font-size: 14px;
@@ -3128,7 +3125,6 @@ export default {
           }
         });
     },
-
     getDocumentModal(id) {
       this.$Progress.start();
       this.activeDocumentId = id;
@@ -3164,21 +3160,21 @@ export default {
 
           if (data.error == true) {
           } else {
+
             if (!data.data.version) {
-              this.version = "1.00";
+              this.version = '1.00';
             }
 
             if (data.data.complete == 0) {
               this.editor_enabled = false;
               if (data.data.form_complete) {
                 this.documentModal = data;
-                console.log(data)
-                window.tinymce.activeEditor.setContent(this.contentDocument)
+                this.contentDocument = null;
                 this.loadingDocument = false;
                 this.$Progress.finish();
 
                 if (data.data.version) {
-                  this.version = "2.00";
+                  this.version = '2.00';
                 }
 
                 this.openmodalcomplete();
@@ -3229,31 +3225,19 @@ export default {
             if (data.data.complete == 0) {
               this.editor_enabled = false;
               this.document = data;
-              this.contentDocument = data.data.content;
-              console.log(window.tinymce)
-              window.tinymce.activeEditor.setContent(this.contentDocument)
+              this.contentDocument = `<b>Para completar este escrito hacé click <a onclick='getDocumentModal(document.id)'> aca </a></b>`;
               this.loadingDocument = false;
-
-
               this.$Progress.finish();
             } else {
               this.editor_enabled = true;
               this.document = data;
-
               this.contentDocument = data.data.content;
-              console.log(window.tinymce)
-              window.tinymce.activeEditor.setContent(this.contentDocument)
               this.loadingDocument = false;
               this.$Progress.finish();
             }
           }
-
-          console.log(this.editor)
-
-
         });
     },
-
     getDocumentsByPrivateTag(idtag, tag) {
       this.$Progress.start();
       this.tagsSelectedTags.push({ title: tag, id: idtag });
@@ -3291,8 +3275,11 @@ export default {
     },
     getDocumentsByTag(idtag, tag) {
       this.$Progress.start();
-      this.tagsSelectedTags.push({ title: tag, id: idtag });
-      this.loadingTags = true;
+      this.tagsSelected.push({
+        text: tag,
+        id: idtag,
+      });
+      this.loadingDocuments = true;
       const requestOptions = {
         method: "POST",
         headers: {
@@ -3300,14 +3287,14 @@ export default {
         },
         body: JSON.stringify({
           auth: this.auth,
-          tags: this.tagsSelectedTags
+          tags: this.tagsSelected,
         }),
       };
-      fetch(this.endpointTaggedDocuments, requestOptions)
+      fetch(this.endpointDocuments, requestOptions)
         .then((response) => response.json())
         .then((data) => {
           if (data.empty) {
-            this.loadingTags = false;
+            this.loadingDocuments = false;
             this.documents = [];
             this.$Progress.finish();
             return;
@@ -3316,7 +3303,7 @@ export default {
           if (data.error == true) {
           } else {
             this.documents = data;
-            this.loadingTags = false;
+            this.loadingDocuments = false;
             this.$Progress.finish();
           }
         });

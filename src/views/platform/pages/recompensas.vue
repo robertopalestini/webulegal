@@ -38,21 +38,21 @@
                 <div class="col-md-4 text-center iconos card shadow"
                   style="margin:1vw;display: flex; align-items:center; justify-content: center;padding-top:20px;padding-bottom:20px;">
                   <img src="../../../assets/pedidos-ya-isologo.png" class="fas fa-book-open"
-                    style="max-width:19vw;margin-bottom:3vh">
+                    style="max-width:9vw;margin-bottom:3vh">
                   <h5>Orden de compra por $1000</h5>
                   <p style="margin-top:-1vh">100 Puntos</p>
                 </div>
                 <div class="col-md-4 text-center iconos card shadow"
                   style="margin:1vw;display: flex; align-items:center; justify-content: center;padding-top:20px;padding-bottom:20px;">
                   <img src="../../../assets/rappi-logo.png" class="fas fa-book-open"
-                    style="max-width:19vw;margin-bottom:3vh">
+                    style="max-width:9vw;margin-bottom:3vh">
                   <h5>Orden de compra por $1000</h5>
                   <p style="margin-top:-1vh">100 Puntos</p>
                 </div>
                 <div class="col-md-4 text-center iconos card shadow"
                   style="margin:1vw;display: flex; align-items:center; justify-content: center;padding-top:20px;padding-bottom:20px;">
                   <img src="../../../assets/Webu-logo-transparente.png" class="fas fa-book-open"
-                    style="max-width:19vw;margin-bottom:3vh">
+                    style="max-width:9vw;margin-bottom:3vh">
                   <h5>2 Meses de subscripcion gratis</h5>
                   <p style="margin-top:-1vh">100 Puntos</p>
                 </div>

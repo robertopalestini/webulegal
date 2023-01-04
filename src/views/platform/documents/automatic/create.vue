@@ -28,20 +28,21 @@
                   align-items: center;
                 ">
                             <div class="row justify-content-center">
-                                <div class="col-12" style="padding-top: 30px; padding-bottom: 30px">
-                                    <h4 style="font-weight: bold">
-                                        Instrucciones para automatizar escritos
-                                    </h4>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="col-12" style="
+                                <div class="row justify-content-center">
+                                    <div class="col-12" style="padding-top: 30px; padding-bottom: 30px">
+                                        <h4 style="font-weight: bold">
+                                            Instrucciones para automatizar escritos
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-12" style="
                         display: flex;
                         flex-direction: column;
                         align-content: center;
                         justify-content: center;
                         align-items: center;
                       ">
-                                        <div style="
+                                            <div style="
                           height: 50px;
                           width: 50px;
                           color: white;
@@ -55,34 +56,22 @@
                           align-items: center;
                           align-content: center;
                         ">
-                                            1
+                                                1
+                                            </div>
+                                            <p style="color: black; font-weight: 600">
+                                                Pega o redacta el escrito en el editor de texto
+                                            </p>
                                         </div>
-                                        <p style="color: black; font-weight: 600">
-                                            Pega o redacta el escrito en el editor de texto
-                                        </p>
                                     </div>
-                                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                                <div class="col-md-3">
-                                    <div class="col-12" style="
+                                    <div class="col-md-3">
+                                        <div class="col-12" style="
                         display: flex;
                         flex-direction: column;
                         align-content: center;
                         justify-content: center;
                         align-items: center;
                       ">
-                                        <div style="
+                                            <div style="
                           height: 50px;
                           width: 50px;
                           color: white;
@@ -96,22 +85,22 @@
                           align-items: center;
                           align-content: center;
                         ">
-                                            2
+                                                2
+                                            </div>
+                                            <p style="color: black; font-weight: 600">
+                                                Selecciona las palabras modificables de a una por vez
+                                            </p>
                                         </div>
-                                        <p style="color: black; font-weight: 600">
-                                            Selecciona las palabras modificables de a una por vez
-                                        </p>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="col-12" style="
+                                    <div class="col-md-3">
+                                        <div class="col-12" style="
                         display: flex;
                         flex-direction: column;
                         align-content: center;
                         justify-content: center;
                         align-items: center;
                       ">
-                                        <div style="
+                                            <div style="
                           height: 50px;
                           width: 50px;
                           color: white;
@@ -125,38 +114,39 @@
                           align-items: center;
                           align-content: center;
                         ">
-                                            3
+                                                3
+                                            </div>
+                                            <p style="color: black; font-weight: 600; font-size: 14px">
+                                                Asignale el campo que corresponda con el dato a completar.
+                                                Por ej. "Nombre", "DNI" , etc.
+                                            </p>
                                         </div>
-                                        <p style="color: black; font-weight: 600; font-size: 14px">
-                                            Asignale el campo que corresponda con el dato a completar.
-                                            Por ej. "Nombre", "DNI" , etc.
-                                        </p>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary" style="max-width: 200px" @click="
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" style="max-width: 200px" @click="
     editor_view = true;
 help_view = false;
 startText();
-                                    ">
-                                        Siguiente <i class="fas fa-long-arrow-alt-right"></i>
-                                    </button>
+                      ">
+                                            Siguiente <i class="fas fa-long-arrow-alt-right"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="row" v-if="editor_view">
-                        <div class="col-12 text-right">
+                        <div class="col-12 text-left">
                             <a href="@" @click.prevent="
     help_view = true;
 editor_view = false;
-                            " style="position: absolute; z-index: 1000; margin-top: 20px">
+                " style="position: absolute; z-index: 1000; margin-top: 20px">
                                 <img src="@/assets/flecha-izquierda.svg" style="height: 20px; width: 20px" />
                             </a>
                         </div>
 
-                        <div class="col-12" style="position: relative; padding: 0">
+                        <div class="col-12" style="position: relative">
                             <div style="
                     position: absolute;
                     top: 0;
@@ -172,27 +162,104 @@ editor_view = false;
                             </div>
                             <div id="editparent" style="
                     text-align: left;
+                    padding: 5px;
                     position: sticky;
                     background: #fbfbfb;
                     top: 0;
                   ">
+                                <div id="editControls" style="text-align: left; padding: 5px">
+                                    <div class="btn-group">
+                                        <select class="btn" v-model="temp.editFont"
+                                            @change="actionTeste($event, 'font')">
+                                            <option value="Arial">Arial</option>
+                                            <option value="Bebas Neue">Bebas Neue</option>
+                                            <option value="Calibri">Calibri</option>
+                                            <option value="Comic Sans MS">Comic Sans MS</option>
+                                            <option value="Lato">Lato</option>
+                                            <option value="Montserrat">Montserrat</option>
+                                            <option value="Noto Sans">Noto Sans</option>
+                                            <option value="Source Serif Pro">Source Serif Pro</option>
+                                            <option value="Roboto">Roboto</option>
+                                        </select>
+                                    </div>
 
+                                    <div class='btn-group'>
+                                        <a v-tooltip="'Deshacer'" class='btn' @click="actionTeste($event, 'undo')"
+                                            href='#'><span class="material-icons">undo</span></a>
+                                        <a v-tooltip="'Rehacer'" class='btn' @click="actionTeste($event, 'redo')"
+                                            href='#'><span class="material-icons">redo</span></a>
+                                    </div>
+                                    <div class='btn-group'>
+                                        <a v-tooltip="'Bold'" class='btn' @click="actionTeste($event, 'bold')"
+                                            href='#'><span class="material-icons">format_bold</span></a>
+                                        <a v-tooltip="'Italic'" class='btn' @click="actionTeste($event, 'italic')"
+                                            href='#'><span class="material-icons">format_italic</span></a>
+                                        <a v-tooltip="'Underline'" class='btn' @click="actionTeste($event, 'underline')"
+                                            href='#'><span class="material-icons">format_underline</span></a>
+                                        <a v-tooltip="'Tachar'" class='btn'
+                                            @click="actionTeste($event, 'strikeThrough')" href='#'><span
+                                                class="material-icons">strikethrough_s</span></a>
+                                    </div>
+                                    <div class='btn-group'>
+                                        <a v-tooltip="'Alinear Izquierda'" class='btn'
+                                            @click="actionTeste($event, 'justifyLeft')" href='#'><span
+                                                class="material-icons">format_align_left</span></a>
+                                        <a v-tooltip="'Alinear Centro'" class='btn'
+                                            @click="actionTeste($event, 'justifyCenter')" href='#'><span
+                                                class="material-icons">format_align_center</span></a>
+                                        <a v-tooltip="'Alinear Derecha'" class='btn'
+                                            @click="actionTeste($event, 'justifyRight')" href='#'><span
+                                                class="material-icons">format_align_right</span></a>
+                                        <a v-tooltip="'Justificar'" class='btn'
+                                            @click="actionTeste($event, 'justifyFull')" href='#'><span
+                                                class="material-icons">format_align_justify</span></a>
+                                    </div>
+                                    <div class='btn-group'>
+                                        <a v-tooltip="'Agregar Sangria'" class='btn'
+                                            @click="actionTeste($event, 'indent')" href='#'><span
+                                                class="material-icons">format_indent_increase</span></a>
+                                        <a v-tooltip="'Eliminar Sangria'" class='btn'
+                                            @click="actionTeste($event, 'outdent')" href='#'><span
+                                                class="material-icons">format_indent_decrease</span></a>
+                                    </div>
+                                    <div class='btn-group'>
+                                        <a v-tooltip="'Lista'" class='btn'
+                                            @click="actionTeste($event, 'insertUnorderedList')" href='#'><span
+                                                class="material-icons">format_list_bulleted</span></a>
+                                        <a v-tooltip="'Lista Numerada'" class='btn'
+                                            @click="actionTeste($event, 'insertOrderedList')" href='#'><span
+                                                class="material-icons">format_list_numbered</span></a>
+                                    </div>
+                                    <div class='btn-group'>
+                                        <a v-tooltip="'Titulo'" class='btn' data-role='h1' href='#'>h<sup>1</sup></a>
+                                        <a v-tooltip="'Subtitulo'" class='btn' data-role='h2' href='#'>h<sup>2</sup></a>
+                                        <a v-tooltip="'Parrafo'" class='btn' data-role='p' href='#'>p</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a class="btn" data-role="subscript" href="#"><i class="icon-subscript"></i></a>
+                                        <a class="btn" data-role="superscript" href="#"><i
+                                                class="icon-superscript"></i></a>
+                                    </div>
+
+
+                                    <div class="btn-group">
+                                        <a class="btn" data-role="subscript" href="#" style="    display: flex;
+      font-weight: 600;
+      border: 1px solid #b2acac;font-size: 15px;" @click.prevent="openAddField()"><span class="material-icons"
+                                                style="font-size:22px;">add</span> Nuevo campo</a>
+                                    </div>
+
+
+                                </div>
                             </div>
-                            <editor id="crearEscrito" api-key="9a51lim0mxaojg1o8fhwtga2lfro3fnyw6k21n3r146f7weq"
-                                :modelValue="contentText" :init="{
-    lenguage: 'es_ES',
-    branding: false,
-    height: '91vh',
-    menubar: true,
-    powerpaste_allow_local_images: true,
-    powerpaste_keep_unsupported_src: true,
-    smart_paste: true,
-    powerpaste_html_import: 'prompt',
-    powerpaste_word_import: 'clean',
-    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
-    toolbar: 'undo redo |  fontfamily forecolor  fontsize | bold italic underline strikethrough  removeformat| link image media table mergetags | addcomment showcomments | spellcheckdialog typography blocks| align lineheight | checklist numlist bullist indent outdent | emoticons charmap | ',
-}" initial-value='Escribí o pegá acá el modelo a automatizar' />
 
+                            <div id="editor3" style="
+                    width: 100%;
+                    padding: 20px;
+                    outline: none !important;
+                    border: 1px solid dashed #d9d9d9 !important;
+                  " contenteditable="true" class="text-left" v-html="contentText"
+                                data-text="Pegá o escribí acá el modelo de escrito que querés automatizar"></div>
                         </div>
                     </div>
                 </div>
@@ -204,54 +271,42 @@ editor_view = false;
               padding: 0;
               text-align: center;
               padding: 20px;
-            " v-if="editor_view">
-
-                    <button type="submit" class="btn btn-primary" style="width:200px;position:relative;z-index:1000; "
-                        @click="openAddField()">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"
-                            fill="#FFFFFF">
-                            <path d="M0 0h24v24H0V0z" fill="none" />
-                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                        </svg> Nuevo campo
-                    </button>
-
-
-
-                    <ul style="padding: 0;
-                            list-style: none;
-                            border: 1px solid #cfcfcf;
-                            border-top-left-radius: 10px;
-                            border-top-right-radius: 10px;
-                            margin-top: 3vh" v-if="fields.length > 0">
-
-                        <li style=" 
-                                border-top-left-radius: 10px;
-                                border-top-right-radius: 10px;
-                                background: #e0dede;
-                                padding: 5px; 
-                                text-align: center;
-                                font-weight: 700;
-                                
-                                border-bottom: 1px solid #c9c9c9;
-                                vertical-align:middle;
-                            ">
+            " v-if="fields.length > 0">
+                    <ul style="
+                padding: 0;
+                list-style: none;
+                border: 1px solid #cfcfcf;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+              " v-if="editor_view">
+                        <li style="
+                  border-top-left-radius: 10px;
+                  border-top-right-radius: 10px;
+                  background: #e0dede;
+                  padding: 5px;
+                  text-align: center;
+                  font-weight: 700;
+                  border-bottom: 1px solid #c9c9c9;
+                ">
                             Campos
                         </li>
+                        <li v-for="(field, index) in fields" @mouseover="mouseoverfield(index)"
+                            @mouseleave="mouseleavefield(index)">
 
-                        <li style="padding: 5px; border-bottom: 1px solid #c9c9c9;word-wrap: break-word;"
-                            v-for="(field, index) in fields" @click="console.log(fields)" @mouseleave="mouseleavefield">
-                            {{ field.field }}
-                            <a href="#" v-tooltip="'Eliminar Campo'" @click="removefield(index)"><img
-                                    src="@/assets/cerrar-simbolo-de-boton-circular.png"
-                                    style="max-width: 15px; max-height: 15px" /></a>
+                            <div style="display:block;padding: 5px; border-bottom: 1px solid #c9c9c9;word-wrap: break-word;"
+                                v-if="field.existent == false">
+                                {{ field.field }}
+                                <a href="#" @click="removefield(index)"> <img
+                                        src="@/assets/cerrar-simbolo-de-boton-circular.png"
+                                        style="max-width: 15px; max-height: 15px" /></a>
+                            </div>
                         </li>
-
                     </ul>
 
-                    <div class="col-12" style="position: relative">
-                        <button type="submit" @click="save()" class="btn btn-primary"
-                            style="width: 120px; position: relative" v-if="!shopsavepop && fields.length > 0">
-                            {{ !isEdit ? 'Crear' : 'Editar' }}
+                    <div class="col-12" style="position: relative" v-if="editor_view">
+                        <button type="submit" class="btn btn-primary" style="width: 120px; position: relative"
+                            @click="save()" v-if="!shopsavepop">
+                            Crear
                         </button>
 
                         <button type="submit" class="btn btn-primary" style="width: 120px; position: relative"
@@ -296,13 +351,13 @@ editor_view = false;
                                         <span v-if="!saveLoadingShare">Si</span>
                                         <div class="spinner-border spinner-border-sm" role="status"
                                             v-if="saveLoadingShare" style="
-                                                height: 10px;
-                                                margin: 0px;
-                                                padding: 0px;
-                                                width: 10px !important; 
-                                                color: white;
-                                                margin-top: -10px !important;
-                                            ">
+                          height: 10px;
+                          margin: 0px;
+                          padding: 0px;
+                          width: 10px !important;
+                          color: white;
+                          margin-top: -10px !important;
+                        ">
                                             <span class="sr-only">Loading...</span>
                                         </div>
                                     </button>
@@ -312,7 +367,7 @@ editor_view = false;
                                         <span v-if="!saveLoadingNtShare">No</span>
                                         <div class="spinner-border spinner-border-sm" role="status"
                                             v-if="saveLoadingNtShare" style="
-                          height: 10px; 
+                          height: 10px;
                           margin: 0px;
                           padding: 0px;
                           width: 10px !important;
@@ -446,7 +501,7 @@ editor_view = false;
 <script>
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import striptags from 'striptags';
-import Editor from '@tinymce/tinymce-vue';
+
 
 function eliminarDiacriticosEs(texto) {
     return texto
@@ -461,9 +516,6 @@ function eliminarDiacriticosEs(texto) {
 var sel, range, base;
 
 export default {
-    components: {
-        'editor': Editor
-    },
     data() {
         return {
             data: {},
@@ -494,7 +546,6 @@ export default {
             saveLoadingShareDisabled: false,
             saveLoadingNtShare: false,
             saveLoadingNtShareDisabled: false,
-            isEdit: false,
             categories: [
                 {
                     id: 1,
@@ -560,16 +611,6 @@ export default {
     },
     created() {
         this.contentText = "";
-        if (this.$route.name == 'autowriting-new') {
-            this.isEdit = false
-            localStorage.removeItem('editDocument')
-        }
-        if (this.$route.name == 'autowriting-edit') {
-            this.editor_view = true;
-            this.help_view = false;
-            this.isEdit = true
-            this.editarDoc()
-        }
     },
     mounted() {
     },
@@ -577,17 +618,7 @@ export default {
 
     },
     methods: {
-        editarDoc() {
-            const getDocStorage = JSON.parse(
-                localStorage.getItem("editDocument")
-            );
-            console.log(getDocStorage);
-            setTimeout(() => {
-                console.log(window.tinymce.activeEditor)
-                window.tinymce.activeEditor.setContent(getDocStorage.data.content)
-                this.fields = getDocStorage.data.fields
-            }, 1500);
-        },
+
         countExistentFieldTotal(id) {
             var countTotal = 0;
             this.fields.forEach(element => {
@@ -701,7 +732,7 @@ export default {
                 body: JSON.stringify({
                     auth: this.auth,
                     data: {
-                        content: window.tinymce.activeEditor.getContent(),
+                        content: document.querySelector("#editor3").innerHTML,
                         fields: temp,
                         title: "Documento sin titulo", //this.titleDocument,
                         description: "Documento sin descripcion", //this.descriptionDocument,
@@ -722,11 +753,78 @@ export default {
                 });
         },
         removefield(index) {
-            var element = this.fields[index];
-            console.log(element)
-            element.outerHTML = element.base;
-            this.fields.splice(index, 1);
+
+            console.log(this.fields)
+            var fieldData = this.fields[index];
+
+            var element = this.fields[index].element;
+            element.outerHTML = element.getAttribute("base");
             element.classList.remove("text-map-hover");
+
+
+            // this.fields.splice(index, 1);
+
+
+
+            if (fieldData.existent == false) {
+
+
+                var targets = [];
+
+
+                var ts = 0;
+                while (ts <= t)
+
+                    for (let i = 0; i < this.fields.length; i++) {
+
+
+                        // this.events.splice(this.events.indexOf(event), 1);
+
+
+                        // if(this.fields[i].existent_id !== fieldData.id) {
+                        //   targets.push(this.fields[i])
+                        // }
+
+                        // const indexOfObject = this.fields.findIndex(object => {
+                        //           return object.existent_id === fieldData.id;
+                        // });
+
+                        // var element = this.fields[indexOfObject].element;
+                        //     element.outerHTML = element.getAttribute("base");
+                        //     element.classList.remove("text-map-hover"); 
+                        //     this.fields.splice(indexOfObject, 1);
+
+
+                        // var  target = this.fields[i]; 
+                        // if(target.existent_id && target.existent_id ==  fieldData.id) {
+                        //   console.log('delete')
+                        //   var element = this.fields[i].element;
+                        //   element.outerHTML = element.getAttribute("base");
+                        //   element.classList.remove("text-map-hover"); 
+                        //   this.fields.splice(i, 1);
+
+                        // }
+                    };
+            }
+
+
+            // if(this.fields[index].existent_fields) {
+            //   console.log(this.fields[index].existent_fields)
+            //   for (let u = 0; u < this.fields[index].existent_fields.length; u++) {  
+            //     console.log(u)
+            //     var element = this.fields[index].existent_fields[u].element;
+            //     element.outerHTML = element.getAttribute("base");
+            //     element.classList.remove("text-map-hover");
+            //     console.log({index : u , target : this.fields[index].existent_fields[u].replace})
+            //     this.fields[index].existent_fields.splice(u, 1);
+            //   }
+            // }
+
+            setTimeout(() => {
+                this.fields.splice(index, 1);
+            }, 1000)
+
+
         },
         mouseoverfield(index) {
             var element = this.fields[index].element;
@@ -746,17 +844,17 @@ export default {
         },
 
         openModalChangeText() {
-
-
-            sel = window.tinymce.activeEditor.selection.getContent()
-            base = sel
+            sel = window.getSelection();
+            base = window
+                .getSelection()
                 .anchorNode.data.substring(
                     window.getSelection().anchorOffset,
                     window.getSelection().extentOffset
                 );
             range = sel.getRangeAt(0);
 
-            let selection = sel
+            let selection = window
+                .getSelection()
                 .anchorNode.textContent.substring(
                     window.getSelection().extentOffset,
                     window.getSelection().anchorOffset
@@ -791,7 +889,7 @@ export default {
                 this.replace_text.target = element.getAttribute("replace");
                 // this.replaceforExistent = false;
             }
-            // range.deleteContents();
+            range.deleteContents();
 
             var a = document.createElement("a");
             a.innerText = "[" + this.replace_text.target + "]";
@@ -802,7 +900,9 @@ export default {
             a.setAttribute("replace", this.replace_text.target);
             a.setAttribute(
                 "base",
-                base
+                eliminarDiacriticosEs(base)
+                    .replace(/[^a-zA-Z ]/g, "")
+                    .replace(/&nbsp;/g, "")
             );
 
             var newField;
@@ -823,7 +923,9 @@ export default {
                     element: a,
                     id: id,
                     replace: this.replace_text.target,
-                    base: base
+                    base: eliminarDiacriticosEs(base)
+                        .replace(/[^a-zA-Z ]/g, "")
+                        .replace(/&nbsp;/g, ""),
                 };
                 this.replaceforExistent = false;
 
@@ -836,14 +938,15 @@ export default {
                     element: a,
                     id: id,
                     replace: this.replace_text.target,
-                    base: base
+                    base: eliminarDiacriticosEs(base)
+                        .replace(/[^a-zA-Z ]/g, "")
+                        .replace(/&nbsp;/g, ""),
                 };
             }
 
             this.fields.push(newField);
 
-            window.tinymce.activeEditor.selection.setContent(`${this.replace_text.target}`)
-            window.tinymce.activeEditor.selection.setNode(a);
+            range.insertNode(a);
 
             this.replace_text.target = null;
             // var popup = document.querySelector("#popup-selected-text");
@@ -868,7 +971,26 @@ export default {
         },
 
         startText() {
+            setTimeout(() => {
+                ["mouseup", "keyup", "selectionchange"].forEach((e) => {
+                    document
+                        .querySelector("#editor3")
+                        .addEventListener(e, this.openModalChangeText);
+                });
 
+
+                document
+                    .querySelector("#editor3")
+                    .addEventListener("paste", (e) => {
+                        e.preventDefault();
+                        var contentOnBlur = (e.originalEvent || e).clipboardData.getData('text/html') || prompt('Paste something..');
+                        // contentOnBlur = contentOnBlur.replace(/(<([^>]+)>)/ig,''); 
+                        contentOnBlur = striptags(contentOnBlur, ['span', 'table', 'tbody', 'tr', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'b', 'em', 'strong', 'br', 'u', 'strike', 'p']);
+                        document.execCommand('insertHtml', false, contentOnBlur.replace(/[\s;]background-color:[^;]+(?=;)|^background-color:[^;]+;/g, '').replace(/[\s;]color:[^;]+(?=;)|^color:[^;]+;/g, ''));
+                    })
+
+
+            }, 300);
         },
     },
 };
